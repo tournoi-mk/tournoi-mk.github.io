@@ -2,99 +2,150 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Tableaux</title>
-
+<title>Tableaux - Tournoi Mario Kart</title>
 <style>
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #0f172a;
+    font-family: 'Arial Black', sans-serif;
+    background: linear-gradient(135deg, #1e40af, #b91c1c);
     color: white;
 }
 
-h1 {
-    text-align: center;
-    margin: 30px;
-}
-
-.section {
-    margin: 40px;
-}
-
-.tableau {
-    background: #1e293b;
+header {
     padding: 20px;
+    font-size: 2em;
+    font-weight: bold;
+    text-align: left;
+    color: yellow;
+    text-shadow: 2px 2px black;
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    gap: 20px;
+}
+
+.bracket {
+    background: rgba(0,0,0,0.4);
+    padding: 10px;
     border-radius: 10px;
-    margin-bottom: 40px;
+    width: 300px;
+}
+
+.bracket h2 {
+    text-align: center;
+    color: #facc15;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px black;
 }
 
 .round {
     display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
 .match {
-    background: #334155;
-    padding: 10px;
+    background: rgba(255,255,255,0.1);
+    padding: 8px;
     border-radius: 8px;
-    width: 200px;
+    text-align: center;
+    border: 2px solid #f87171;
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px black;
 }
 
-.match h4 {
-    margin: 5px 0;
-    color: #60a5fa;
-}
+.match.round2 { border-color: #60a5fa; }
+.match.round3 { border-color: #fbbf24; }
+
 </style>
 </head>
-
 <body>
 
-<h1>Tableaux de résultats</h1>
+<header>Tournoi interne Mario Kart</header>
+
+<div class="container">
 
 <!-- TABLEAU 1 -->
-<div class="section">
+<div class="bracket">
 <h2>Tableau places 1 à 16</h2>
 
-<div class="tableau">
-
-<h3>1er tour</h3>
+<!-- Tour 1 -->
 <div class="round">
-<div class="match"><h4>Poule A</h4>Joueur 1<br>Joueur 2<br>Joueur 3<br>Joueur 4</div>
-<div class="match"><h4>Poule B</h4>...</div>
-<div class="match"><h4>Poule C</h4>...</div>
-<div class="match"><h4>Poule D</h4>...</div>
+<div class="match">Poule A<br>Joueur 1, Joueur 2, Joueur 3, Joueur 4</div>
+<div class="match">Poule B<br>Joueur 5, Joueur 6, Joueur 7, Joueur 8</div>
+<div class="match">Poule C<br>Joueur 9, Joueur 10, Joueur 11, Joueur 12</div>
+<div class="match">Poule D<br>Joueur 13, Joueur 14, Joueur 15, Joueur 16</div>
 </div>
 
-<h3>2e tour</h3>
+<!-- Tour 2 -->
 <div class="round">
-<div class="match"><h4>Match 1</h4>A1, C1, B2, D2</div>
-<div class="match"><h4>Match 2</h4>A2, C2, B1, D1</div>
-<div class="match"><h4>Match 3</h4>A3, C3, B4, D4</div>
-<div class="match"><h4>Match 4</h4>A4, C4, B3, D3</div>
+<div class="match round2">Match 1<br>A1+C1+B2+D2</div>
+<div class="match round2">Match 2<br>A2+C2+B1+D1</div>
+<div class="match round2">Match 3<br>A3+C3+B4+D4</div>
+<div class="match round2">Match 4<br>A4+C4+B3+D3</div>
 </div>
 
-<h3>3e tour (classement final)</h3>
+<!-- Tour 3 -->
 <div class="round">
-<div class="match"><h4>Places 1-4</h4>Top matchs 1 & 2</div>
-<div class="match"><h4>Places 5-8</h4>Bas matchs 1 & 2</div>
-<div class="match"><h4>Places 9-12</h4>Top matchs 3</div>
-<div class="match"><h4>Places 13-16</h4>Bas matchs 3</div>
+<div class="match round3">Places 1-4<br>2 premiers Match 1 & 2</div>
+<div class="match round3">Places 5-8<br>2 derniers Match 1 & 2</div>
+<div class="match round3">Places 9-12<br>2 premiers Match 3 & 4</div>
+<div class="match round3">Places 13-16<br>2 derniers Match 3 & 4</div>
 </div>
 
-</div>
 </div>
 
 <!-- TABLEAU 2 -->
-<div class="section">
+<div class="bracket">
 <h2>Tableau places 17 à 32</h2>
-<div class="tableau">Même structure que le tableau 1</div>
+<div class="round">
+<div class="match">Poule A...</div>
+<div class="match">Poule B...</div>
+<div class="match">Poule C...</div>
+<div class="match">Poule D...</div>
+</div>
+<div class="round">
+<div class="match round2">Match 1...</div>
+<div class="match round2">Match 2...</div>
+<div class="match round2">Match 3...</div>
+<div class="match round2">Match 4...</div>
+</div>
+<div class="round">
+<div class="match round3">Places 1-4...</div>
+<div class="match round3">Places 5-8...</div>
+<div class="match round3">Places 9-12...</div>
+<div class="match round3">Places 13-16...</div>
+</div>
 </div>
 
 <!-- TABLEAU 3 -->
-<div class="section">
+<div class="bracket">
 <h2>Tableau places 33 à 48</h2>
-<div class="tableau">Même structure que le tableau 1</div>
+<div class="round">
+<div class="match">Poule A...</div>
+<div class="match">Poule B...</div>
+<div class="match">Poule C...</div>
+<div class="match">Poule D...</div>
+</div>
+<div class="round">
+<div class="match round2">Match 1...</div>
+<div class="match round2">Match 2...</div>
+<div class="match round2">Match 3...</div>
+<div class="match round2">Match 4...</div>
+</div>
+<div class="round">
+<div class="match round3">Places 1-4...</div>
+<div class="match round3">Places 5-8...</div>
+<div class="match round3">Places 9-12...</div>
+<div class="match round3">Places 13-16...</div>
+</div>
+</div>
+
 </div>
 
 </body>
