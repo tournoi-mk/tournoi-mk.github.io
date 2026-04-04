@@ -287,7 +287,7 @@
     .row-origin {
       font-size: 0.64rem;
       color: rgba(255,255,255,0.28);
-      width: 78px;
+      width: 90px;
       flex-shrink: 0;
       letter-spacing: 0.04em;
     }
@@ -351,7 +351,8 @@
   <script>
     // ─────────────────────────────────────────────────────────────────────
     // CONFIGURATION MANUELLE
-    // Tous les textes modifiables sont ici
+    // Tous les noms sont maintenant modifiables à la main
+    // 3 tableaux × 3 tours × 16 noms = 144 noms
     // ─────────────────────────────────────────────────────────────────────
 
     const BRACKETS = [
@@ -363,66 +364,74 @@
           {
             groupName: "Poule A",
             matchDateTime: "12/04 - 14h00",
-            players: ["Lucas", "Emma", "Noah", "Jade"]
+            players: ["nom", "nom", "nom", "nom"]
           },
           {
             groupName: "Poule B",
             matchDateTime: "12/04 - 14h30",
-            players: ["Théo", "Camille", "Raphaël", "Léa"]
+            players: ["nom", "nom", "nom", "nom"]
           },
           {
             groupName: "Poule C",
             matchDateTime: "12/04 - 15h00",
-            players: ["Antoine", "Chloé", "Maxime", "Inès"]
+            players: ["nom", "nom", "nom", "nom"]
           },
           {
             groupName: "Poule D",
             matchDateTime: "12/04 - 15h30",
-            players: ["Baptiste", "Zoé", "Hugo", "Manon"]
+            players: ["nom", "nom", "nom", "nom"]
           }
         ],
         tour2Matches: [
           {
             matchName: "Match 1",
             matchTag: "1ers A+C · 2es B+D",
-            slots: ["1er Poule A", "2e Poule B", "1er Poule C", "2e Poule D"]
+            slots: ["1er Poule A", "2e Poule B", "1er Poule C", "2e Poule D"],
+            players: ["attente résultat match précédent", "attente résultat match précédent", "attente résultat match précédent", "attente résultat match précédent"]
           },
           {
             matchName: "Match 2",
             matchTag: "2es A+C · 1ers B+D",
-            slots: ["2e Poule A", "1er Poule B", "2e Poule C", "1er Poule D"]
+            slots: ["2e Poule A", "1er Poule B", "2e Poule C", "1er Poule D"],
+            players: ["attente résultat match précédent", "attente résultat match précédent", "attente résultat match précédent", "attente résultat match précédent"]
           },
           {
             matchName: "Match 3",
             matchTag: "3es A+C · 4es B+D",
-            slots: ["3e Poule A", "4e Poule B", "3e Poule C", "4e Poule D"]
+            slots: ["3e Poule A", "4e Poule B", "3e Poule C", "4e Poule D"],
+            players: ["attente résultat match précédent", "attente résultat match précédent", "attente résultat match précédent", "attente résultat match précédent"]
           },
           {
             matchName: "Match 4",
             matchTag: "4es A+C · 3es B+D",
-            slots: ["4e Poule A", "3e Poule B", "4e Poule C", "3e Poule D"]
+            slots: ["4e Poule A", "3e Poule B", "4e Poule C", "3e Poule D"],
+            players: ["attente résultat match précédent", "attente résultat match précédent", "attente résultat match précédent", "attente résultat match précédent"]
           }
         ],
         tour3Matches: [
           {
             matchName: "Match 1",
             matchTag: "Places 1–4",
-            slots: ["1er Match 1 T2", "2e Match 1 T2", "1er Match 2 T2", "2e Match 2 T2"]
+            slots: ["1er Match 1 T2", "2e Match 1 T2", "1er Match 2 T2", "2e Match 2 T2"],
+            players: ["attente résultat match précédent", "attente résultat match précédent", "attente résultat match précédent", "attente résultat match précédent"]
           },
           {
             matchName: "Match 2",
             matchTag: "Places 5–8",
-            slots: ["3e Match 1 T2", "4e Match 1 T2", "3e Match 2 T2", "4e Match 2 T2"]
+            slots: ["3e Match 1 T2", "4e Match 1 T2", "3e Match 2 T2", "4e Match 2 T2"],
+            players: ["attente résultat match précédent", "attente résultat match précédent", "attente résultat match précédent", "attente résultat match précédent"]
           },
           {
             matchName: "Match 3",
             matchTag: "Places 9–12",
-            slots: ["1er Match 3 T2", "2e Match 3 T2", "1er Match 4 T2", "2e Match 4 T2"]
+            slots: ["1er Match 3 T2", "2e Match 3 T2", "1er Match 4 T2", "2e Match 4 T2"],
+            players: ["attente résultat match précédent", "attente résultat match précédent", "attente résultat match précédent", "attente résultat match précédent"]
           },
           {
             matchName: "Match 4",
             matchTag: "Places 13–16",
-            slots: ["3e Match 3 T2", "4e Match 3 T2", "3e Match 4 T2", "4e Match 4 T2"]
+            slots: ["3e Match 3 T2", "4e Match 3 T2", "3e Match 4 T2", "4e Match 4 T2"],
+            players: ["attente résultat match précédent", "attente résultat match précédent", "attente résultat match précédent", "attente résultat match précédent"]
           }
         ]
       },
@@ -434,66 +443,74 @@
           {
             groupName: "Poule E",
             matchDateTime: "12/04 - 16h00",
-            players: ["Axel", "Pauline", "Nathan", "Sarah"]
+            players: ["nom", "nom", "nom", "nom"]
           },
           {
             groupName: "Poule F",
             matchDateTime: "12/04 - 16h30",
-            players: ["Tom", "Lucie", "Simon", "Alice"]
+            players: ["nom", "nom", "nom", "nom"]
           },
           {
             groupName: "Poule G",
             matchDateTime: "12/04 - 17h00",
-            players: ["Enzo", "Charlotte", "Ethan", "Clara"]
+            players: ["nom", "nom", "nom", "nom"]
           },
           {
             groupName: "Poule H",
             matchDateTime: "12/04 - 17h30",
-            players: ["Romain", "Anaïs", "Clément", "Eva"]
+            players: ["nom", "nom", "nom", "nom"]
           }
         ],
         tour2Matches: [
           {
             matchName: "Match 1",
             matchTag: "1ers E+G · 2es F+H",
-            slots: ["1er Poule E", "2e Poule F", "1er Poule G", "2e Poule H"]
+            slots: ["1er Poule E", "2e Poule F", "1er Poule G", "2e Poule H"],
+            players: ["-", "-", "-", "-"]
           },
           {
             matchName: "Match 2",
             matchTag: "2es E+G · 1ers F+H",
-            slots: ["2e Poule E", "1er Poule F", "2e Poule G", "1er Poule H"]
+            slots: ["2e Poule E", "1er Poule F", "2e Poule G", "1er Poule H"],
+            players: ["-", "-", "-", "-"]
           },
           {
             matchName: "Match 3",
             matchTag: "3es E+G · 4es F+H",
-            slots: ["3e Poule E", "4e Poule F", "3e Poule G", "4e Poule H"]
+            slots: ["3e Poule E", "4e Poule F", "3e Poule G", "4e Poule H"],
+            players: ["-", "-", "-", "-"]
           },
           {
             matchName: "Match 4",
             matchTag: "4es E+G · 3es F+H",
-            slots: ["4e Poule E", "3e Poule F", "4e Poule G", "3e Poule H"]
+            slots: ["4e Poule E", "3e Poule F", "4e Poule G", "3e Poule H"],
+            players: ["-", "-", "-", "-"]
           }
         ],
         tour3Matches: [
           {
             matchName: "Match 1",
             matchTag: "Places 17–20",
-            slots: ["1er Match 1 T2", "2e Match 1 T2", "1er Match 2 T2", "2e Match 2 T2"]
+            slots: ["1er Match 1 T2", "2e Match 1 T2", "1er Match 2 T2", "2e Match 2 T2"],
+            players: ["-", "-", "-", "-"]
           },
           {
             matchName: "Match 2",
             matchTag: "Places 21–24",
-            slots: ["3e Match 1 T2", "4e Match 1 T2", "3e Match 2 T2", "4e Match 2 T2"]
+            slots: ["3e Match 1 T2", "4e Match 1 T2", "3e Match 2 T2", "4e Match 2 T2"],
+            players: ["-", "-", "-", "-"]
           },
           {
             matchName: "Match 3",
             matchTag: "Places 25–28",
-            slots: ["1er Match 3 T2", "2e Match 3 T2", "1er Match 4 T2", "2e Match 4 T2"]
+            slots: ["1er Match 3 T2", "2e Match 3 T2", "1er Match 4 T2", "2e Match 4 T2"],
+            players: ["-", "-", "-", "-"]
           },
           {
             matchName: "Match 4",
             matchTag: "Places 29–32",
-            slots: ["3e Match 3 T2", "4e Match 3 T2", "3e Match 4 T2", "4e Match 4 T2"]
+            slots: ["3e Match 3 T2", "4e Match 3 T2", "3e Match 4 T2", "4e Match 4 T2"],
+            players: ["-", "-", "-", "-"]
           }
         ]
       },
@@ -505,66 +522,74 @@
           {
             groupName: "Poule I",
             matchDateTime: "12/04 - 18h00",
-            players: ["Julien", "Marine", "Kevin", "Élisa"]
+            players: ["nom", "nom", "nom", "nom"]
           },
           {
             groupName: "Poule J",
             matchDateTime: "12/04 - 18h30",
-            players: ["Matteo", "Amandine", "Alexis", "Lola"]
+            players: ["nom", "nom", "nom", "nom"]
           },
           {
             groupName: "Poule K",
             matchDateTime: "12/04 - 19h00",
-            players: ["Victor", "Margot", "Pierre", "Céline"]
+            players: ["nom", "nom", "nom", "nom"]
           },
           {
             groupName: "Poule L",
             matchDateTime: "12/04 - 19h30",
-            players: ["Florian", "Océane", "Sébastien", "Aurélie"]
+            players: ["nom", "nom", "nom", "nom"]
           }
         ],
         tour2Matches: [
           {
             matchName: "Match 1",
             matchTag: "1ers I+K · 2es J+L",
-            slots: ["1er Poule I", "2e Poule J", "1er Poule K", "2e Poule L"]
+            slots: ["1er Poule I", "2e Poule J", "1er Poule K", "2e Poule L"],
+            players: ["-", "-", "-", "-"]
           },
           {
             matchName: "Match 2",
             matchTag: "2es I+K · 1ers J+L",
-            slots: ["2e Poule I", "1er Poule J", "2e Poule K", "1er Poule L"]
+            slots: ["2e Poule I", "1er Poule J", "2e Poule K", "1er Poule L"],
+            players: ["-", "-", "-", "-"]
           },
           {
             matchName: "Match 3",
             matchTag: "3es I+K · 4es J+L",
-            slots: ["3e Poule I", "4e Poule J", "3e Poule K", "4e Poule L"]
+            slots: ["3e Poule I", "4e Poule J", "3e Poule K", "4e Poule L"],
+            players: ["-", "-", "-", "-"]
           },
           {
             matchName: "Match 4",
             matchTag: "4es I+K · 3es J+L",
-            slots: ["4e Poule I", "3e Poule J", "4e Poule K", "3e Poule L"]
+            slots: ["4e Poule I", "3e Poule J", "4e Poule K", "3e Poule L"],
+            players: ["-", "-", "-", "-"]
           }
         ],
         tour3Matches: [
           {
             matchName: "Match 1",
             matchTag: "Places 33–36",
-            slots: ["1er Match 1 T2", "2e Match 1 T2", "1er Match 2 T2", "2e Match 2 T2"]
+            slots: ["1er Match 1 T2", "2e Match 1 T2", "1er Match 2 T2", "2e Match 2 T2"],
+            players: ["-", "-", "-", "-"]
           },
           {
             matchName: "Match 2",
             matchTag: "Places 37–40",
-            slots: ["3e Match 1 T2", "4e Match 1 T2", "3e Match 2 T2", "4e Match 2 T2"]
+            slots: ["3e Match 1 T2", "4e Match 1 T2", "3e Match 2 T2", "4e Match 2 T2"],
+            players: ["-", "-", "-", "-"]
           },
           {
             matchName: "Match 3",
             matchTag: "Places 41–44",
-            slots: ["1er Match 3 T2", "2e Match 3 T2", "1er Match 4 T2", "2e Match 4 T2"]
+            slots: ["1er Match 3 T2", "2e Match 3 T2", "1er Match 4 T2", "2e Match 4 T2"],
+            players: ["-", "-", "-", "-"]
           },
           {
             matchName: "Match 4",
             matchTag: "Places 45–48",
-            slots: ["3e Match 3 T2", "4e Match 3 T2", "3e Match 4 T2", "4e Match 4 T2"]
+            slots: ["3e Match 3 T2", "4e Match 3 T2", "3e Match 4 T2", "4e Match 4 T2"],
+            players: ["-", "-", "-", "-"]
           }
         ]
       }
@@ -608,7 +633,7 @@
           </div>
           <div class="legend-item">
             <div class="legend-dot" style="background:var(--${cs[1]})"></div>
-            Tour 2 — Qualifications croisées
+            Tour 2
           </div>
           <div class="legend-item">
             <div class="legend-dot" style="background:var(--${cs[2]})"></div>
@@ -653,7 +678,7 @@
       // TOUR 2
       const col2 = document.createElement('div');
       col2.className = 'tour-col';
-      col2.innerHTML = `<div class="tour-label lbl-${cs[1]}">🔀 Tour 2 — Qualifs croisées</div>`;
+      col2.innerHTML = `<div class="tour-label lbl-${cs[1]}">🔀 Tour 2</div>`;
 
       bracket.tour2Matches.forEach(match => {
         const card = document.createElement('div');
@@ -663,11 +688,11 @@
             <span class="card-title">${match.matchName}</span>
             <span class="card-tag">${match.matchTag}</span>
           </div>
-          ${match.slots.map(slot => `
+          ${match.slots.map((slot, i) => `
             <div class="card-row">
               <span class="row-origin">${slot}</span>
               <span class="row-emoji">${rng(KART_EMOJI)}</span>
-              <span class="row-name">—</span>
+              <span class="row-name">${match.players[i]}</span>
             </div>
           `).join('')}
         `;
@@ -692,11 +717,11 @@
             <span class="card-title">${match.matchName}</span>
             <span class="card-tag">${match.matchTag}</span>
           </div>
-          ${match.slots.map(slot => `
+          ${match.slots.map((slot, i) => `
             <div class="card-row">
               <span class="row-origin">${slot}</span>
               <span class="row-emoji">${rng(TOUR3_EMOJI)}</span>
-              <span class="row-name">—</span>
+              <span class="row-name">${match.players[i]}</span>
             </div>
           `).join('')}
         `;
