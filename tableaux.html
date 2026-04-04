@@ -10,25 +10,10 @@
       --red: #E8001D;
       --blue: #0052A5;
       --yellow: #FFD700;
-      --white: #FFFFFF;
       --dark: #07071a;
-
-      --blue-soft: rgba(0,82,165,0.18);
-      --red-soft: rgba(232,0,29,0.18);
-      --yellow-soft: rgba(255,215,0,0.14);
-
-      --blue-border: rgba(0,82,165,0.42);
-      --red-border: rgba(232,0,29,0.42);
-      --yellow-border: rgba(255,215,0,0.38);
-
-      --blue-glow: rgba(0,82,165,0.45);
-      --red-glow: rgba(232,0,29,0.45);
-      --yellow-glow: rgba(255,215,0,0.35);
-
-      --col-width: 420px;
-      --card-height: 188px;
-      --label-height: 56px;
-      --gap-cards: 16px;
+      --red-glow: rgba(232,0,29,0.5);
+      --blue-glow: rgba(0,82,165,0.5);
+      --yellow-glow: rgba(255,215,0,0.5);
     }
 
     * {
@@ -40,7 +25,7 @@
     body {
       background: var(--dark);
       font-family: 'Exo 2', sans-serif;
-      color: var(--white);
+      color: #fff;
       min-height: 100vh;
     }
 
@@ -55,12 +40,12 @@
     }
 
     .bg::before {
-      content: '';
-      position: absolute;
-      inset: 0;
+      content:'';
+      position:absolute;
+      inset:0;
       background-image:
-        repeating-linear-gradient(90deg, transparent 0, transparent 79px, rgba(255,255,255,0.018) 79px, rgba(255,255,255,0.018) 80px),
-        repeating-linear-gradient(180deg, transparent 0, transparent 79px, rgba(255,255,255,0.018) 79px, rgba(255,255,255,0.018) 80px);
+        repeating-linear-gradient(90deg,transparent 0,transparent 79px,rgba(255,255,255,0.018) 79px,rgba(255,255,255,0.018) 80px),
+        repeating-linear-gradient(180deg,transparent 0,transparent 79px,rgba(255,255,255,0.018) 79px,rgba(255,255,255,0.018) 80px);
     }
 
     .top-bar {
@@ -75,6 +60,7 @@
       backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(232,0,29,0.3);
       box-shadow: 0 4px 32px rgba(0,0,0,0.5);
+      gap: 16px;
     }
 
     .brand {
@@ -97,7 +83,6 @@
       font-family: 'Russo One', sans-serif;
       font-size: 1.3rem;
       letter-spacing: 0.15em;
-      color: var(--white);
       text-transform: uppercase;
     }
 
@@ -121,39 +106,28 @@
     }
 
     .bracket-section {
-      max-width: 1480px;
+      max-width: 1400px;
       margin: 0 auto 72px;
     }
 
     .section-header {
       display: flex;
       align-items: center;
-      gap: 18px;
-      margin-bottom: 34px;
-      padding-bottom: 18px;
+      gap: 16px;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
       border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
     .section-number {
       font-family: 'Russo One', sans-serif;
-      font-size: 3rem;
+      font-size: 3.5rem;
       line-height: 1;
     }
 
-    .section-number.t1 {
-      color: var(--blue);
-      text-shadow: 0 0 20px var(--blue-glow);
-    }
-
-    .section-number.t2 {
-      color: var(--red);
-      text-shadow: 0 0 20px var(--red-glow);
-    }
-
-    .section-number.t3 {
-      color: var(--yellow);
-      text-shadow: 0 0 20px var(--yellow-glow);
-    }
+    .num-blue   { color: var(--blue);   text-shadow: 0 0 24px var(--blue-glow); }
+    .num-red    { color: var(--red);    text-shadow: 0 0 24px var(--red-glow); }
+    .num-yellow { color: var(--yellow); text-shadow: 0 0 24px var(--yellow-glow); }
 
     .section-info h2 {
       font-family: 'Russo One', sans-serif;
@@ -162,53 +136,38 @@
     }
 
     .section-info p {
-      font-size: 0.86rem;
-      color: rgba(255,255,255,0.42);
+      font-size: 0.83rem;
+      color: rgba(255,255,255,0.4);
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      margin-top: 4px;
+      margin-top: 3px;
     }
 
     .section-badge {
       margin-left: auto;
-      min-width: 170px;
+      padding: 10px 26px;
+      min-width: 210px;
       text-align: center;
-      padding: 12px 24px;
-      border-radius: 999px;
+      border-radius: 24px;
       font-family: 'Russo One', sans-serif;
-      font-size: 0.9rem;
+      font-size: 0.86rem;
       letter-spacing: 0.1em;
-      text-transform: uppercase;
-      box-shadow: 0 0 18px rgba(255,255,255,0.06);
+      white-space: nowrap;
     }
 
-    .badge-blue {
-      background: rgba(0,82,165,0.26);
-      border: 1px solid var(--blue);
-      color: #7bc0ff;
-    }
-
-    .badge-red {
-      background: rgba(232,0,29,0.26);
-      border: 1px solid var(--red);
-      color: #ff95a2;
-    }
-
-    .badge-gold {
-      background: rgba(255,215,0,0.18);
-      border: 1px solid var(--yellow);
-      color: #ffe26a;
-    }
+    .badge-blue   { background: rgba(0,82,165,0.3);   border: 1px solid var(--blue);   color: #6eb4ff; }
+    .badge-red    { background: rgba(232,0,29,0.3);   border: 1px solid var(--red);    color: #ff8090; }
+    .badge-yellow { background: rgba(255,215,0,0.18); border: 1px solid var(--yellow); color: var(--yellow); }
 
     .legend {
       display: flex;
-      gap: 28px;
+      gap: 24px;
       flex-wrap: wrap;
       margin-bottom: 24px;
       padding: 14px 20px;
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 10px;
+      border-radius: 8px;
     }
 
     .legend-item {
@@ -216,7 +175,7 @@
       align-items: center;
       gap: 8px;
       font-size: 0.78rem;
-      color: rgba(255,255,255,0.52);
+      color: rgba(255,255,255,0.5);
     }
 
     .legend-dot {
@@ -228,7 +187,7 @@
 
     .bracket-layout {
       display: grid;
-      grid-template-columns: var(--col-width) 52px var(--col-width) 52px var(--col-width);
+      grid-template-columns: 1fr 40px 1fr 40px 1fr;
       gap: 0;
       align-items: start;
       overflow-x: auto;
@@ -236,223 +195,122 @@
     }
 
     .tour-col {
-      width: var(--col-width);
-      min-width: var(--col-width);
-    }
-
-    .tour-col-inner {
-      display: grid;
-      grid-template-rows: var(--label-height) repeat(4, var(--card-height));
-      gap: var(--gap-cards);
+      min-width: 220px;
     }
 
     .tour-label {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: var(--label-height);
       font-family: 'Russo One', sans-serif;
-      font-size: 0.78rem;
-      letter-spacing: 0.18em;
+      font-size: 0.98rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       text-align: center;
-      padding: 0 14px;
-      border-radius: 8px;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+      padding: 11px 14px;
+      border-radius: 7px 7px 0 0;
+      margin-bottom: 14px;
     }
 
-    .lbl-t1 {
-      background: linear-gradient(180deg, rgba(0,82,165,0.42), rgba(0,82,165,0.24));
-      color: #7bc0ff;
-      border: 1px solid rgba(0,82,165,0.55);
-    }
-
-    .lbl-t2 {
-      background: linear-gradient(180deg, rgba(232,0,29,0.42), rgba(232,0,29,0.22));
-      color: #ff97a3;
-      border: 1px solid rgba(232,0,29,0.55);
-    }
-
-    .lbl-t3 {
-      background: linear-gradient(180deg, rgba(255,215,0,0.26), rgba(255,215,0,0.14));
-      color: #ffe164;
-      border: 1px solid rgba(255,215,0,0.44);
-    }
-
-    .connector-col {
-      width: 52px;
-      display: flex;
-      align-items: stretch;
-      justify-content: center;
-      padding-top: calc(var(--label-height) + 2px);
-    }
+    .lbl-blue   { background: rgba(0,82,165,0.3);   color: #6eb4ff;      border: 1px solid rgba(0,82,165,0.55); }
+    .lbl-red    { background: rgba(232,0,29,0.28);  color: #ff8090;      border: 1px solid rgba(232,0,29,0.55); }
+    .lbl-yellow { background: rgba(255,215,0,0.18); color: var(--yellow); border: 1px solid rgba(255,215,0,0.45); }
 
     .group-card,
     .match-card {
-      height: var(--card-height);
-      border-radius: 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 10px;
       overflow: hidden;
-      backdrop-filter: blur(8px);
-      transition: border-color 0.2s, transform 0.2s;
+      margin-bottom: 14px;
     }
 
     .group-card:hover,
     .match-card:hover {
-      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.18);
     }
 
-    .tour1-card {
-      background: linear-gradient(180deg, rgba(7,15,40,0.96), rgba(14,14,35,0.9));
-      border: 1px solid var(--blue-border);
-      box-shadow: 0 0 18px rgba(0,82,165,0.08);
-    }
-
-    .tour2-card {
-      background: linear-gradient(180deg, rgba(32,8,16,0.96), rgba(14,14,35,0.9));
-      border: 1px solid var(--red-border);
-      box-shadow: 0 0 18px rgba(232,0,29,0.08);
-    }
-
-    .tour3-card {
-      background: linear-gradient(180deg, rgba(35,28,4,0.92), rgba(14,14,35,0.9));
-      border: 1px solid var(--yellow-border);
-      box-shadow: 0 0 18px rgba(255,215,0,0.08);
-    }
-
-    .group-header,
-    .match-header {
+    .card-header {
       display: flex;
       align-items: center;
       gap: 10px;
-      min-height: 38px;
-      padding: 9px 14px;
+      padding: 11px 14px;
     }
 
-    .gh-blue {
-      background: linear-gradient(180deg, rgba(0,82,165,0.34), rgba(0,82,165,0.22));
-      border-bottom: 1px solid rgba(0,82,165,0.32);
-    }
+    .hdr-blue   { background: rgba(0,82,165,0.28);  border-bottom: 1px solid rgba(0,82,165,0.35); }
+    .hdr-red    { background: rgba(232,0,29,0.22);  border-bottom: 1px solid rgba(232,0,29,0.35); }
+    .hdr-yellow { background: rgba(255,215,0,0.14); border-bottom: 1px solid rgba(255,215,0,0.35); }
 
-    .gh-red {
-      background: linear-gradient(180deg, rgba(232,0,29,0.28), rgba(232,0,29,0.18));
-      border-bottom: 1px solid rgba(232,0,29,0.32);
-    }
-
-    .gh-gold {
-      background: linear-gradient(180deg, rgba(255,215,0,0.20), rgba(255,215,0,0.12));
-      border-bottom: 1px solid rgba(255,215,0,0.28);
-    }
-
-    .mh-blue {
-      background: linear-gradient(180deg, rgba(0,82,165,0.34), rgba(0,82,165,0.22));
-      border-bottom: 1px solid rgba(0,82,165,0.32);
-    }
-
-    .mh-red {
-      background: linear-gradient(180deg, rgba(232,0,29,0.30), rgba(232,0,29,0.18));
-      border-bottom: 1px solid rgba(232,0,29,0.32);
-    }
-
-    .mh-gold {
-      background: linear-gradient(180deg, rgba(255,215,0,0.20), rgba(255,215,0,0.12));
-      border-bottom: 1px solid rgba(255,215,0,0.28);
-    }
-
-    .group-name,
-    .match-label {
+    .card-title {
       font-family: 'Russo One', sans-serif;
+      font-size: 0.97rem;
       letter-spacing: 0.1em;
     }
 
-    .group-name {
-      font-size: 0.96rem;
-    }
-
-    .match-label {
-      font-size: 0.86rem;
-    }
-
-    .match-desc {
+    .card-tag {
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.50);
+      letter-spacing: 0.05em;
       margin-left: auto;
       text-align: right;
-      color: rgba(255,255,255,0.42);
-      letter-spacing: 0.04em;
-      line-height: 1.15;
+      white-space: nowrap;
     }
 
-    .tour2-desc {
-      font-size: 0.64rem;
-    }
-
-    .tour3-desc {
-      font-size: 0.86rem;
-      font-weight: 800;
-      color: rgba(255,255,255,0.78);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .player-row,
-    .match-slot {
+    .card-row {
       display: flex;
       align-items: center;
       gap: 10px;
-      min-height: calc((var(--card-height) - 38px) / 4);
-      padding: 8px 14px;
+      padding: 10px 14px;
+      min-height: 46px;
       border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
-    .player-row:last-child,
-    .match-slot:last-child {
+    .card-row:last-child {
       border-bottom: none;
     }
 
-    .player-row:hover,
-    .match-slot:hover {
+    .card-row:hover {
       background: rgba(255,255,255,0.045);
     }
 
-    .player-rank {
+    .row-rank {
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.22);
+      font-weight: 700;
       width: 14px;
       text-align: center;
       flex-shrink: 0;
-      font-size: 0.72rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.28);
     }
 
-    .player-kart,
-    .slot-kart {
-      width: 20px;
-      text-align: center;
+    .row-emoji {
+      font-size: 1.05rem;
       flex-shrink: 0;
-      font-size: 0.98rem;
     }
 
-    .player-name,
-    .slot-name {
+    .row-origin {
+      font-size: 0.64rem;
+      color: rgba(255,255,255,0.28);
+      width: 78px;
+      flex-shrink: 0;
+      letter-spacing: 0.04em;
+    }
+
+    .row-name {
+      font-size: 0.93rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: rgba(255,255,255,0.85);
       flex: 1;
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.88);
-      letter-spacing: 0.01em;
     }
 
-    .player-score {
+    .row-score {
+      font-family: 'Russo One', sans-serif;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.2);
       min-width: 24px;
       text-align: right;
-      font-family: 'Russo One', sans-serif;
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.22);
     }
 
-    .slot-origin {
-      width: 92px;
-      flex-shrink: 0;
-      font-size: 0.66rem;
-      color: rgba(255,255,255,0.32);
-      letter-spacing: 0.03em;
-      line-height: 1.15;
+    .connector-col {
+      width: 40px;
+      align-self: stretch;
     }
 
     .section-sep {
@@ -461,466 +319,433 @@
       margin: 0 0 72px;
     }
 
-    @media (max-width: 1500px) {
-      .bracket-layout {
-        justify-content: start;
-      }
-    }
-
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
       .bracket-layout {
         grid-template-columns: 1fr;
-        gap: 16px;
-      }
-
-      .tour-col {
-        min-width: 100%;
-        width: 100%;
-      }
-
-      .tour-col-inner {
-        grid-template-rows: auto;
-      }
-
-      .group-card,
-      .match-card {
-        height: auto;
       }
 
       .connector-col {
         display: none;
       }
 
-      .section-header {
-        flex-wrap: wrap;
-      }
-
       .section-badge {
-        margin-left: 0;
+        min-width: auto;
+        padding: 10px 18px;
       }
     }
   </style>
 </head>
 <body>
+  <div class="bg"></div>
 
-<div class="bg"></div>
+  <div class="top-bar">
+    <a href="index.html" class="brand">🏆 <span>TOURNOI INTERNE</span> MARIO KART</a>
+    <div class="top-title">Tableaux de résultats</div>
+    <a href="index.html" class="back-btn">← Accueil</a>
+  </div>
 
-<div class="top-bar">
-  <a href="index.html" class="brand">🏆 <span>TOURNOI INTERNE</span> MARIO KART</a>
-  <div class="top-title">Tableaux de résultats</div>
-  <a href="index.html" class="back-btn">← Accueil</a>
-</div>
+  <div class="page">
+    <div id="brackets-container"></div>
+  </div>
 
-<div class="page">
-  <div id="brackets-container"></div>
-</div>
+  <script>
+    // ─────────────────────────────────────────────────────────────────────
+    // CONFIGURATION MANUELLE
+    // Tous les textes modifiables sont ici
+    // ─────────────────────────────────────────────────────────────────────
 
-<script>
-  const brackets = [
-    {
-      id: 1,
-      label: "Tableau 1",
-      places: "Places 1 à 16",
-      colorClass: "t1",
-      badgeClass: "badge-blue",
-      groups: ["A", "B", "C", "D"],
-
-      tour1LabelClass: "lbl-t1",
-      tour2LabelClass: "lbl-t2",
-      tour3LabelClass: "lbl-t3",
-
-      groupHeaderClass: "gh-blue",
-      tour2HeaderClass: "mh-red",
-      tour3HeaderClass: "mh-gold",
-
-      tour1CardClass: "tour1-card",
-      tour2CardClass: "tour2-card",
-      tour3CardClass: "tour3-card",
-
-      connector1Color: "#0052A5",
-      connector2Color: "#FFD700",
-
-      names: {
-        tour1: [
-          ["Nom A1", "Nom A2", "Nom A3", "Nom A4"],
-          ["Nom B1", "Nom B2", "Nom B3", "Nom B4"],
-          ["Nom C1", "Nom C2", "Nom C3", "Nom C4"],
-          ["Nom D1", "Nom D2", "Nom D3", "Nom D4"]
-        ],
-        tour2: [
-          ["Nom M1-1", "Nom M1-2", "Nom M1-3", "Nom M1-4"],
-          ["Nom M2-1", "Nom M2-2", "Nom M2-3", "Nom M2-4"],
-          ["Nom M3-1", "Nom M3-2", "Nom M3-3", "Nom M3-4"],
-          ["Nom M4-1", "Nom M4-2", "Nom M4-3", "Nom M4-4"]
-        ],
-        tour3: [
-          ["Nom F1-1", "Nom F1-2", "Nom F1-3", "Nom F1-4"],
-          ["Nom F2-1", "Nom F2-2", "Nom F2-3", "Nom F2-4"],
-          ["Nom F3-1", "Nom F3-2", "Nom F3-3", "Nom F3-4"],
-          ["Nom F4-1", "Nom F4-2", "Nom F4-3", "Nom F4-4"]
-        ]
-      }
-    },
-    {
-      id: 2,
-      label: "Tableau 2",
-      places: "Places 17 à 32",
-      colorClass: "t2",
-      badgeClass: "badge-red",
-      groups: ["E", "F", "G", "H"],
-
-      tour1LabelClass: "lbl-t1",
-      tour2LabelClass: "lbl-t2",
-      tour3LabelClass: "lbl-t3",
-
-      groupHeaderClass: "gh-red",
-      tour2HeaderClass: "mh-red",
-      tour3HeaderClass: "mh-gold",
-
-      tour1CardClass: "tour1-card",
-      tour2CardClass: "tour2-card",
-      tour3CardClass: "tour3-card",
-
-      connector1Color: "#E8001D",
-      connector2Color: "#FFD700",
-
-      names: {
-        tour1: [
-          ["Nom E1", "Nom E2", "Nom E3", "Nom E4"],
-          ["Nom F1", "Nom F2", "Nom F3", "Nom F4"],
-          ["Nom G1", "Nom G2", "Nom G3", "Nom G4"],
-          ["Nom H1", "Nom H2", "Nom H3", "Nom H4"]
-        ],
-        tour2: [
-          ["Nom M1-1", "Nom M1-2", "Nom M1-3", "Nom M1-4"],
-          ["Nom M2-1", "Nom M2-2", "Nom M2-3", "Nom M2-4"],
-          ["Nom M3-1", "Nom M3-2", "Nom M3-3", "Nom M3-4"],
-          ["Nom M4-1", "Nom M4-2", "Nom M4-3", "Nom M4-4"]
-        ],
-        tour3: [
-          ["Nom F1-1", "Nom F1-2", "Nom F1-3", "Nom F1-4"],
-          ["Nom F2-1", "Nom F2-2", "Nom F2-3", "Nom F2-4"],
-          ["Nom F3-1", "Nom F3-2", "Nom F3-3", "Nom F3-4"],
-          ["Nom F4-1", "Nom F4-2", "Nom F4-3", "Nom F4-4"]
-        ]
-      }
-    },
-    {
-      id: 3,
-      label: "Tableau 3",
-      places: "Places 33 à 48",
-      colorClass: "t3",
-      badgeClass: "badge-gold",
-      groups: ["I", "J", "K", "L"],
-
-      tour1LabelClass: "lbl-t1",
-      tour2LabelClass: "lbl-t2",
-      tour3LabelClass: "lbl-t3",
-
-      groupHeaderClass: "gh-gold",
-      tour2HeaderClass: "mh-red",
-      tour3HeaderClass: "mh-gold",
-
-      tour1CardClass: "tour1-card",
-      tour2CardClass: "tour2-card",
-      tour3CardClass: "tour3-card",
-
-      connector1Color: "#FFD700",
-      connector2Color: "#FFD700",
-
-      names: {
-        tour1: [
-          ["Nom I1", "Nom I2", "Nom I3", "Nom I4"],
-          ["Nom J1", "Nom J2", "Nom J3", "Nom J4"],
-          ["Nom K1", "Nom K2", "Nom K3", "Nom K4"],
-          ["Nom L1", "Nom L2", "Nom L3", "Nom L4"]
-        ],
-        tour2: [
-          ["Nom M1-1", "Nom M1-2", "Nom M1-3", "Nom M1-4"],
-          ["Nom M2-1", "Nom M2-2", "Nom M2-3", "Nom M2-4"],
-          ["Nom M3-1", "Nom M3-2", "Nom M3-3", "Nom M3-4"],
-          ["Nom M4-1", "Nom M4-2", "Nom M4-3", "Nom M4-4"]
-        ],
-        tour3: [
-          ["Nom F1-1", "Nom F1-2", "Nom F1-3", "Nom F1-4"],
-          ["Nom F2-1", "Nom F2-2", "Nom F2-3", "Nom F2-4"],
-          ["Nom F3-1", "Nom F3-2", "Nom F3-3", "Nom F3-4"],
-          ["Nom F4-1", "Nom F4-2", "Nom F4-3", "Nom F4-4"]
-        ]
-      }
-    }
-  ];
-
-  function tour2Config(groups, names) {
-    const [A, B, C, D] = groups;
-
-    return [
+    const BRACKETS = [
       {
-        label: "Match 1",
-        desc: `1ers ${A}+${C} · 2es ${B}+${D}`,
-        slots: [
-          { origin: `1er Poule ${A}`, name: names[0][0] },
-          { origin: `2e Poule ${B}`,  name: names[0][1] },
-          { origin: `1er Poule ${C}`, name: names[0][2] },
-          { origin: `2e Poule ${D}`,  name: names[0][3] }
+        tableNumber: 1,
+        tableTitle: "Tableau 1",
+        placesLabel: "Places 1 à 16",
+        groups: [
+          {
+            groupName: "Poule A",
+            matchDateTime: "12/04 - 14h00",
+            players: ["Lucas", "Emma", "Noah", "Jade"]
+          },
+          {
+            groupName: "Poule B",
+            matchDateTime: "12/04 - 14h30",
+            players: ["Théo", "Camille", "Raphaël", "Léa"]
+          },
+          {
+            groupName: "Poule C",
+            matchDateTime: "12/04 - 15h00",
+            players: ["Antoine", "Chloé", "Maxime", "Inès"]
+          },
+          {
+            groupName: "Poule D",
+            matchDateTime: "12/04 - 15h30",
+            players: ["Baptiste", "Zoé", "Hugo", "Manon"]
+          }
+        ],
+        tour2Matches: [
+          {
+            matchName: "Match 1",
+            matchTag: "1ers A+C · 2es B+D",
+            slots: ["1er Poule A", "2e Poule B", "1er Poule C", "2e Poule D"]
+          },
+          {
+            matchName: "Match 2",
+            matchTag: "2es A+C · 1ers B+D",
+            slots: ["2e Poule A", "1er Poule B", "2e Poule C", "1er Poule D"]
+          },
+          {
+            matchName: "Match 3",
+            matchTag: "3es A+C · 4es B+D",
+            slots: ["3e Poule A", "4e Poule B", "3e Poule C", "4e Poule D"]
+          },
+          {
+            matchName: "Match 4",
+            matchTag: "4es A+C · 3es B+D",
+            slots: ["4e Poule A", "3e Poule B", "4e Poule C", "3e Poule D"]
+          }
+        ],
+        tour3Matches: [
+          {
+            matchName: "Match 1",
+            matchTag: "Places 1–4",
+            slots: ["1er Match 1 T2", "2e Match 1 T2", "1er Match 2 T2", "2e Match 2 T2"]
+          },
+          {
+            matchName: "Match 2",
+            matchTag: "Places 5–8",
+            slots: ["3e Match 1 T2", "4e Match 1 T2", "3e Match 2 T2", "4e Match 2 T2"]
+          },
+          {
+            matchName: "Match 3",
+            matchTag: "Places 9–12",
+            slots: ["1er Match 3 T2", "2e Match 3 T2", "1er Match 4 T2", "2e Match 4 T2"]
+          },
+          {
+            matchName: "Match 4",
+            matchTag: "Places 13–16",
+            slots: ["3e Match 3 T2", "4e Match 3 T2", "3e Match 4 T2", "4e Match 4 T2"]
+          }
         ]
       },
       {
-        label: "Match 2",
-        desc: `2es ${A}+${C} · 1ers ${B}+${D}`,
-        slots: [
-          { origin: `2e Poule ${A}`,  name: names[1][0] },
-          { origin: `1er Poule ${B}`, name: names[1][1] },
-          { origin: `2e Poule ${C}`,  name: names[1][2] },
-          { origin: `1er Poule ${D}`, name: names[1][3] }
+        tableNumber: 2,
+        tableTitle: "Tableau 2",
+        placesLabel: "Places 17 à 32",
+        groups: [
+          {
+            groupName: "Poule E",
+            matchDateTime: "12/04 - 16h00",
+            players: ["Axel", "Pauline", "Nathan", "Sarah"]
+          },
+          {
+            groupName: "Poule F",
+            matchDateTime: "12/04 - 16h30",
+            players: ["Tom", "Lucie", "Simon", "Alice"]
+          },
+          {
+            groupName: "Poule G",
+            matchDateTime: "12/04 - 17h00",
+            players: ["Enzo", "Charlotte", "Ethan", "Clara"]
+          },
+          {
+            groupName: "Poule H",
+            matchDateTime: "12/04 - 17h30",
+            players: ["Romain", "Anaïs", "Clément", "Eva"]
+          }
+        ],
+        tour2Matches: [
+          {
+            matchName: "Match 1",
+            matchTag: "1ers E+G · 2es F+H",
+            slots: ["1er Poule E", "2e Poule F", "1er Poule G", "2e Poule H"]
+          },
+          {
+            matchName: "Match 2",
+            matchTag: "2es E+G · 1ers F+H",
+            slots: ["2e Poule E", "1er Poule F", "2e Poule G", "1er Poule H"]
+          },
+          {
+            matchName: "Match 3",
+            matchTag: "3es E+G · 4es F+H",
+            slots: ["3e Poule E", "4e Poule F", "3e Poule G", "4e Poule H"]
+          },
+          {
+            matchName: "Match 4",
+            matchTag: "4es E+G · 3es F+H",
+            slots: ["4e Poule E", "3e Poule F", "4e Poule G", "3e Poule H"]
+          }
+        ],
+        tour3Matches: [
+          {
+            matchName: "Match 1",
+            matchTag: "Places 17–20",
+            slots: ["1er Match 1 T2", "2e Match 1 T2", "1er Match 2 T2", "2e Match 2 T2"]
+          },
+          {
+            matchName: "Match 2",
+            matchTag: "Places 21–24",
+            slots: ["3e Match 1 T2", "4e Match 1 T2", "3e Match 2 T2", "4e Match 2 T2"]
+          },
+          {
+            matchName: "Match 3",
+            matchTag: "Places 25–28",
+            slots: ["1er Match 3 T2", "2e Match 3 T2", "1er Match 4 T2", "2e Match 4 T2"]
+          },
+          {
+            matchName: "Match 4",
+            matchTag: "Places 29–32",
+            slots: ["3e Match 3 T2", "4e Match 3 T2", "3e Match 4 T2", "4e Match 4 T2"]
+          }
         ]
       },
       {
-        label: "Match 3",
-        desc: `3es ${A}+${C} · 4es ${B}+${D}`,
-        slots: [
-          { origin: `3e Poule ${A}`,  name: names[2][0] },
-          { origin: `4e Poule ${B}`,  name: names[2][1] },
-          { origin: `3e Poule ${C}`,  name: names[2][2] },
-          { origin: `4e Poule ${D}`,  name: names[2][3] }
-        ]
-      },
-      {
-        label: "Match 4",
-        desc: `4es ${A}+${C} · 3es ${B}+${D}`,
-        slots: [
-          { origin: `4e Poule ${A}`,  name: names[3][0] },
-          { origin: `3e Poule ${B}`,  name: names[3][1] },
-          { origin: `4e Poule ${C}`,  name: names[3][2] },
-          { origin: `3e Poule ${D}`,  name: names[3][3] }
-        ]
-      }
-    ];
-  }
-
-  function tour3Config(offset, names) {
-    const o = offset;
-
-    return [
-      {
-        label: "Match 1",
-        places: `Places ${o + 1} à ${o + 4}`,
-        slots: [
-          { origin: "1er Match 1 T2", name: names[0][0] },
-          { origin: "2e Match 1 T2",  name: names[0][1] },
-          { origin: "1er Match 2 T2", name: names[0][2] },
-          { origin: "2e Match 2 T2",  name: names[0][3] }
-        ]
-      },
-      {
-        label: "Match 2",
-        places: `Places ${o + 5} à ${o + 8}`,
-        slots: [
-          { origin: "3e Match 1 T2", name: names[1][0] },
-          { origin: "4e Match 1 T2", name: names[1][1] },
-          { origin: "3e Match 2 T2", name: names[1][2] },
-          { origin: "4e Match 2 T2", name: names[1][3] }
-        ]
-      },
-      {
-        label: "Match 3",
-        places: `Places ${o + 9} à ${o + 12}`,
-        slots: [
-          { origin: "1er Match 3 T2", name: names[2][0] },
-          { origin: "2e Match 3 T2",  name: names[2][1] },
-          { origin: "1er Match 4 T2", name: names[2][2] },
-          { origin: "2e Match 4 T2",  name: names[2][3] }
-        ]
-      },
-      {
-        label: "Match 4",
-        places: `Places ${o + 13} à ${o + 16}`,
-        slots: [
-          { origin: "3e Match 3 T2", name: names[3][0] },
-          { origin: "4e Match 3 T2", name: names[3][1] },
-          { origin: "3e Match 4 T2", name: names[3][2] },
-          { origin: "4e Match 4 T2", name: names[3][3] }
+        tableNumber: 3,
+        tableTitle: "Tableau 3",
+        placesLabel: "Places 33 à 48",
+        groups: [
+          {
+            groupName: "Poule I",
+            matchDateTime: "12/04 - 18h00",
+            players: ["Julien", "Marine", "Kevin", "Élisa"]
+          },
+          {
+            groupName: "Poule J",
+            matchDateTime: "12/04 - 18h30",
+            players: ["Matteo", "Amandine", "Alexis", "Lola"]
+          },
+          {
+            groupName: "Poule K",
+            matchDateTime: "12/04 - 19h00",
+            players: ["Victor", "Margot", "Pierre", "Céline"]
+          },
+          {
+            groupName: "Poule L",
+            matchDateTime: "12/04 - 19h30",
+            players: ["Florian", "Océane", "Sébastien", "Aurélie"]
+          }
+        ],
+        tour2Matches: [
+          {
+            matchName: "Match 1",
+            matchTag: "1ers I+K · 2es J+L",
+            slots: ["1er Poule I", "2e Poule J", "1er Poule K", "2e Poule L"]
+          },
+          {
+            matchName: "Match 2",
+            matchTag: "2es I+K · 1ers J+L",
+            slots: ["2e Poule I", "1er Poule J", "2e Poule K", "1er Poule L"]
+          },
+          {
+            matchName: "Match 3",
+            matchTag: "3es I+K · 4es J+L",
+            slots: ["3e Poule I", "4e Poule J", "3e Poule K", "4e Poule L"]
+          },
+          {
+            matchName: "Match 4",
+            matchTag: "4es I+K · 3es J+L",
+            slots: ["4e Poule I", "3e Poule J", "4e Poule K", "3e Poule L"]
+          }
+        ],
+        tour3Matches: [
+          {
+            matchName: "Match 1",
+            matchTag: "Places 33–36",
+            slots: ["1er Match 1 T2", "2e Match 1 T2", "1er Match 2 T2", "2e Match 2 T2"]
+          },
+          {
+            matchName: "Match 2",
+            matchTag: "Places 37–40",
+            slots: ["3e Match 1 T2", "4e Match 1 T2", "3e Match 2 T2", "4e Match 2 T2"]
+          },
+          {
+            matchName: "Match 3",
+            matchTag: "Places 41–44",
+            slots: ["1er Match 3 T2", "2e Match 3 T2", "1er Match 4 T2", "2e Match 4 T2"]
+          },
+          {
+            matchName: "Match 4",
+            matchTag: "Places 45–48",
+            slots: ["3e Match 3 T2", "4e Match 3 T2", "3e Match 4 T2", "4e Match 4 T2"]
+          }
         ]
       }
     ];
-  }
 
-  const tour1Icons = ["⭐", "🚗", "🏁", "🍄", "🐢", "💫", "🌟", "🚀"];
-  const tour2Icons = ["🔥", "🎮", "⚡", "🏎️", "🛞", "🌀", "🎯", "🟢"];
-  const tour3Icons = ["1", "2", "3", "4"];
+    const KART_EMOJI = ["🏎️","🚗","🌟","💫","🔥","⚡","🎯","🎮","🌈","🍄","🐢","🌀","🚀","💥","🎲","🎪"];
+    const TOUR3_EMOJI = ["🦊","🐉","🦁","🐸","🦋","🌊","🔮","🎸","🎃","🍕","🦄","🐙","🌙","☄️","🦅","🎺"];
+    const rng = arr => arr[Math.floor(Math.random() * arr.length)];
 
-  function getIcon(list, index) {
-    return list[index % list.length];
-  }
+    const SCHEMES = [
+      ["blue","red","yellow"],
+      ["red","yellow","blue"],
+      ["yellow","blue","red"]
+    ];
 
-  const container = document.getElementById("brackets-container");
+    const NUM_CLS = ["num-blue","num-red","num-yellow"];
+    const BADGE_CLS = ["badge-blue","badge-red","badge-yellow"];
 
-  brackets.forEach((b, bi) => {
-    const placeOffset = bi * 16;
-    const tour2 = tour2Config(b.groups, b.names.tour2);
-    const tour3 = tour3Config(placeOffset, b.names.tour3);
+    const container = document.getElementById('brackets-container');
 
-    const section = document.createElement("section");
-    section.className = "bracket-section";
+    BRACKETS.forEach((bracket, bi) => {
+      const cs = SCHEMES[bi];
 
-    section.innerHTML = `
-      <div class="section-header">
-        <div class="section-number ${b.colorClass}">${b.id}</div>
-        <div class="section-info">
-          <h2>${b.label}</h2>
-          <p>${b.places}</p>
-        </div>
-        <div class="section-badge ${b.badgeClass}">${b.places.toUpperCase()}</div>
-      </div>
+      const section = document.createElement('section');
+      section.className = 'bracket-section';
 
-      <div class="legend">
-        <div class="legend-item">
-          <div class="legend-dot" style="background:#0052A5"></div>
-          Tour 1 — Poules
-        </div>
-        <div class="legend-item">
-          <div class="legend-dot" style="background:#E8001D"></div>
-          Tour 2 — Qualifs croisées
-        </div>
-        <div class="legend-item">
-          <div class="legend-dot" style="background:#FFD700"></div>
-          Tour 3 — Classement final
-        </div>
-      </div>
-    `;
-
-    const layout = document.createElement("div");
-    layout.className = "bracket-layout";
-
-    const col1 = document.createElement("div");
-    col1.className = "tour-col";
-    col1.innerHTML = `<div class="tour-col-inner"></div>`;
-    const col1Inner = col1.querySelector(".tour-col-inner");
-
-    const col1Label = document.createElement("div");
-    col1Label.className = `tour-label ${b.tour1LabelClass}`;
-    col1Label.textContent = "🏁 TOUR 1 — POULES";
-    col1Inner.appendChild(col1Label);
-
-    b.groups.forEach((groupName, groupIndex) => {
-      const card = document.createElement("div");
-      card.className = `group-card ${b.tour1CardClass}`;
-      card.innerHTML = `
-        <div class="group-header ${b.groupHeaderClass}">
-          <span class="group-name">Poule ${groupName}</span>
-        </div>
-        ${b.names.tour1[groupIndex].map((playerName, playerIndex) => `
-          <div class="player-row">
-            <span class="player-rank">${playerIndex + 1}</span>
-            <span class="player-kart">${getIcon(tour1Icons, groupIndex * 4 + playerIndex)}</span>
-            <span class="player-name">${playerName}</span>
-            <span class="player-score">—</span>
+      section.innerHTML = `
+        <div class="section-header">
+          <div class="section-number ${NUM_CLS[bi]}">${bracket.tableNumber}</div>
+          <div class="section-info">
+            <h2>${bracket.tableTitle}</h2>
+            <p>${bracket.placesLabel}</p>
           </div>
-        `).join("")}
+          <div class="section-badge ${BADGE_CLS[bi]}">${bracket.placesLabel.toUpperCase()}</div>
+        </div>
+
+        <div class="legend">
+          <div class="legend-item">
+            <div class="legend-dot" style="background:var(--${cs[0]})"></div>
+            Tour 1 — Poules (4 × 4 joueurs)
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:var(--${cs[1]})"></div>
+            Tour 2 — Qualifications croisées
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:var(--${cs[2]})"></div>
+            Tour 3 — Classement final
+          </div>
+        </div>
       `;
-      col1Inner.appendChild(card);
+
+      const layout = document.createElement('div');
+      layout.className = 'bracket-layout';
+
+      // TOUR 1
+      const col1 = document.createElement('div');
+      col1.className = 'tour-col';
+      col1.innerHTML = `<div class="tour-label lbl-${cs[0]}">🏁 Tour 1 — Poules</div>`;
+
+      bracket.groups.forEach(group => {
+        const card = document.createElement('div');
+        card.className = 'group-card';
+        card.innerHTML = `
+          <div class="card-header hdr-${cs[0]}">
+            <span class="card-title">${group.groupName}</span>
+            <span class="card-tag">${group.matchDateTime}</span>
+          </div>
+          ${group.players.map((player, i) => `
+            <div class="card-row">
+              <span class="row-rank">${i + 1}</span>
+              <span class="row-emoji">${rng(KART_EMOJI)}</span>
+              <span class="row-name">${player}</span>
+              <span class="row-score">—</span>
+            </div>
+          `).join('')}
+        `;
+        col1.appendChild(card);
+      });
+
+      // CONNECTOR 1→2
+      const conn1 = document.createElement('div');
+      conn1.className = 'connector-col';
+      conn1.innerHTML = makeSVG(cs[0], 4);
+
+      // TOUR 2
+      const col2 = document.createElement('div');
+      col2.className = 'tour-col';
+      col2.innerHTML = `<div class="tour-label lbl-${cs[1]}">🔀 Tour 2 — Qualifs croisées</div>`;
+
+      bracket.tour2Matches.forEach(match => {
+        const card = document.createElement('div');
+        card.className = 'match-card';
+        card.innerHTML = `
+          <div class="card-header hdr-${cs[1]}">
+            <span class="card-title">${match.matchName}</span>
+            <span class="card-tag">${match.matchTag}</span>
+          </div>
+          ${match.slots.map(slot => `
+            <div class="card-row">
+              <span class="row-origin">${slot}</span>
+              <span class="row-emoji">${rng(KART_EMOJI)}</span>
+              <span class="row-name">—</span>
+            </div>
+          `).join('')}
+        `;
+        col2.appendChild(card);
+      });
+
+      // CONNECTOR 2→3
+      const conn2 = document.createElement('div');
+      conn2.className = 'connector-col';
+      conn2.innerHTML = makeSVG(cs[2], 4);
+
+      // TOUR 3
+      const col3 = document.createElement('div');
+      col3.className = 'tour-col';
+      col3.innerHTML = `<div class="tour-label lbl-${cs[2]}">🏆 Tour 3 — Classement final</div>`;
+
+      bracket.tour3Matches.forEach(match => {
+        const card = document.createElement('div');
+        card.className = 'match-card';
+        card.innerHTML = `
+          <div class="card-header hdr-${cs[2]}">
+            <span class="card-title">${match.matchName}</span>
+            <span class="card-tag">${match.matchTag}</span>
+          </div>
+          ${match.slots.map(slot => `
+            <div class="card-row">
+              <span class="row-origin">${slot}</span>
+              <span class="row-emoji">${rng(TOUR3_EMOJI)}</span>
+              <span class="row-name">—</span>
+            </div>
+          `).join('')}
+        `;
+        col3.appendChild(card);
+      });
+
+      layout.appendChild(col1);
+      layout.appendChild(conn1);
+      layout.appendChild(col2);
+      layout.appendChild(conn2);
+      layout.appendChild(col3);
+
+      section.appendChild(layout);
+      container.appendChild(section);
+
+      if (bi < BRACKETS.length - 1) {
+        const sep = document.createElement('div');
+        sep.className = 'section-sep';
+        container.appendChild(sep);
+      }
     });
 
-    const conn1 = document.createElement("div");
-    conn1.className = "connector-col";
-    conn1.innerHTML = buildConnectorSVG(b.connector1Color);
+    function makeSVG(colorName, count) {
+      const map = {
+        blue: '#0052A5',
+        red: '#E8001D',
+        yellow: '#FFD700'
+      };
 
-    const col2 = document.createElement("div");
-    col2.className = "tour-col";
-    col2.innerHTML = `<div class="tour-col-inner"></div>`;
-    const col2Inner = col2.querySelector(".tour-col-inner");
+      const c = map[colorName] || '#fff';
+      const h = count * 118;
 
-    const col2Label = document.createElement("div");
-    col2Label.className = `tour-label ${b.tour2LabelClass}`;
-    col2Label.textContent = "🔴 TOUR 2 — QUALIFS CROISÉES";
-    col2Inner.appendChild(col2Label);
-
-    tour2.forEach((match, matchIndex) => {
-      const card = document.createElement("div");
-      card.className = `match-card ${b.tour2CardClass}`;
-      card.innerHTML = `
-        <div class="match-header ${b.tour2HeaderClass}">
-          <span class="match-label">${match.label}</span>
-          <span class="match-desc tour2-desc">${match.desc}</span>
-        </div>
-        ${match.slots.map((slot, slotIndex) => `
-          <div class="match-slot">
-            <span class="slot-origin">${slot.origin}</span>
-            <span class="slot-kart">${getIcon(tour2Icons, matchIndex * 4 + slotIndex)}</span>
-            <span class="slot-name">${slot.name}</span>
-          </div>
-        `).join("")}
+      return `
+        <svg width="40" height="${h}" viewBox="0 0 40 ${h}" fill="none"
+             xmlns="http://www.w3.org/2000/svg" style="display:block;margin-top:46px;">
+          ${[0,1,2,3].map(i => {
+            const y = i * (h / 4) + h / 8;
+            return `
+              <line x1="0" y1="${y}" x2="40" y2="${y}"
+                    stroke="${c}" stroke-width="1.5" stroke-opacity="0.45" stroke-dasharray="4 3"/>
+              <circle cx="3" cy="${y}" r="3" fill="${c}" fill-opacity="0.55"/>
+              <circle cx="37" cy="${y}" r="3" fill="${c}" fill-opacity="0.55"/>
+            `;
+          }).join('')}
+          <line x1="20" y1="${h * 0.09}" x2="20" y2="${h * 0.91}"
+                stroke="${c}" stroke-width="1" stroke-opacity="0.12"/>
+        </svg>
       `;
-      col2Inner.appendChild(card);
-    });
-
-    const conn2 = document.createElement("div");
-    conn2.className = "connector-col";
-    conn2.innerHTML = buildConnectorSVG(b.connector2Color);
-
-    const col3 = document.createElement("div");
-    col3.className = "tour-col";
-    col3.innerHTML = `<div class="tour-col-inner"></div>`;
-    const col3Inner = col3.querySelector(".tour-col-inner");
-
-    const col3Label = document.createElement("div");
-    col3Label.className = `tour-label ${b.tour3LabelClass}`;
-    col3Label.textContent = "🏆 TOUR 3 — CLASSEMENT FINAL";
-    col3Inner.appendChild(col3Label);
-
-    tour3.forEach((match) => {
-      const card = document.createElement("div");
-      card.className = `match-card ${b.tour3CardClass}`;
-      card.innerHTML = `
-        <div class="match-header ${b.tour3HeaderClass}">
-          <span class="match-label">${match.label}</span>
-          <span class="match-desc tour3-desc">${match.places}</span>
-        </div>
-        ${match.slots.map((slot, slotIndex) => `
-          <div class="match-slot">
-            <span class="slot-origin">${slot.origin}</span>
-            <span class="slot-kart">${tour3Icons[slotIndex]}</span>
-            <span class="slot-name">${slot.name}</span>
-          </div>
-        `).join("")}
-      `;
-      col3Inner.appendChild(card);
-    });
-
-    layout.appendChild(col1);
-    layout.appendChild(conn1);
-    layout.appendChild(col2);
-    layout.appendChild(conn2);
-    layout.appendChild(col3);
-
-    section.appendChild(layout);
-    container.appendChild(section);
-
-    if (bi < brackets.length - 1) {
-      const sep = document.createElement("div");
-      sep.className = "section-sep";
-      container.appendChild(sep);
     }
-  });
-
-  function buildConnectorSVG(color) {
-    const cardHeight = 188;
-    const gap = 16;
-    const totalHeight = cardHeight * 4 + gap * 3;
-
-    const centers = [0, 1, 2, 3].map(i => (cardHeight / 2) + i * (cardHeight + gap));
-
-    return `
-      <svg width="52" height="${totalHeight}" viewBox="0 0 52 ${totalHeight}" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
-        ${centers.map(y => `
-          <line x1="4" y1="${y}" x2="48" y2="${y}" stroke="${color}" stroke-width="1.6" stroke-opacity="0.46" stroke-dasharray="4 4"/>
-          <circle cx="4" cy="${y}" r="3" fill="${color}" fill-opacity="0.62"/>
-          <circle cx="48" cy="${y}" r="3" fill="${color}" fill-opacity="0.62"/>
-        `).join("")}
-        <line x1="26" y1="18" x2="26" y2="${totalHeight - 18}" stroke="${color}" stroke-width="1" stroke-opacity="0.14"/>
-      </svg>
-    `;
-  }
-</script>
+  </script>
 </body>
 </html>
