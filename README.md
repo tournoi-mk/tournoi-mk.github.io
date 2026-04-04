@@ -1,1 +1,1 @@
-# TournoiMK.github.io
+# tournoi-mk.github.io
