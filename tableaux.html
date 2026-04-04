@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Tableaux</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: white;
+}
+
+h1 {
+    text-align: center;
+    margin: 30px;
+}
+
+.section {
+    margin: 40px;
+}
+
+.tableau {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+}
+
+.round {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.match {
+    background: #334155;
+    padding: 10px;
+    border-radius: 8px;
+    width: 200px;
+}
+
+.match h4 {
+    margin: 5px 0;
+    color: #60a5fa;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Tableaux de résultats</h1>
+
+<!-- TABLEAU 1 -->
+<div class="section">
+<h2>Tableau places 1 à 16</h2>
+
+<div class="tableau">
+
+<h3>1er tour</h3>
+<div class="round">
+<div class="match"><h4>Poule A</h4>Joueur 1<br>Joueur 2<br>Joueur 3<br>Joueur 4</div>
+<div class="match"><h4>Poule B</h4>...</div>
+<div class="match"><h4>Poule C</h4>...</div>
+<div class="match"><h4>Poule D</h4>...</div>
+</div>
+
+<h3>2e tour</h3>
+<div class="round">
+<div class="match"><h4>Match 1</h4>A1, C1, B2, D2</div>
+<div class="match"><h4>Match 2</h4>A2, C2, B1, D1</div>
+<div class="match"><h4>Match 3</h4>A3, C3, B4, D4</div>
+<div class="match"><h4>Match 4</h4>A4, C4, B3, D3</div>
+</div>
+
+<h3>3e tour (classement final)</h3>
+<div class="round">
+<div class="match"><h4>Places 1-4</h4>Top matchs 1 & 2</div>
+<div class="match"><h4>Places 5-8</h4>Bas matchs 1 & 2</div>
+<div class="match"><h4>Places 9-12</h4>Top matchs 3</div>
+<div class="match"><h4>Places 13-16</h4>Bas matchs 3</div>
+</div>
+
+</div>
+</div>
+
+<!-- TABLEAU 2 -->
+<div class="section">
+<h2>Tableau places 17 à 32</h2>
+<div class="tableau">Même structure que le tableau 1</div>
+</div>
+
+<!-- TABLEAU 3 -->
+<div class="section">
+<h2>Tableau places 33 à 48</h2>
+<div class="tableau">Même structure que le tableau 1</div>
+</div>
+
+</body>
+</html>
