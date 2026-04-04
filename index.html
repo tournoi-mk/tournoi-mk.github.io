@@ -1,10 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Mon premier site</title>
+<meta charset="UTF-8">
+<title>Tournoi Mario Kart</title>
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e3a8a);
+    color: white;
+    text-align: center;
+}
+
+h1 {
+    margin-top: 50px;
+    font-size: 3em;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 80px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: white;
+    color: black;
+    padding: 30px;
+    border-radius: 15px;
+    width: 220px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    background: #ef4444;
+    color: white;
+}
+</style>
 </head>
+
 <body>
-    <h1>Bienvenue sur mon site !</h1>
-    <p>Ceci est mon premier site créé avec GitHub 🎉</p>
+
+<h1>Tournoi interne Mario Kart</h1>
+
+<div class="container">
+    <a class="card" href="resultats.html">Tableaux de résultats</a>
+    <a class="card" href="#">Faire des paris</a>
+    <a class="card" href="#">Règles du jeu</a>
+</div>
+
 </body>
 </html>
