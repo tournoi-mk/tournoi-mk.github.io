@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableaux de Résultats — Mario Kart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Exo+2:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #E8001D;
+      --blue: #0052A5;
+      --yellow: #FFD700;
+      --white: #FFFFFF;
+      --dark: #07071a;
+      --card-bg: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.1);
+      --red-glow: rgba(232,0,29,0.5);
+      --blue-glow: rgba(0,82,165,0.5);
+      --tour1: #0052A5;
+      --tour2: #E8001D;
+      --tour3: #FFD700;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--dark);
+      font-family: 'Exo 2', sans-serif;
+      color: var(--white);
+      min-height: 100vh;
+    }
+
+    /* ── BG ── */
+    .bg {
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0,82,165,0.2), transparent 70%),
+        radial-gradient(ellipse 50% 40% at 100% 100%, rgba(232,0,29,0.12), transparent 60%),
+        linear-gradient(180deg, #060610 0%, #0A0A1E 100%);
+    }
+    .bg::before {
+      content:'';
+      position:absolute;inset:0;
+      background-image:
+        repeating-linear-gradient(90deg,transparent 0,transparent 79px,rgba(255,255,255,0.018) 79px,rgba(255,255,255,0.018) 80px),
+        repeating-linear-gradient(180deg,transparent 0,transparent 79px,rgba(255,255,255,0.018) 79px,rgba(255,255,255,0.018) 80px);
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      position: sticky; top: 0; z-index: 100;
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      height: 64px;
+      background: rgba(7,7,26,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(232,0,29,0.3);
+      box-shadow: 0 4px 32px rgba(0,0,0,0.5);
+    }
+    .brand {
+      font-family: 'Russo One', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      color: var(--yellow);
+      text-shadow: 0 0 12px rgba(255,215,0,0.6);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .brand span { color: rgba(255,255,255,0.5); }
+    .top-title {
+      flex: 1;
+      text-align: center;
+      font-family: 'Russo One', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.15em;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+    .back-btn {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      white-space: nowrap;
+      transition: color 0.2s;
+    }
+    .back-btn:hover { color: var(--red); }
+
+    /* ── PAGE CONTENT ── */
+    .page { position: relative; z-index: 1; padding: 40px 20px 80px; }
+
+    /* ── BRACKET SECTION ── */
+    .bracket-section {
+      max-width: 1400px;
+      margin: 0 auto 72px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 36px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .section-number {
+      font-family: 'Russo One', sans-serif;
+      font-size: 3rem;
+      line-height: 1;
+    }
+    .section-number.t1 { color: var(--blue); text-shadow: 0 0 20px var(--blue-glow); }
+    .section-number.t2 { color: var(--red);  text-shadow: 0 0 20px var(--red-glow); }
+    .section-number.t3 { color: var(--yellow); text-shadow: 0 0 20px rgba(255,215,0,0.6); }
+
+    .section-info h2 {
+      font-family: 'Russo One', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.06em;
+    }
+    .section-info p {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+    .section-badge {
+      margin-left: auto;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-family: 'Russo One', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+    }
+    .badge-blue { background: rgba(0,82,165,0.3); border: 1px solid var(--blue); color: #6eb4ff; }
+    .badge-red  { background: rgba(232,0,29,0.3);  border: 1px solid var(--red);  color: #ff8090; }
+    .badge-gold { background: rgba(255,215,0,0.2);  border: 1px solid var(--yellow); color: var(--yellow); }
+
+    /* ── BRACKET LAYOUT ── */
+    .bracket-layout {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      gap: 0;
+      align-items: start;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    /* ── TOUR COLUMN ── */
+    .tour-col {
+      min-width: 200px;
+    }
+    .tour-label {
+      font-family: 'Russo One', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 8px 12px;
+      border-radius: 6px 6px 0 0;
+      margin-bottom: 16px;
+    }
+    .lbl-t1 { background: rgba(0,82,165,0.3);  color: #6eb4ff;  border: 1px solid rgba(0,82,165,0.5); }
+    .lbl-t2 { background: rgba(232,0,29,0.3);  color: #ff8090;  border: 1px solid rgba(232,0,29,0.5); }
+    .lbl-t3 { background: rgba(255,215,0,0.2); color: #ffd700;  border: 1px solid rgba(255,215,0,0.4); }
+
+    /* ── CONNECTOR COLUMN ── */
+    .connector-col {
+      width: 48px;
+      align-self: stretch;
+      position: relative;
+    }
+
+    /* ── GROUP CARD ── */
+    .group-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .group-card:hover {
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .group-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+    }
+    .gh-blue { background: rgba(0,82,165,0.25); border-bottom: 1px solid rgba(0,82,165,0.3); }
+    .gh-red  { background: rgba(232,0,29,0.2);  border-bottom: 1px solid rgba(232,0,29,0.3); }
+    .gh-gold { background: rgba(255,215,0,0.12); border-bottom: 1px solid rgba(255,215,0,0.3); }
+
+    .group-name {
+      font-family: 'Russo One', sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.12em;
+    }
+    .group-tag {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.1em;
+      margin-left: auto;
+    }
+
+    /* ── PLAYER ROW ── */
+    .player-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: background 0.15s;
+    }
+    .player-row:last-child { border-bottom: none; }
+    .player-row:hover { background: rgba(255,255,255,0.05); }
+
+    .player-rank {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.25);
+      font-weight: 700;
+      width: 14px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .player-kart {
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .player-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: rgba(255,255,255,0.85);
+      flex: 1;
+    }
+    .player-score {
+      font-family: 'Russo One', sans-serif;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.2);
+      min-width: 24px;
+      text-align: right;
+    }
+
+    /* ── MATCH CARD (tour 2 & 3) ── */
+    .match-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .match-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+    }
+    .mh-red  { background: rgba(232,0,29,0.2);  border-bottom: 1px solid rgba(232,0,29,0.3); }
+    .mh-gold { background: rgba(255,215,0,0.12); border-bottom: 1px solid rgba(255,215,0,0.3); }
+
+    .match-label {
+      font-family: 'Russo One', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+    }
+    .match-desc {
+      font-size: 0.6rem;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.06em;
+      margin-left: auto;
+      text-align: right;
+    }
+
+    .match-slot {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .match-slot:last-child { border-bottom: none; }
+    .slot-origin {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.25);
+      width: 72px;
+      flex-shrink: 0;
+      letter-spacing: 0.04em;
+    }
+    .slot-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.75);
+      flex: 1;
+    }
+    .slot-kart { font-size: 0.9rem; flex-shrink: 0; }
+
+    /* ── PODIUM (tour 3 finale) ── */
+    .podium-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.6rem;
+      font-family: 'Russo One', sans-serif;
+      letter-spacing: 0.08em;
+      margin-left: 6px;
+    }
+    .pod-1 { background: rgba(255,215,0,0.25); color: var(--yellow); border:1px solid rgba(255,215,0,0.5);}
+    .pod-2 { background: rgba(192,192,192,0.2); color: #ccc; border:1px solid rgba(200,200,200,0.4);}
+    .pod-3 { background: rgba(205,127,50,0.2);  color: #cd7f32; border:1px solid rgba(205,127,50,0.4);}
+
+    /* ── SVG CONNECTORS ── */
+    .svg-connector {
+      width: 48px;
+      overflow: visible;
+    }
+
+    /* ── LEGEND ── */
+    .legend {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      padding: 14px 20px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 8px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+    }
+    .legend-dot {
+      width: 10px; height: 10px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ── SEPARATOR ── */
+    .section-sep {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+      margin: 0 0 72px;
+    }
+
+    /* ── TOUR WRAPPER ── */
+    .tour-groups { display: flex; flex-direction: column; gap: 0; }
+
+    /* Spacing between groups in tour1 to align with tour2 matches */
+    .tour1-col .group-card { margin-bottom: 12px; }
+    .tour2-col .match-card { margin-bottom: 12px; }
+    .tour3-col .match-card { margin-bottom: 12px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .bracket-layout { grid-template-columns: 1fr; }
+      .connector-col  { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg"></div>
+
+<div class="top-bar">
+  <a href="index.html" class="brand">🏆 <span>TOURNOI INTERNE</span> MARIO KART</a>
+  <div class="top-title">Tableaux de résultats</div>
+  <a href="index.html" class="back-btn">← Accueil</a>
+</div>
+
+<div class="page">
+
+  <!-- ═══════════════════════════════════════════════════════ BRACKET HELPER LOGIC -->
+  <!-- We generate 3 identical bracket structures with JS below -->
+
+  <div id="brackets-container"></div>
+
+</div>
+
+<script>
+  // ─── DATA ───────────────────────────────────────────────────────────────────
+  // 3 brackets × 4 groups × 4 players
+  const PLACEHOLDER = "W. W.";
+
+  const brackets = [
+    {
+      id: 1,
+      label: "Tableau 1",
+      places: "Places 1 à 16",
+      colorClass: "t1",
+      labelClass: "lbl-t1",
+      badgeClass: "badge-blue",
+      ghClass: "gh-blue",
+      mhClass: "mh-red",
+      mhFinalClass: "mh-gold",
+      groups: ["A","B","C","D"],
+    },
+    {
+      id: 2,
+      label: "Tableau 2",
+      places: "Places 17 à 32",
+      colorClass: "t2",
+      labelClass: "lbl-t2",
+      badgeClass: "badge-red",
+      ghClass: "gh-red",
+      mhClass: "mh-red",
+      mhFinalClass: "mh-gold",
+      groups: ["E","F","G","H"],
+    },
+    {
+      id: 3,
+      label: "Tableau 3",
+      places: "Places 33 à 48",
+      colorClass: "t3",
+      labelClass: "lbl-t3",
+      badgeClass: "badge-gold",
+      ghClass: "gh-gold",
+      mhClass: "mh-red",
+      mhFinalClass: "mh-gold",
+      groups: ["I","J","K","L"],
+    },
+  ];
+
+  // Tour 2 match descriptors
+  // match 1: 1ers A+C, 2es B+D
+  // match 2: 2es A+C, 1ers B+D
+  // match 3: 3es A+C, 4es B+D
+  // match 4: 4es A+C, 3es B+D
+  function tour2Config(g) {
+    const [A,B,C,D] = g;
+    return [
+      {
+        label: "Match 1",
+        desc: `1ers ${A}+${C} · 2es ${B}+${D}`,
+        slots: [
+          { origin: `1er Poule ${A}`, name: PLACEHOLDER },
+          { origin: `2e Poule ${B}`,  name: PLACEHOLDER },
+          { origin: `1er Poule ${C}`, name: PLACEHOLDER },
+          { origin: `2e Poule ${D}`,  name: PLACEHOLDER },
+        ]
+      },
+      {
+        label: "Match 2",
+        desc: `2es ${A}+${C} · 1ers ${B}+${D}`,
+        slots: [
+          { origin: `2e Poule ${A}`,  name: PLACEHOLDER },
+          { origin: `1er Poule ${B}`, name: PLACEHOLDER },
+          { origin: `2e Poule ${C}`,  name: PLACEHOLDER },
+          { origin: `1er Poule ${D}`, name: PLACEHOLDER },
+        ]
+      },
+      {
+        label: "Match 3",
+        desc: `3es ${A}+${C} · 4es ${B}+${D}`,
+        slots: [
+          { origin: `3e Poule ${A}`,  name: PLACEHOLDER },
+          { origin: `4e Poule ${B}`,  name: PLACEHOLDER },
+          { origin: `3e Poule ${C}`,  name: PLACEHOLDER },
+          { origin: `4e Poule ${D}`,  name: PLACEHOLDER },
+        ]
+      },
+      {
+        label: "Match 4",
+        desc: `4es ${A}+${C} · 3es ${B}+${D}`,
+        slots: [
+          { origin: `4e Poule ${A}`,  name: PLACEHOLDER },
+          { origin: `3e Poule ${B}`,  name: PLACEHOLDER },
+          { origin: `4e Poule ${C}`,  name: PLACEHOLDER },
+          { origin: `3e Poule ${D}`,  name: PLACEHOLDER },
+        ]
+      },
+    ];
+  }
+
+  // Tour 3 finals
+  // Match 1 (places 1-4):  2 premiers M1 + 2 premiers M2
+  // Match 2 (places 5-8):  2 derniers M1 + 2 derniers M2
+  // Match 3 (places 9-12): 2 premiers M3 + 2 premiers M4
+  // Match 4 (places 13-16):2 derniers M3 + 2 derniers M4
+  function tour3Config(offset) {
+    const o = offset; // 0, 16, or 32
+    return [
+      {
+        label: "Match 1",
+        places: `Places ${o+1} à ${o+4}`,
+        slots: [
+          { origin: "1er Match 1 T2", name: PLACEHOLDER },
+          { origin: "2e Match 1 T2",  name: PLACEHOLDER },
+          { origin: "1er Match 2 T2", name: PLACEHOLDER },
+          { origin: "2e Match 2 T2",  name: PLACEHOLDER },
+        ]
+      },
+      {
+        label: "Match 2",
+        places: `Places ${o+5} à ${o+8}`,
+        slots: [
+          { origin: "3e Match 1 T2", name: PLACEHOLDER },
+          { origin: "4e Match 1 T2", name: PLACEHOLDER },
+          { origin: "3e Match 2 T2", name: PLACEHOLDER },
+          { origin: "4e Match 2 T2", name: PLACEHOLDER },
+        ]
+      },
+      {
+        label: "Match 3",
+        places: `Places ${o+9} à ${o+12}`,
+        slots: [
+          { origin: "1er Match 3 T2", name: PLACEHOLDER },
+          { origin: "2e Match 3 T2",  name: PLACEHOLDER },
+          { origin: "1er Match 4 T2", name: PLACEHOLDER },
+          { origin: "2e Match 4 T2",  name: PLACEHOLDER },
+        ]
+      },
+      {
+        label: "Match 4",
+        places: `Places ${o+13} à ${o+16}`,
+        slots: [
+          { origin: "3e Match 3 T2", name: PLACEHOLDER },
+          { origin: "4e Match 3 T2", name: PLACEHOLDER },
+          { origin: "3e Match 4 T2", name: PLACEHOLDER },
+          { origin: "4e Match 4 T2", name: PLACEHOLDER },
+        ]
+      },
+    ];
+  }
+
+  const karts = ["🏎️","🚗","🏁","⭐","🍄","🐢","🌟","💫"];
+  function randomKart() { return karts[Math.floor(Math.random()*karts.length)]; }
+
+  // ─── RENDER ─────────────────────────────────────────────────────────────────
+  const container = document.getElementById('brackets-container');
+
+  brackets.forEach((b, bi) => {
+    const placeOffset = bi * 16;
+    const tour2 = tour2Config(b.groups);
+    const tour3 = tour3Config(placeOffset);
+
+    const section = document.createElement('section');
+    section.className = 'bracket-section';
+
+    // -- HEADER
+    section.innerHTML = `
+      <div class="section-header">
+        <div class="section-number ${b.colorClass}">${b.id}</div>
+        <div class="section-info">
+          <h2>${b.label}</h2>
+          <p>${b.places}</p>
+        </div>
+        <div class="section-badge ${b.badgeClass}">${b.places.toUpperCase()}</div>
+      </div>
+
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#0052A5"></div>
+          Tour 1 — Poules (4 matchs de 4)
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#E8001D"></div>
+          Tour 2 — Demi-finales croisées
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#FFD700"></div>
+          Tour 3 — Classement final
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:rgba(255,255,255,0.2)"></div>
+          Places à confirmer
+        </div>
+      </div>
+    `;
+
+    // -- BRACKET LAYOUT
+    const layout = document.createElement('div');
+    layout.className = 'bracket-layout';
+
+    // COL 1 — TOUR 1
+    const col1 = document.createElement('div');
+    col1.className = 'tour-col tour1-col';
+    col1.innerHTML = `<div class="tour-label ${b.labelClass}">🏁 TOUR 1 — POULES</div>`;
+
+    b.groups.forEach((g, gi) => {
+      const card = document.createElement('div');
+      card.className = 'group-card';
+      card.innerHTML = `
+        <div class="group-header ${b.ghClass}">
+          <span class="group-name">Poule ${g}</span>
+          <span class="group-tag">4 JOUEURS · 1 MATCH</span>
+        </div>
+        ${[1,2,3,4].map(r => `
+          <div class="player-row">
+            <span class="player-rank">${r}</span>
+            <span class="player-kart">${randomKart()}</span>
+            <span class="player-name">${PLACEHOLDER}</span>
+            <span class="player-score">—</span>
+          </div>
+        `).join('')}
+      `;
+      col1.appendChild(card);
+    });
+
+    // COL CONNECTOR 1→2
+    const conn1 = document.createElement('div');
+    conn1.className = 'connector-col';
+    conn1.innerHTML = buildConnectorSVG(b.colorClass === 't1' ? '#0052A5' : b.colorClass === 't2' ? '#E8001D' : '#FFD700', 4);
+
+    // COL 2 — TOUR 2
+    const col2 = document.createElement('div');
+    col2.className = 'tour-col tour2-col';
+    col2.innerHTML = `<div class="tour-label lbl-t2">🔴 TOUR 2 — QUALIFS CROISÉES</div>`;
+
+    tour2.forEach((m) => {
+      const card = document.createElement('div');
+      card.className = 'match-card';
+      card.innerHTML = `
+        <div class="match-header ${b.mhClass}">
+          <span class="match-label">${m.label}</span>
+          <span class="match-desc">${m.desc}</span>
+        </div>
+        ${m.slots.map(s => `
+          <div class="match-slot">
+            <span class="slot-origin">${s.origin}</span>
+            <span class="slot-kart">${randomKart()}</span>
+            <span class="slot-name">${s.name}</span>
+          </div>
+        `).join('')}
+      `;
+      col2.appendChild(card);
+    });
+
+    // COL CONNECTOR 2→3
+    const conn2 = document.createElement('div');
+    conn2.className = 'connector-col';
+    conn2.innerHTML = buildConnectorSVG('#FFD700', 4);
+
+    // COL 3 — TOUR 3
+    const col3 = document.createElement('div');
+    col3.className = 'tour-col tour3-col';
+    col3.innerHTML = `<div class="tour-label lbl-t3">🏆 TOUR 3 — CLASSEMENT FINAL</div>`;
+
+    const placeEmojis = ['🥇','🥈','🥉','4️⃣'];
+
+    tour3.forEach((m, mi) => {
+      const card = document.createElement('div');
+      card.className = 'match-card';
+      card.innerHTML = `
+        <div class="match-header ${b.mhFinalClass}">
+          <span class="match-label">${m.label}</span>
+          <span class="match-desc">${m.places}</span>
+        </div>
+        ${m.slots.map((s, si) => `
+          <div class="match-slot">
+            <span class="slot-origin">${s.origin}</span>
+            <span class="slot-kart">${placeEmojis[si]}</span>
+            <span class="slot-name">${s.name}</span>
+          </div>
+        `).join('')}
+      `;
+      col3.appendChild(card);
+    });
+
+    layout.appendChild(col1);
+    layout.appendChild(conn1);
+    layout.appendChild(col2);
+    layout.appendChild(conn2);
+    layout.appendChild(col3);
+
+    section.appendChild(layout);
+    container.appendChild(section);
+
+    // Separator between brackets
+    if (bi < brackets.length - 1) {
+      const sep = document.createElement('div');
+      sep.className = 'section-sep';
+      container.appendChild(sep);
+    }
+  });
+
+  // ─── SVG CONNECTOR ──────────────────────────────────────────────────────────
+  function buildConnectorSVG(color, count) {
+    // Simple visual lines suggesting connections
+    const h = count * 100; // rough height
+    const alpha = '60';
+    return `
+      <svg width="48" height="${h}" viewBox="0 0 48 ${h}" fill="none" xmlns="http://www.w3.org/2000/svg"
+           style="display:block;margin-top:40px;">
+        ${[0,1,2,3].map(i => {
+          const y1 = i * (h/4) + h/8;
+          const y2 = i * (h/4) + h/8;
+          return `
+            <line x1="0" y1="${y1}" x2="48" y2="${y2}" stroke="${color}" stroke-width="1.5" stroke-opacity="0.4" stroke-dasharray="4 3"/>
+            <circle cx="4" cy="${y1}" r="3" fill="${color}" fill-opacity="0.5"/>
+            <circle cx="44" cy="${y2}" r="3" fill="${color}" fill-opacity="0.5"/>
+          `;
+        }).join('')}
+        <line x1="24" y1="${h*0.125}" x2="24" y2="${h*0.875}" stroke="${color}" stroke-width="1" stroke-opacity="0.15"/>
+      </svg>
+    `;
+  }
+</script>
+</body>
+</html>
