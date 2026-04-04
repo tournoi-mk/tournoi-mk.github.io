@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Règles du jeu — Mario Kart Tournoi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Exo+2:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red:#E8001D; --blue:#0052A5; --yellow:#FFD700;
+      --dark:#07071a; --red-glow:rgba(232,0,29,0.5); --blue-glow:rgba(0,82,165,0.5);
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:var(--dark);font-family:'Exo 2',sans-serif;color:#fff;min-height:100vh;}
+    .bg{position:fixed;inset:0;z-index:0;
+      background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(0,82,165,0.2),transparent 70%),
+        linear-gradient(180deg,#060610 0%,#0A0A1E 100%);
+    }
+    .top-bar{position:sticky;top:0;z-index:100;display:flex;align-items:center;padding:0 28px;height:64px;
+      background:rgba(7,7,26,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(232,0,29,0.3);}
+    .brand{font-family:'Russo One',sans-serif;font-size:0.9rem;letter-spacing:0.1em;color:var(--yellow);
+      text-decoration:none;text-shadow:0 0 12px rgba(255,215,0,0.6);}
+    .brand span{color:rgba(255,255,255,0.5);}
+    .top-title{flex:1;text-align:center;font-family:'Russo One',sans-serif;font-size:1.3rem;letter-spacing:0.15em;}
+    .back-btn{font-size:0.8rem;color:rgba(255,255,255,0.4);text-decoration:none;letter-spacing:0.1em;transition:color 0.2s;}
+    .back-btn:hover{color:var(--red);}
+    .page{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:48px 20px 80px;}
+    h1{font-family:'Russo One',sans-serif;font-size:2rem;text-align:center;color:var(--yellow);
+      text-shadow:0 0 20px rgba(255,215,0,0.5);margin-bottom:12px;}
+    .subtitle{text-align:center;color:rgba(255,255,255,0.4);letter-spacing:0.15em;font-size:0.85rem;
+      text-transform:uppercase;margin-bottom:48px;}
+    .rule-block{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);
+      border-radius:12px;padding:28px 32px;margin-bottom:24px;border-left:3px solid var(--red);}
+    .rule-block h2{font-family:'Russo One',sans-serif;font-size:1.1rem;letter-spacing:0.08em;
+      color:#ff8090;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+    .rule-block p, .rule-block li{color:rgba(255,255,255,0.7);line-height:1.7;font-size:0.92rem;}
+    .rule-block ul{padding-left:20px;}
+    .rule-block li{margin-bottom:6px;}
+    .rule-block.blue{border-left-color:var(--blue);}
+    .rule-block.blue h2{color:#6eb4ff;}
+    .rule-block.gold{border-left-color:var(--yellow);}
+    .rule-block.gold h2{color:var(--yellow);}
+  </style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="top-bar">
+  <a href="index.html" class="brand">🏆 <span>TOURNOI INTERNE</span> MARIO KART</a>
+  <div class="top-title">Règles du jeu</div>
+  <a href="index.html" class="back-btn">← Accueil</a>
+</div>
+<div class="page">
+  <h1>📋 RÈGLES DU JEU</h1>
+  <p class="subtitle">Tournoi interne Mario Kart · 48 joueurs</p>
+
+  <div class="rule-block">
+    <h2>🏎️ Format général</h2>
+    <ul>
+      <li>48 joueurs répartis en 3 tableaux de 16 personnes.</li>
+      <li>Chaque tableau détermine les places 1-16, 17-32 et 33-48.</li>
+      <li>Chaque match oppose <strong>4 joueurs</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="rule-block blue">
+    <h2>🔵 Tour 1 — Poules</h2>
+    <ul>
+      <li>4 poules (A, B, C, D) de 4 joueurs chacune.</li>
+      <li>Chaque joueur joue 1 match contre les 3 autres de sa poule.</li>
+      <li>Les joueurs sont classés de 1er à 4e au sein de leur poule.</li>
+    </ul>
+  </div>
+
+  <div class="rule-block">
+    <h2>🔴 Tour 2 — Qualifications croisées</h2>
+    <ul>
+      <li><strong>Match 1 :</strong> 1ers des poules A & C + 2es des poules B & D</li>
+      <li><strong>Match 2 :</strong> 2es des poules A & C + 1ers des poules B & D</li>
+      <li><strong>Match 3 :</strong> 3es des poules A & C + 4es des poules B & D</li>
+      <li><strong>Match 4 :</strong> 4es des poules A & C + 3es des poules B & D</li>
+    </ul>
+  </div>
+
+  <div class="rule-block gold">
+    <h2>🏆 Tour 3 — Classement final</h2>
+    <ul>
+      <li><strong>Match 1 (places 1-4) :</strong> 2 premiers des matchs 1 & 2 du tour 2</li>
+      <li><strong>Match 2 (places 5-8) :</strong> 2 derniers des matchs 1 & 2 du tour 2</li>
+      <li><strong>Match 3 (places 9-12) :</strong> 2 premiers des matchs 3 & 4 du tour 2</li>
+      <li><strong>Match 4 (places 13-16) :</strong> 2 derniers des matchs 3 & 4 du tour 2</li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>
