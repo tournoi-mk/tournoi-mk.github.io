@@ -116,7 +116,6 @@
       margin-bottom: 24px;
     }
 
-    /* INFO BOX */
     .info-box {
       background: linear-gradient(180deg, rgba(10,12,34,0.92) 0%, rgba(8,10,28,0.96) 100%);
       border: 1px solid rgba(255,255,255,0.10);
@@ -209,7 +208,6 @@
       line-height: 1.45;
     }
 
-    /* PHASE TABS */
     .phase-tabs {
       display: flex;
       gap: 20px;
@@ -243,7 +241,6 @@
       opacity: 0.35;
     }
 
-    /* SECTION TITLE */
     .section-title {
       font-family: 'Russo One', sans-serif;
       font-size: 1.2rem;
@@ -272,7 +269,6 @@
       margin-top: 8px;
     }
 
-    /* NAME CARD */
     .name-card {
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(255,215,0,0.22);
@@ -306,7 +302,6 @@
 
     .name-card input:focus { border-color: var(--yellow); }
 
-    /* WINNER CARDS */
     .winner-cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -361,7 +356,6 @@
     .winner-select:focus { border-color: var(--yellow); }
     .winner-select option { background: #0A0A1E; }
 
-    /* TABLEAU BLOCKS */
     .tableau-block { margin-bottom: 24px; }
 
     .tableau-header {
@@ -394,7 +388,6 @@
       gap: 9px;
     }
 
-    /* MATCH BET CARD */
     .match-bet-card {
       background: rgba(255,255,255,0.032);
       border: 1px solid rgba(255,255,255,0.07);
@@ -457,7 +450,7 @@
     }
 
     .rank-select {
-      width: 70px;
+      width: 86px;
       padding: 4px 7px;
       background: rgba(255,255,255,0.07);
       border: 1px solid rgba(255,255,255,0.12);
@@ -467,23 +460,28 @@
       font-size: 0.76rem;
       outline: none;
       cursor: pointer;
-      transition: border-color 0.15s;
+      transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
     }
 
     .rank-select:focus { border-color: var(--yellow); }
     .rank-select option { background: #0A0A1E; }
 
-    /* SUBMIT */
+    .rank-select.duplicate-rank {
+      border-color: #ff8090;
+      box-shadow: 0 0 0 1px rgba(232,0,29,0.6);
+      background: rgba(232,0,29,0.10);
+    }
+
     .submit-zone { margin-top: 40px; }
 
     .submit-btn {
       width: 100%;
       padding: 17px;
-      background: linear-gradient(135deg, #1a0e00, #b8860b 40%, #FFD700 50%, #b8860b 60%, #1a0e00);
+      background: linear-gradient(135deg, #081b3f 0%, #0d3d8f 42%, #4f8ff0 52%, #0d3d8f 62%, #081b3f 100%);
       background-size: 300% 100%;
-      border: 1px solid var(--yellow);
+      border: 1px solid #74adff;
       border-radius: 12px;
-      color: #000;
+      color: #ffffff;
       font-family: 'Russo One', sans-serif;
       font-size: 1rem;
       letter-spacing: 0.12em;
@@ -493,15 +491,13 @@
 
     .submit-btn:hover {
       background-position: 100% 0;
-      box-shadow: 0 0 32px rgba(255,215,0,0.5);
+      box-shadow: 0 0 32px rgba(79,143,240,0.45);
       transform: translateY(-2px);
     }
 
-    /* PHASE PANELS */
     .phase-panel { display: none; }
     .phase-panel.active { display: block; }
 
-    /* REVISION NOTE */
     .revision-note {
       color: rgba(255,255,255,0.42);
       font-size: 0.83rem;
@@ -509,7 +505,6 @@
       line-height: 1.6;
     }
 
-    /* FALLBACK TEXTAREA */
     .fallback-area {
       margin-top: 14px;
       width: 100%;
@@ -549,6 +544,16 @@
 
     .mini-btn.grey:hover { background: rgba(255,255,255,0.06); }
 
+    .mini-btn.blue {
+      background: rgba(79,143,240,0.12);
+      border-color: #4f8ff0;
+      color: #8ec1ff;
+    }
+
+    .mini-btn.blue:hover {
+      background: rgba(79,143,240,0.22);
+    }
+
     .success-wrap {
       text-align: center;
       padding: 48px 24px;
@@ -576,6 +581,217 @@
       line-height: 1.8;
     }
 
+    .warning-send {
+      color: rgba(255,255,255,0.78) !important;
+      margin-top: 6px;
+    }
+
+    .warning-send strong {
+      color: #ffcf66;
+    }
+
+    .bets-preview {
+      margin-top: 26px;
+      text-align: left;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .bets-preview h3 {
+      font-family: 'Russo One', sans-serif;
+      color: var(--yellow);
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+
+    .preview-phase-line {
+      font-size: 0.86rem;
+      color: rgba(255,255,255,0.82);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .preview-phase-line strong {
+      color: var(--yellow);
+    }
+
+    .preview-block {
+      margin-bottom: 18px;
+    }
+
+    .preview-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .preview-title {
+      font-family: 'Russo One', sans-serif;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .preview-winners-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .preview-winner-card {
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+
+    .preview-winner-card .pw-title {
+      font-family: 'Russo One', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      color: rgba(255,255,255,0.84);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .preview-winner-card .pw-value {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.66);
+      line-height: 1.4;
+    }
+
+    .preview-tableau-block {
+      margin-bottom: 16px;
+    }
+
+    .preview-tableau-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .preview-tableau-name {
+      font-family: 'Russo One', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      color: var(--yellow);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .preview-matches-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .preview-match-card {
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 10px 11px;
+    }
+
+    .preview-match-title {
+      font-family: 'Russo One', sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.05em;
+      color: rgba(255,255,255,0.88);
+      margin-bottom: 7px;
+      text-transform: uppercase;
+    }
+
+    .preview-mini-line {
+      font-size: 0.74rem;
+      color: rgba(255,255,255,0.64);
+      line-height: 1.35;
+      margin-bottom: 4px;
+    }
+
+    .preview-mini-line:last-child {
+      margin-bottom: 0;
+    }
+
+    .preview-mini-line strong {
+      color: rgba(255,255,255,0.9);
+      font-weight: 600;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.62);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+      padding: 20px;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 520px;
+      background: #0c0d22;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 22px 22px 18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+    }
+
+    .modal-title {
+      font-family: 'Russo One', sans-serif;
+      color: var(--yellow);
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .modal-text {
+      color: rgba(255,255,255,0.72);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .modal-btn {
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      cursor: pointer;
+      font-family: 'Russo One', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+    }
+
+    .modal-btn.primary {
+      background: rgba(255,215,0,0.14);
+      border-color: var(--yellow);
+      color: var(--yellow);
+    }
+
+    @media (max-width: 900px) {
+      .preview-winners-grid,
+      .preview-matches-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
     @media (max-width: 760px) {
       .top-bar {
         grid-template-columns: 1fr;
@@ -590,6 +806,11 @@
 
       .top-title {
         white-space: normal;
+      }
+
+      .preview-winners-grid,
+      .preview-matches-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -613,7 +834,6 @@
   <h1>🎰 FAIRE DES PARIS</h1>
   <p class="subtitle">Pariez sur les gagnants finaux et sur chaque résultat de match </p>
 
-  <!-- INFO BOX -->
   <div class="info-box">
     <h3><span class="info-dot"></span>Comment ça marche ?</h3>
     <p>Pariez sur le classement des joueurs sur chaque match (1er à 4e) et sur le vainqueur final de chaque tableau. Votre pari est envoyé à l'organisateur par e-mail. Plus vous avez de bonnes prédictions, plus vous marquez de points. Vous pourrez réviser votre pronostic sur le gagnant final après la fin de chaque tour.</p>
@@ -654,20 +874,17 @@
     </div>
   </div>
 
-  <!-- NAME CARD DIRECTEMENT APRÈS COMMENT ÇA MARCHE -->
   <div class="name-card">
     <label>Votre nom</label>
     <input type="text" id="bettor-name-0" placeholder="Prénom Nom" autocomplete="off">
   </div>
 
-  <!-- PHASE TABS -->
   <div class="phase-tabs">
     <div class="phase-tab active" onclick="switchPhase('phase0')">🏁 Avant le tournoi</div>
     <div class="phase-tab locked" id="tab-phase1">Après Tour 1 🔒</div>
     <div class="phase-tab locked" id="tab-phase2">Après Tour 2 🔒</div>
   </div>
 
-  <!-- ═══════════ PHASE 0 ═══════════ -->
   <div class="phase-panel active" id="phase0">
     <div class="section-title" style="color:var(--yellow)">
       🏆 Gagnants finaux
@@ -714,7 +931,6 @@
     </div>
   </div>
 
-  <!-- ═══════════ PHASE 1 ═══════════ -->
   <div class="phase-panel" id="phase1">
     <div class="name-card">
       <label>Votre nom</label>
@@ -767,7 +983,6 @@
     </div>
   </div>
 
-  <!-- ═══════════ PHASE 2 ═══════════ -->
   <div class="phase-panel" id="phase2">
     <div class="name-card">
       <label>Votre nom</label>
@@ -819,18 +1034,23 @@
       <button class="submit-btn" onclick="submitBets(2)">🎯 ENVOYER MES PARIS TOUR 3 PAR E-MAIL</button>
     </div>
   </div>
+</div>
 
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal-box">
+    <div class="modal-title">Sélections incomplètes</div>
+    <div class="modal-text" id="confirm-modal-text"></div>
+    <div class="modal-actions">
+      <button class="modal-btn" onclick="closeIncompleteModal()">Retour</button>
+      <button class="modal-btn primary" id="confirm-incomplete-btn">Confirmer l'envoi</button>
+    </div>
+  </div>
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════════════════
-//  CONFIGURATION — À MODIFIER PAR L'ORGANISATEUR
-// ═══════════════════════════════════════════════════════════════════
-
 const PHASE1_OPEN = false;
 const PHASE2_OPEN = false;
 
-// Tour 1 — remplacez les noms fictifs par les vrais noms
 const BRACKETS_TOUR1 = [
   { label: "Tableau 1", color: "blue", groups: [
     { name: "Poule A", players: ["Joueur A1", "Joueur A2", "Joueur A3", "Joueur A4"] },
@@ -852,7 +1072,6 @@ const BRACKETS_TOUR1 = [
   ]}
 ];
 
-// Tour 2 — remplir après le Tour 1
 const BRACKETS_TOUR2 = [
   { label: "Tableau 1", color: "blue", matches: [
     { name: "Match 1", tag: "1ers A+C · 2es B+D", players: ["-","-","-","-"] },
@@ -874,7 +1093,6 @@ const BRACKETS_TOUR2 = [
   ]}
 ];
 
-// Tour 3 — remplir après le Tour 2
 const BRACKETS_TOUR3 = [
   { label: "Tableau 1", color: "blue", matches: [
     { name: "Match 1", tag: "Places 1–4",   players: ["-","-","-","-"] },
@@ -897,10 +1115,8 @@ const BRACKETS_TOUR3 = [
 ];
 
 const EMAIL_DEST = "val.duriez@yahoo.fr";
-
-// ═══════════════════════════════════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════════════════════════════════
+let pendingIncompleteSend = null;
+let lastMailtoUrl = '';
 
 if (PHASE1_OPEN) {
   const t = document.getElementById('tab-phase1');
@@ -916,7 +1132,6 @@ if (PHASE2_OPEN) {
   t.onclick = () => switchPhase('phase2');
 }
 
-// Populate winner selects
 function allPlayers(bi) {
   return BRACKETS_TOUR1[bi].groups.flatMap(g => g.players).filter(p => p && p !== '-');
 }
@@ -938,24 +1153,24 @@ function fillSelect(id, bi) {
   fillSelect(`winner-t3-${ph}`, 2);
 });
 
-// Build match card
 function buildCard(matchName, matchTag, players, color, containerId, prefix) {
   const cont = document.getElementById(containerId);
   if (!cont) return;
 
   const card = document.createElement('div');
   card.className = 'match-bet-card';
+  card.dataset.prefix = prefix;
 
   const rows = players.map((p, i) => {
     const tbd = p === '-';
     return `<div class="player-bet-row">
       <span class="player-bet-name${tbd ? ' tbd' : ''}" title="${tbd ? '' : p}">${tbd ? 'À définir' : p}</span>
-      <select class="rank-select" id="${prefix}-r${i}"${tbd ? ' disabled' : ''}>
+      <select class="rank-select" id="${prefix}-r${i}" data-prefix="${prefix}" ${tbd ? 'disabled' : ''}>
         <option value="">—</option>
         <option value="1">🥇 1er</option>
         <option value="2">🥈 2e</option>
         <option value="3">🥉 3e</option>
-        <option value="4">4e</option>
+        <option value="4">🍌 4e</option>
       </select>
     </div>`;
   }).join('');
@@ -989,9 +1204,11 @@ BRACKETS_TOUR3.forEach((br, bi) =>
   )
 );
 
-// ═══════════════════════════════════════════════════════════════════
-//  NAVIGATION
-// ═══════════════════════════════════════════════════════════════════
+document.querySelectorAll('.rank-select').forEach(select => {
+  select.addEventListener('change', () => {
+    enforceUniqueRanks(select.dataset.prefix);
+  });
+});
 
 function switchPhase(id) {
   document.querySelectorAll('.phase-panel').forEach(p => p.classList.remove('active'));
@@ -1001,13 +1218,111 @@ function switchPhase(id) {
   document.querySelectorAll('.phase-tab')[idx]?.classList.add('active');
 }
 
-// ═══════════════════════════════════════════════════════════════════
-//  COLLECTE
-// ═══════════════════════════════════════════════════════════════════
-
 function getRank(prefix, i) {
   const e = document.getElementById(`${prefix}-r${i}`);
   return e ? (e.value || 'NC') : 'NC';
+}
+
+function getSelectsByPrefix(prefix) {
+  return Array.from(document.querySelectorAll(`.rank-select[data-prefix="${prefix}"]`)).filter(s => !s.disabled);
+}
+
+function enforceUniqueRanks(prefix) {
+  const selects = getSelectsByPrefix(prefix);
+  const selectedValues = selects.map(s => s.value).filter(Boolean);
+
+  selects.forEach(select => {
+    select.classList.remove('duplicate-rank');
+    Array.from(select.options).forEach(option => {
+      if (!option.value) {
+        option.disabled = false;
+        return;
+      }
+      option.disabled = selectedValues.includes(option.value) && select.value !== option.value;
+    });
+  });
+
+  const counts = {};
+  selects.forEach(select => {
+    if (!select.value) return;
+    counts[select.value] = (counts[select.value] || 0) + 1;
+  });
+
+  selects.forEach(select => {
+    if (select.value && counts[select.value] > 1) {
+      select.classList.add('duplicate-rank');
+    }
+  });
+}
+
+function getIncompleteSelections(phase) {
+  const missing = [];
+  const winnerIds = [`winner-t1-${phase}`, `winner-t2-${phase}`, `winner-t3-${phase}`];
+
+  winnerIds.forEach((id, idx) => {
+    const el = document.getElementById(id);
+    if (el && !el.value) missing.push(`Gagnant final Tableau ${idx + 1}`);
+  });
+
+  const sources = [BRACKETS_TOUR1, BRACKETS_TOUR2, BRACKETS_TOUR3];
+  const prefixFn = [
+    (bi, gi) => `p0t${bi+1}g${gi}`,
+    (bi, mi) => `p1t${bi+1}m${mi}`,
+    (bi, mi) => `p2t${bi+1}m${mi}`
+  ];
+  const groups = [
+    (br) => br.groups,
+    (br) => br.matches,
+    (br) => br.matches
+  ];
+
+  sources[phase].forEach((br, bi) => {
+    groups[phase](br).forEach((item, idx) => {
+      const prefix = prefixFn[phase](bi, idx);
+      const selects = getSelectsByPrefix(prefix);
+      const hasMissing = selects.some(s => !s.value);
+      if (hasMissing) {
+        missing.push(`${br.label} — ${item.name}`);
+      }
+    });
+  });
+
+  return missing;
+}
+
+function validateNoDuplicateRanks(phase) {
+  const invalidMatches = [];
+  const sources = [BRACKETS_TOUR1, BRACKETS_TOUR2, BRACKETS_TOUR3];
+  const prefixFn = [
+    (bi, gi) => `p0t${bi+1}g${gi}`,
+    (bi, mi) => `p1t${bi+1}m${mi}`,
+    (bi, mi) => `p2t${bi+1}m${mi}`
+  ];
+  const groups = [
+    (br) => br.groups,
+    (br) => br.matches,
+    (br) => br.matches
+  ];
+
+  sources[phase].forEach((br, bi) => {
+    groups[phase](br).forEach((item, idx) => {
+      const prefix = prefixFn[phase](bi, idx);
+      const selects = getSelectsByPrefix(prefix);
+      const values = selects.map(s => s.value).filter(Boolean);
+      const hasDuplicate = new Set(values).size !== values.length;
+      if (hasDuplicate) {
+        invalidMatches.push(`${br.label} — ${item.name}`);
+        selects.forEach(s => {
+          if (s.value) {
+            const count = values.filter(v => v === s.value).length;
+            s.classList.toggle('duplicate-rank', count > 1);
+          }
+        });
+      }
+    });
+  });
+
+  return invalidMatches;
 }
 
 function buildBody(phase, name) {
@@ -1056,13 +1371,181 @@ function buildBody(phase, name) {
   return lines.join('\n');
 }
 
+function getPhaseNameInput(phase) {
+  if (phase === 0) return document.getElementById('bettor-name-0');
+  return document.getElementById(`bettor-name-${phase}`);
+}
+
+function openIncompleteModal(missing, onConfirm) {
+  pendingIncompleteSend = onConfirm;
+  const text = document.getElementById('confirm-modal-text');
+  const preview = missing.slice(0, 8).map(item => `• ${item}`).join('<br>');
+  const extra = missing.length > 8 ? `<br>• ... et ${missing.length - 8} autre(s)` : '';
+  text.innerHTML = `Il manque encore des sélections dans votre pari.<br><br>${preview}${extra}<br><br>Voulez-vous revenir en arrière ou confirmer l'envoi incomplet ?`;
+  document.getElementById('confirm-modal').classList.add('show');
+}
+
+function closeIncompleteModal() {
+  pendingIncompleteSend = null;
+  document.getElementById('confirm-modal').classList.remove('show');
+}
+
+document.getElementById('confirm-incomplete-btn').addEventListener('click', () => {
+  const action = pendingIncompleteSend;
+  closeIncompleteModal();
+  if (action) action();
+});
+
+function groupMatchesByTableau(matches) {
+  const map = {};
+  matches.forEach(match => {
+    const key = match.tableau;
+    if (!map[key]) map[key] = [];
+    map[key].push(match);
+  });
+  return map;
+}
+
+function collectPreviewData(phase, name) {
+  const phaseLabels = ["Avant le tournoi", "Après Tour 1", "Après Tour 2"];
+  const sources = [BRACKETS_TOUR1, BRACKETS_TOUR2, BRACKETS_TOUR3];
+  const prefixFn = [
+    (bi, gi) => `p0t${bi+1}g${gi}`,
+    (bi, mi) => `p1t${bi+1}m${mi}`,
+    (bi, mi) => `p2t${bi+1}m${mi}`
+  ];
+  const groups = [
+    (br) => br.groups,
+    (br) => br.matches,
+    (br) => br.matches
+  ];
+
+  return {
+    name,
+    phaseLabel: phaseLabels[phase],
+    winners: [
+      { label: 'Tableau 1', value: document.getElementById(`winner-t1-${phase}`)?.value || 'Non renseigné' },
+      { label: 'Tableau 2', value: document.getElementById(`winner-t2-${phase}`)?.value || 'Non renseigné' },
+      { label: 'Tableau 3', value: document.getElementById(`winner-t3-${phase}`)?.value || 'Non renseigné' }
+    ],
+    matches: sources[phase].flatMap((br, bi) =>
+      groups[phase](br).map((item, idx) => ({
+        tableau: br.label,
+        block: item.name,
+        lines: item.players
+          .map((p, pi) => {
+            if (p === '-') return null;
+            return {
+              player: p,
+              rank: getRank(prefixFn[phase](bi, idx), pi)
+            };
+          })
+          .filter(Boolean)
+      }))
+    )
+  };
+}
+
+function rankLabel(rank) {
+  if (rank === '1') return '🥇 1er';
+  if (rank === '2') return '🥈 2e';
+  if (rank === '3') return '🥉 3e';
+  if (rank === '4') return '🍌 4e';
+  return 'Non renseigné';
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+function renderPreview(preview) {
+  const grouped = groupMatchesByTableau(preview.matches);
+
+  return `
+    <div class="bets-preview">
+      <h3>Récapitulatif de vos paris</h3>
+
+      <div class="preview-phase-line"><strong>Phase :</strong> ${escapeHtml(preview.phaseLabel)}</div>
+
+      <div class="preview-block">
+        <div class="preview-title">Gagnants finaux</div>
+        <div class="preview-winners-grid">
+          ${preview.winners.map(w => `
+            <div class="preview-winner-card">
+              <div class="pw-title">${escapeHtml(w.label)}</div>
+              <div class="pw-value">${escapeHtml(w.value)}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <div class="preview-block">
+        <div class="preview-title">Matchs</div>
+
+        ${Object.keys(grouped).map(tableauName => `
+          <div class="preview-tableau-block">
+            <div class="preview-tableau-name">${escapeHtml(tableauName)}</div>
+            <div class="preview-matches-grid">
+              ${grouped[tableauName].map(match => `
+                <div class="preview-match-card">
+                  <div class="preview-match-title">${escapeHtml(match.block)}</div>
+                  ${match.lines.map(line => `
+                    <div class="preview-mini-line">
+                      <strong>${escapeHtml(line.player)}</strong> — ${escapeHtml(rankLabel(line.rank))}
+                    </div>
+                  `).join('')}
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function openMailClientAgain() {
+  if (!lastMailtoUrl) return;
+  window.location.href = lastMailtoUrl;
+}
+
+function finalSend(phase, name) {
+  const phaseLabels = ["Avant le tournoi", "Après Tour 1", "Après Tour 2"];
+  const body = buildBody(phase, name);
+  const subject = `[PARIS Mario Kart] ${phaseLabels[phase]} — ${name}`;
+  const preview = collectPreviewData(phase, name);
+
+  lastMailtoUrl = `mailto:${EMAIL_DEST}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = lastMailtoUrl;
+
+  setTimeout(() => {
+    document.getElementById('mainPage').innerHTML = `
+      <div class="success-wrap">
+        <span class="s-icon">🏁</span>
+        <h2>PARIS EN COURS D'ENVOI !</h2>
+        <p>Votre application e-mail s'est ouverte avec vos paris pré-remplis.</p>
+        <p class="warning-send"><strong>⚠️ Attention :</strong> si rien ne s'est ouvert, copiez le texte ci-dessous et envoyez-le manuellement à <strong style="color:var(--yellow)">${EMAIL_DEST}</strong></p>
+        <textarea class="fallback-area" id="csv-fallback">${body}</textarea>
+        <div>
+          <button class="mini-btn" onclick="copyFallback()">📋 COPIER LE TEXTE</button>
+          <button class="mini-btn blue" onclick="openMailClientAgain()">✉️ ROUVRIR L'APPLICATION E-MAIL</button>
+          <button class="mini-btn grey" onclick="location.href='index.html'">← ACCUEIL</button>
+        </div>
+        <p style="margin-top:14px;font-size:0.75rem;color:rgba(255,255,255,0.25);">
+          Bonne chance, <strong style="color:rgba(255,215,0,0.6)">${escapeHtml(name)}</strong> ! 🍄
+        </p>
+        ${renderPreview(preview)}
+      </div>`;
+  }, 700);
+}
+
 function submitBets(phase) {
-  let nameInput = document.getElementById(`bettor-name-${phase}`);
-
-  if (phase === 0) {
-    nameInput = document.getElementById('bettor-name-0');
-  }
-
+  const nameInput = getPhaseNameInput(phase);
   const name = nameInput?.value.trim();
 
   if (!name) {
@@ -1070,30 +1553,19 @@ function submitBets(phase) {
     return;
   }
 
-  const phaseLabels = ["Avant le tournoi", "Après Tour 1", "Après Tour 2"];
-  const body = buildBody(phase, name);
-  const subject = `[PARIS Mario Kart] ${phaseLabels[phase]} — ${name}`;
+  const duplicateMatches = validateNoDuplicateRanks(phase);
+  if (duplicateMatches.length > 0) {
+    alert("Impossible d'envoyer : dans une poule ou un match, deux joueurs ne peuvent pas avoir le même rang. Il faut forcément un 1er, un 2e, un 3e et un 4e.");
+    return;
+  }
 
-  window.location.href = `mailto:${EMAIL_DEST}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const missing = getIncompleteSelections(phase);
+  if (missing.length > 0) {
+    openIncompleteModal(missing, () => finalSend(phase, name));
+    return;
+  }
 
-  setTimeout(() => {
-    document.getElementById('mainPage').innerHTML = `
-      <div class="success-wrap">
-        <span class="s-icon">🏁</span>
-        <h2>PARIS ENVOYÉS !</h2>
-        <p>Votre application e-mail s'est ouverte avec vos paris pré-remplis.<br>
-        Si rien ne s'est ouvert, copiez le texte ci-dessous et envoyez-le manuellement<br>
-        à <strong style="color:var(--yellow)">${EMAIL_DEST}</strong></p>
-        <textarea class="fallback-area" id="csv-fallback">${body}</textarea>
-        <div>
-          <button class="mini-btn" onclick="copyFallback()">📋 COPIER LE TEXTE</button>
-          <button class="mini-btn grey" onclick="location.href='index.html'">← ACCUEIL</button>
-        </div>
-        <p style="margin-top:14px;font-size:0.75rem;color:rgba(255,255,255,0.25);">
-          Bonne chance, <strong style="color:rgba(255,215,0,0.6)">${name}</strong> ! 🍄
-        </p>
-      </div>`;
-  }, 700);
+  finalSend(phase, name);
 }
 
 function copyFallback() {
