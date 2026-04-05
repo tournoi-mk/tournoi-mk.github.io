@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tableaux de Résultats — Mario Kart</title>
-  <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Exo+2:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Exo+2:wght@400;600;700;900&display=swap" rel="stylesheet" />
   <style>
     :root {
       --red: #E8001D;
       --blue: #0052A5;
       --yellow: #FFD700;
       --dark: #07071a;
-      --red-glow: rgba(232,0,29,0.5);
-      --blue-glow: rgba(0,82,165,0.5);
-      --yellow-glow: rgba(255,215,0,0.5);
+      --red-glow: rgba(232, 0, 29, 0.5);
+      --blue-glow: rgba(0, 82, 165, 0.5);
+      --yellow-glow: rgba(255, 215, 0, 0.5);
     }
 
     * {
@@ -40,27 +40,43 @@
     }
 
     .bg::before {
-      content:'';
-      position:absolute;
-      inset:0;
+      content: '';
+      position: absolute;
+      inset: 0;
       background-image:
-        repeating-linear-gradient(90deg,transparent 0,transparent 79px,rgba(255,255,255,0.018) 79px,rgba(255,255,255,0.018) 80px),
-        repeating-linear-gradient(180deg,transparent 0,transparent 79px,rgba(255,255,255,0.018) 79px,rgba(255,255,255,0.018) 80px);
+        repeating-linear-gradient(90deg, transparent 0, transparent 79px, rgba(255,255,255,0.018) 79px, rgba(255,255,255,0.018) 80px),
+        repeating-linear-gradient(180deg, transparent 0, transparent 79px, rgba(255,255,255,0.018) 79px, rgba(255,255,255,0.018) 80px);
     }
 
     .top-bar {
       position: sticky;
       top: 0;
       z-index: 100;
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
       align-items: center;
-      padding: 0 28px;
-      height: 64px;
-      background: rgba(7,7,26,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(232,0,29,0.3);
-      box-shadow: 0 4px 32px rgba(0,0,0,0.5);
       gap: 16px;
+      min-height: 64px;
+      padding: 0 28px;
+      background: rgba(7, 7, 26, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(232, 0, 29, 0.3);
+      box-shadow: 0 4px 32px rgba(0,0,0,0.5);
+    }
+
+    .brand-wrap {
+      justify-self: start;
+    }
+
+    .top-title-wrap {
+      justify-self: center;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .back-wrap {
+      justify-self: end;
     }
 
     .brand {
@@ -78,12 +94,12 @@
     }
 
     .top-title {
-      flex: 1;
       text-align: center;
       font-family: 'Russo One', sans-serif;
       font-size: 1.3rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
+      width: 100%;
     }
 
     .back-btn {
@@ -187,7 +203,7 @@
 
     .bracket-layout {
       display: grid;
-      grid-template-columns: 1fr 40px 1fr 40px 1fr;
+      grid-template-columns: minmax(260px, 1fr) 52px minmax(260px, 1fr) 52px minmax(260px, 1fr);
       gap: 0;
       align-items: start;
       overflow-x: auto;
@@ -195,7 +211,7 @@
     }
 
     .tour-col {
-      min-width: 220px;
+      min-width: 260px;
     }
 
     .tour-label {
@@ -207,6 +223,10 @@
       padding: 11px 14px;
       border-radius: 7px 7px 0 0;
       margin-bottom: 14px;
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .lbl-blue   { background: rgba(0,82,165,0.3);   color: #6eb4ff;      border: 1px solid rgba(0,82,165,0.55); }
@@ -251,6 +271,17 @@
       margin-left: auto;
       text-align: right;
       white-space: nowrap;
+      font-family: 'Russo One', sans-serif;
+    }
+
+    .tour3-tag {
+      font-size: 0.84rem;
+      color: rgba(255,255,255,0.82);
+      text-align: right;
+      margin-left: auto;
+      white-space: nowrap;
+      font-family: 'Russo One', sans-serif;
+      letter-spacing: 0.06em;
     }
 
     .card-row {
@@ -309,8 +340,16 @@
     }
 
     .connector-col {
-      width: 40px;
-      align-self: stretch;
+      width: 52px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 8px;
+    }
+
+    .single-connector {
+      display: block;
+      margin-top: 8px;
     }
 
     .section-sep {
@@ -320,6 +359,22 @@
     }
 
     @media (max-width: 900px) {
+      .top-bar {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 14px 18px;
+      }
+
+      .brand-wrap,
+      .top-title-wrap,
+      .back-wrap {
+        justify-self: center;
+      }
+
+      .top-title {
+        font-size: 1.05rem;
+      }
+
       .bracket-layout {
         grid-template-columns: 1fr;
       }
@@ -332,6 +387,10 @@
         min-width: auto;
         padding: 10px 18px;
       }
+
+      .section-header {
+        flex-wrap: wrap;
+      }
     }
   </style>
 </head>
@@ -339,9 +398,17 @@
   <div class="bg"></div>
 
   <div class="top-bar">
-    <a href="index.html" class="brand">🏆 <span>TOURNOI INTERNE</span> MARIO KART</a>
-    <div class="top-title">Tableaux de résultats</div>
-    <a href="index.html" class="back-btn">← Accueil</a>
+    <div class="brand-wrap">
+      <a href="index.html" class="brand">🏆 <span>TOURNOI INTERNE</span> MARIO KART</a>
+    </div>
+
+    <div class="top-title-wrap">
+      <div class="top-title">Tableaux de résultats</div>
+    </div>
+
+    <div class="back-wrap">
+      <a href="index.html" class="back-btn">← Accueil</a>
+    </div>
   </div>
 
   <div class="page">
@@ -349,38 +416,16 @@
   </div>
 
   <script>
-    // ─────────────────────────────────────────────────────────────────────
-    // CONFIGURATION MANUELLE
-    // Tous les noms sont maintenant modifiables à la main
-    // 3 tableaux × 3 tours × 16 noms = 144 noms
-    // ─────────────────────────────────────────────────────────────────────
-
     const BRACKETS = [
       {
         tableNumber: 1,
         tableTitle: "Tableau 1",
         placesLabel: "Places 1 à 16",
         groups: [
-          {
-            groupName: "Poule A",
-            matchDateTime: "date et heure à définir",
-            players: ["nom", "nom", "nom", "nom"]
-          },
-          {
-            groupName: "Poule B",
-            matchDateTime: "date et heure à définir",
-            players: ["nom", "nom", "nom", "nom"]
-          },
-          {
-            groupName: "Poule C",
-            matchDateTime: "date et heure à définir",
-            players: ["nom", "nom", "nom", "nom"]
-          },
-          {
-            groupName: "Poule D",
-            matchDateTime: "date et heure à définir",
-            players: ["nom", "nom", "nom", "nom"]
-          }
+          { groupName: "Poule A", matchDateTime: "date et heure à définir", players: ["nom", "nom", "nom", "nom"] },
+          { groupName: "Poule B", matchDateTime: "date et heure à définir", players: ["nom", "nom", "nom", "nom"] },
+          { groupName: "Poule C", matchDateTime: "date et heure à définir", players: ["nom", "nom", "nom", "nom"] },
+          { groupName: "Poule D", matchDateTime: "date et heure à définir", players: ["nom", "nom", "nom", "nom"] }
         ],
         tour2Matches: [
           {
@@ -440,26 +485,10 @@
         tableTitle: "Tableau 2",
         placesLabel: "Places 17 à 32",
         groups: [
-          {
-            groupName: "Poule E",
-            matchDateTime: "date et heure à définir",
-            players: ["nom", "nom", "nom", "nom"]
-          },
-          {
-            groupName: "Poule F",
-            matchDateTime: "date et heure à définir",
-            players: ["nom", "nom", "nom", "nom"]
-          },
-          {
-            groupName: "Poule G",
-            matchDateTime: "date et heure à définir",
-            players: ["nom", "nom", "nom", "nom"]
-          },
-          {
-            groupName: "Poule H",
-            matchDateTime: "date et heure à définir",
-            players: ["nom", "nom", "nom", "nom"]
-          }
+          { groupName: "Poule E", matchDateTime: "date et heure à définir", players: ["nom", "nom", "nom", "nom"] },
+          { groupName: "Poule F", matchDateTime: "date et heure à définir", players: ["nom", "nom", "nom", "nom"] },
+          { groupName: "Poule G", matchDateTime: "date et heure à définir", players: ["nom", "nom", "nom", "nom"] },
+          { groupName: "Poule H", matchDateTime: "date et heure à définir", players: ["nom", "nom", "nom", "nom"] }
         ],
         tour2Matches: [
           {
@@ -519,26 +548,10 @@
         tableTitle: "Tableau 3",
         placesLabel: "Places 33 à 48",
         groups: [
-          {
-            groupName: "Poule I",
-            matchDateTime: "date et heure à définir",
-            players: ["nom", "nom", "nom", "nom"]
-          },
-          {
-            groupName: "Poule J",
-            matchDateTime: "date et heure à définir",
-            players: ["nom", "nom", "nom", "nom"]
-          },
-          {
-            groupName: "Poule K",
-            matchDateTime: "date et heure à définir",
-            players: ["nom", "nom", "nom", "nom"]
-          },
-          {
-            groupName: "Poule L",
-            matchDateTime: "date et heure à définir",
-            players: ["nom", "nom", "nom", "nom"]
-          }
+          { groupName: "Poule I", matchDateTime: "date et heure à définir", players: ["nom", "nom", "nom", "nom"] },
+          { groupName: "Poule J", matchDateTime: "date et heure à définir", players: ["nom", "nom", "nom", "nom"] },
+          { groupName: "Poule K", matchDateTime: "date et heure à définir", players: ["nom", "nom", "nom", "nom"] },
+          { groupName: "Poule L", matchDateTime: "date et heure à définir", players: ["nom", "nom", "nom", "nom"] }
         ],
         tour2Matches: [
           {
@@ -600,21 +613,21 @@
     const rng = arr => arr[Math.floor(Math.random() * arr.length)];
 
     const SCHEMES = [
-      ["blue","red","yellow"],
-      ["red","yellow","blue"],
-      ["yellow","blue","red"]
+      ["blue", "red", "yellow"],
+      ["red", "yellow", "blue"],
+      ["yellow", "blue", "red"]
     ];
 
-    const NUM_CLS = ["num-blue","num-red","num-yellow"];
-    const BADGE_CLS = ["badge-blue","badge-red","badge-yellow"];
+    const NUM_CLS = ["num-blue", "num-red", "num-yellow"];
+    const BADGE_CLS = ["badge-blue", "badge-red", "badge-yellow"];
 
-    const container = document.getElementById('brackets-container');
+    const container = document.getElementById("brackets-container");
 
     BRACKETS.forEach((bracket, bi) => {
       const cs = SCHEMES[bi];
 
-      const section = document.createElement('section');
-      section.className = 'bracket-section';
+      const section = document.createElement("section");
+      section.className = "bracket-section";
 
       section.innerHTML = `
         <div class="section-header">
@@ -642,17 +655,16 @@
         </div>
       `;
 
-      const layout = document.createElement('div');
-      layout.className = 'bracket-layout';
+      const layout = document.createElement("div");
+      layout.className = "bracket-layout";
 
-      // TOUR 1
-      const col1 = document.createElement('div');
-      col1.className = 'tour-col';
+      const col1 = document.createElement("div");
+      col1.className = "tour-col";
       col1.innerHTML = `<div class="tour-label lbl-${cs[0]}">🏁 Tour 1 — Poules</div>`;
 
       bracket.groups.forEach(group => {
-        const card = document.createElement('div');
-        card.className = 'group-card';
+        const card = document.createElement("div");
+        card.className = "group-card";
         card.innerHTML = `
           <div class="card-header hdr-${cs[0]}">
             <span class="card-title">${group.groupName}</span>
@@ -665,24 +677,22 @@
               <span class="row-name">${player}</span>
               <span class="row-score">—</span>
             </div>
-          `).join('')}
+          `).join("")}
         `;
         col1.appendChild(card);
       });
 
-      // CONNECTOR 1→2
-      const conn1 = document.createElement('div');
-      conn1.className = 'connector-col';
-      conn1.innerHTML = makeSVG(cs[0], 4);
+      const conn1 = document.createElement("div");
+      conn1.className = "connector-col";
+      conn1.innerHTML = makeSingleConnector(cs[0]);
 
-      // TOUR 2
-      const col2 = document.createElement('div');
-      col2.className = 'tour-col';
+      const col2 = document.createElement("div");
+      col2.className = "tour-col";
       col2.innerHTML = `<div class="tour-label lbl-${cs[1]}">🔀 Tour 2</div>`;
 
       bracket.tour2Matches.forEach(match => {
-        const card = document.createElement('div');
-        card.className = 'match-card';
+        const card = document.createElement("div");
+        card.className = "match-card";
         card.innerHTML = `
           <div class="card-header hdr-${cs[1]}">
             <span class="card-title">${match.matchName}</span>
@@ -694,28 +704,26 @@
               <span class="row-emoji">${rng(KART_EMOJI)}</span>
               <span class="row-name">${match.players[i]}</span>
             </div>
-          `).join('')}
+          `).join("")}
         `;
         col2.appendChild(card);
       });
 
-      // CONNECTOR 2→3
-      const conn2 = document.createElement('div');
-      conn2.className = 'connector-col';
-      conn2.innerHTML = makeSVG(cs[2], 4);
+      const conn2 = document.createElement("div");
+      conn2.className = "connector-col";
+      conn2.innerHTML = makeSingleConnector(cs[1]);
 
-      // TOUR 3
-      const col3 = document.createElement('div');
-      col3.className = 'tour-col';
+      const col3 = document.createElement("div");
+      col3.className = "tour-col";
       col3.innerHTML = `<div class="tour-label lbl-${cs[2]}">🏆 Tour 3 — Classement final</div>`;
 
       bracket.tour3Matches.forEach(match => {
-        const card = document.createElement('div');
-        card.className = 'match-card';
+        const card = document.createElement("div");
+        card.className = "match-card";
         card.innerHTML = `
           <div class="card-header hdr-${cs[2]}">
             <span class="card-title">${match.matchName}</span>
-            <span class="card-tag">${match.matchTag}</span>
+            <span class="tour3-tag">${match.matchTag}</span>
           </div>
           ${match.slots.map((slot, i) => `
             <div class="card-row">
@@ -723,7 +731,7 @@
               <span class="row-emoji">${rng(TOUR3_EMOJI)}</span>
               <span class="row-name">${match.players[i]}</span>
             </div>
-          `).join('')}
+          `).join("")}
         `;
         col3.appendChild(card);
       });
@@ -738,36 +746,28 @@
       container.appendChild(section);
 
       if (bi < BRACKETS.length - 1) {
-        const sep = document.createElement('div');
-        sep.className = 'section-sep';
+        const sep = document.createElement("div");
+        sep.className = "section-sep";
         container.appendChild(sep);
       }
     });
 
-    function makeSVG(colorName, count) {
+    function makeSingleConnector(colorName) {
       const map = {
-        blue: '#0052A5',
-        red: '#E8001D',
-        yellow: '#FFD700'
+        blue: "#0052A5",
+        red: "#E8001D",
+        yellow: "#FFD700"
       };
 
-      const c = map[colorName] || '#fff';
-      const h = count * 118;
+      const c = map[colorName] || "#ffffff";
 
       return `
-        <svg width="40" height="${h}" viewBox="0 0 40 ${h}" fill="none"
-             xmlns="http://www.w3.org/2000/svg" style="display:block;margin-top:46px;">
-          ${[0,1,2,3].map(i => {
-            const y = i * (h / 4) + h / 8;
-            return `
-              <line x1="0" y1="${y}" x2="40" y2="${y}"
-                    stroke="${c}" stroke-width="1.5" stroke-opacity="0.45" stroke-dasharray="4 3"/>
-              <circle cx="3" cy="${y}" r="3" fill="${c}" fill-opacity="0.55"/>
-              <circle cx="37" cy="${y}" r="3" fill="${c}" fill-opacity="0.55"/>
-            `;
-          }).join('')}
-          <line x1="20" y1="${h * 0.09}" x2="20" y2="${h * 0.91}"
-                stroke="${c}" stroke-width="1" stroke-opacity="0.12"/>
+        <svg class="single-connector" width="52" height="50" viewBox="0 0 52 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="6" y1="25" x2="46" y2="25"
+                stroke="${c}" stroke-width="2"
+                stroke-opacity="0.65" stroke-dasharray="5 4"/>
+          <circle cx="6" cy="25" r="3.5" fill="${c}" fill-opacity="0.8"/>
+          <circle cx="46" cy="25" r="3.5" fill="${c}" fill-opacity="0.8"/>
         </svg>
       `;
     }
