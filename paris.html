@@ -433,20 +433,53 @@
     }
 
     .player-bet-name {
+      position: relative;
       flex: 1;
       font-size: 0.8rem;
       font-weight: 600;
       color: rgba(255,255,255,0.8);
       letter-spacing: 0.02em;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      overflow: visible;
       white-space: nowrap;
+      cursor: help;
     }
 
     .player-bet-name.tbd {
       color: rgba(255,255,255,0.22);
       font-style: italic;
       font-weight: 400;
+      cursor: default;
+    }
+
+    .player-tooltip {
+      position: absolute;
+      left: 0;
+      bottom: calc(100% + 8px);
+      min-width: 180px;
+      max-width: 230px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: rgba(5, 8, 24, 0.96);
+      border: 1px solid rgba(79,143,240,0.45);
+      color: rgba(255,255,255,0.9);
+      font-size: 0.72rem;
+      line-height: 1.4;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(4px);
+      transition: opacity 0.15s, transform 0.15s;
+      z-index: 20;
+      white-space: normal;
+    }
+
+    .player-tooltip strong {
+      color: #8ec1ff;
+    }
+
+    .player-bet-name.has-tooltip:hover .player-tooltip {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .rank-select {
@@ -509,10 +542,10 @@
       margin-top: 14px;
       width: 100%;
       height: 150px;
-      background: rgba(0,0,0,0.4);
-      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(3,8,26,0.72);
+      border: 1px solid rgba(116,173,255,0.2);
       border-radius: 8px;
-      color: rgba(255,255,255,0.55);
+      color: rgba(255,255,255,0.74);
       font-family: monospace;
       font-size: 0.72rem;
       padding: 11px;
@@ -557,9 +590,12 @@
     .success-wrap {
       text-align: center;
       padding: 48px 24px;
-      background: rgba(255,215,0,0.06);
-      border: 1px solid rgba(255,215,0,0.28);
+      background: linear-gradient(180deg, rgba(8,18,48,0.92) 0%, rgba(6,12,34,0.97) 100%);
+      border: 1px solid rgba(116,173,255,0.18);
       border-radius: 16px;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.03),
+        0 16px 38px rgba(0,0,0,0.3);
     }
 
     .success-wrap .s-icon {
@@ -570,13 +606,14 @@
 
     .success-wrap h2 {
       font-family: 'Russo One', sans-serif;
-      color: var(--yellow);
+      color: #8ec1ff;
       font-size: 1.5rem;
       margin-bottom: 10px;
+      text-shadow: 0 0 16px rgba(79,143,240,0.18);
     }
 
     .success-wrap p {
-      color: rgba(255,255,255,0.5);
+      color: rgba(255,255,255,0.6);
       font-size: 0.87rem;
       line-height: 1.8;
     }
@@ -593,8 +630,8 @@
     .bets-preview {
       margin-top: 26px;
       text-align: left;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.09);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(116,173,255,0.16);
       border-radius: 14px;
       padding: 18px;
     }
@@ -616,7 +653,7 @@
     }
 
     .preview-phase-line strong {
-      color: var(--yellow);
+      color: #8ec1ff;
     }
 
     .preview-block {
@@ -630,7 +667,7 @@
     .preview-title {
       font-family: 'Russo One', sans-serif;
       font-size: 1rem;
-      color: rgba(255,255,255,0.85);
+      color: rgba(255,255,255,0.86);
       margin-bottom: 10px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -643,10 +680,25 @@
     }
 
     .preview-winner-card {
-      background: rgba(255,255,255,0.035);
+      background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: 10px;
       padding: 10px 12px;
+    }
+
+    .preview-winner-card.pw-blue { 
+      border-color: rgba(255,255,255,0.03);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .preview-winner-card.pw-red {
+      border-color: rgba(255,255,255,0.03);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .preview-winner-card.pw-yellow {
+      border-color: rgba(255,255,255,0.03);
+      background: rgba(255,255,255,0.08);
     }
 
     .preview-winner-card .pw-title {
@@ -660,7 +712,7 @@
 
     .preview-winner-card .pw-value {
       font-size: 0.8rem;
-      color: rgba(255,255,255,0.66);
+      color: rgba(255,255,255,0.7);
       line-height: 1.4;
     }
 
@@ -676,10 +728,13 @@
       font-family: 'Russo One', sans-serif;
       font-size: 0.78rem;
       letter-spacing: 0.05em;
-      color: var(--yellow);
       margin-bottom: 10px;
       text-transform: uppercase;
     }
+
+    .preview-tableau-name.tableau-blue { color: #6eb4ff; }
+    .preview-tableau-name.tableau-red { color: #ff8090; }
+    .preview-tableau-name.tableau-yellow { color: var(--yellow); }
 
     .preview-matches-grid {
       display: grid;
@@ -688,24 +743,39 @@
     }
 
     .preview-match-card {
-      background: rgba(255,255,255,0.035);
+      background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: 10px;
       padding: 10px 11px;
+    }
+
+    .preview-match-card.pm-blue {
+      border-color: rgba(255,255,255,0.03);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .preview-match-card.pm-red {
+      border-color: rgba(255,255,255,0.03);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .preview-match-card.pm-yellow {
+      border-color: rgba(255,255,255,0.03);
+      background: rgba(255,255,255,0.08);
     }
 
     .preview-match-title {
       font-family: 'Russo One', sans-serif;
       font-size: 0.68rem;
       letter-spacing: 0.05em;
-      color: rgba(255,255,255,0.88);
+      color: rgba(255,255,255,0.9);
       margin-bottom: 7px;
       text-transform: uppercase;
     }
 
     .preview-mini-line {
       font-size: 0.74rem;
-      color: rgba(255,255,255,0.64);
+      color: rgba(255,255,255,0.68);
       line-height: 1.35;
       margin-bottom: 4px;
     }
@@ -715,7 +785,7 @@
     }
 
     .preview-mini-line strong {
-      color: rgba(255,255,255,0.9);
+      color: rgba(255,255,255,0.92);
       font-weight: 600;
     }
 
@@ -1051,6 +1121,72 @@
 const PHASE1_OPEN = false;
 const PHASE2_OPEN = false;
 
+/* ─────────────────────────────────────────────────────────────
+   CLASSEMENTS DE PRÉSÉLECTION
+   À REMPLIR À LA MAIN
+───────────────────────────────────────────────────────────── */
+const PRESELECTION_RANKS = {
+  "Joueur A1": "1er de la présélection",
+  "Joueur A2": "2e de la présélection",
+  "Joueur A3": "3e de la présélection",
+  "Joueur A4": "4e de la présélection",
+
+  "Joueur B1": "5e de la présélection",
+  "Joueur B2": "6e de la présélection",
+  "Joueur B3": "7e de la présélection",
+  "Joueur B4": "8e de la présélection",
+
+  "Joueur C1": "9e de la présélection",
+  "Joueur C2": "10e de la présélection",
+  "Joueur C3": "11e de la présélection",
+  "Joueur C4": "12e de la présélection",
+
+  "Joueur D1": "13e de la présélection",
+  "Joueur D2": "14e de la présélection",
+  "Joueur D3": "15e de la présélection",
+  "Joueur D4": "16e de la présélection",
+
+  "Joueur E1": "17e de la présélection",
+  "Joueur E2": "18e de la présélection",
+  "Joueur E3": "19e de la présélection",
+  "Joueur E4": "20e de la présélection",
+
+  "Joueur F1": "21e de la présélection",
+  "Joueur F2": "22e de la présélection",
+  "Joueur F3": "23e de la présélection",
+  "Joueur F4": "24e de la présélection",
+
+  "Joueur G1": "25e de la présélection",
+  "Joueur G2": "26e de la présélection",
+  "Joueur G3": "27e de la présélection",
+  "Joueur G4": "28e de la présélection",
+
+  "Joueur H1": "29e de la présélection",
+  "Joueur H2": "30e de la présélection",
+  "Joueur H3": "31e de la présélection",
+  "Joueur H4": "32e de la présélection",
+
+  "Joueur I1": "33e de la présélection",
+  "Joueur I2": "34e de la présélection",
+  "Joueur I3": "35e de la présélection",
+  "Joueur I4": "36e de la présélection",
+
+  "Joueur J1": "37e de la présélection",
+  "Joueur J2": "38e de la présélection",
+  "Joueur J3": "39e de la présélection",
+  "Joueur J4": "40e de la présélection",
+
+  "Joueur K1": "41e de la présélection",
+  "Joueur K2": "42e de la présélection",
+  "Joueur K3": "43e de la présélection",
+  "Joueur K4": "44e de la présélection",
+
+  "Joueur L1": "45e de la présélection",
+  "Joueur L2": "46e de la présélection",
+  "Joueur L3": "47e de la présélection",
+  "Joueur L4": "48e de la présélection"
+};
+
 const BRACKETS_TOUR1 = [
   { label: "Tableau 1", color: "blue", groups: [
     { name: "Poule A", players: ["Joueur A1", "Joueur A2", "Joueur A3", "Joueur A4"] },
@@ -1132,6 +1268,10 @@ if (PHASE2_OPEN) {
   t.onclick = () => switchPhase('phase2');
 }
 
+function getPreselectionRank(playerName) {
+  return PRESELECTION_RANKS[playerName] || 'Classement non renseigné';
+}
+
 function allPlayers(bi) {
   return BRACKETS_TOUR1[bi].groups.flatMap(g => g.players).filter(p => p && p !== '-');
 }
@@ -1153,6 +1293,20 @@ function fillSelect(id, bi) {
   fillSelect(`winner-t3-${ph}`, 2);
 });
 
+function buildPlayerNameHtml(playerName, isTbd) {
+  if (isTbd) {
+    return `<span class="player-bet-name tbd">À définir</span>`;
+  }
+
+  const tooltipText = getPreselectionRank(playerName);
+  return `
+    <span class="player-bet-name has-tooltip" title="Classement présélection : ${escapeHtml(tooltipText)}">
+      ${escapeHtml(playerName)}
+      <span class="player-tooltip"><strong>Présélection :</strong> ${escapeHtml(tooltipText)}</span>
+    </span>
+  `;
+}
+
 function buildCard(matchName, matchTag, players, color, containerId, prefix) {
   const cont = document.getElementById(containerId);
   if (!cont) return;
@@ -1164,7 +1318,7 @@ function buildCard(matchName, matchTag, players, color, containerId, prefix) {
   const rows = players.map((p, i) => {
     const tbd = p === '-';
     return `<div class="player-bet-row">
-      <span class="player-bet-name${tbd ? ' tbd' : ''}" title="${tbd ? '' : p}">${tbd ? 'À définir' : p}</span>
+      ${buildPlayerNameHtml(p, tbd)}
       <select class="rank-select" id="${prefix}-r${i}" data-prefix="${prefix}" ${tbd ? 'disabled' : ''}>
         <option value="">—</option>
         <option value="1">🥇 1er</option>
@@ -1424,13 +1578,14 @@ function collectPreviewData(phase, name) {
     name,
     phaseLabel: phaseLabels[phase],
     winners: [
-      { label: 'Tableau 1', value: document.getElementById(`winner-t1-${phase}`)?.value || 'Non renseigné' },
-      { label: 'Tableau 2', value: document.getElementById(`winner-t2-${phase}`)?.value || 'Non renseigné' },
-      { label: 'Tableau 3', value: document.getElementById(`winner-t3-${phase}`)?.value || 'Non renseigné' }
+      { label: 'Tableau 1', value: document.getElementById(`winner-t1-${phase}`)?.value || 'Non renseigné', color: 'blue' },
+      { label: 'Tableau 2', value: document.getElementById(`winner-t2-${phase}`)?.value || 'Non renseigné', color: 'red' },
+      { label: 'Tableau 3', value: document.getElementById(`winner-t3-${phase}`)?.value || 'Non renseigné', color: 'yellow' }
     ],
     matches: sources[phase].flatMap((br, bi) =>
       groups[phase](br).map((item, idx) => ({
         tableau: br.label,
+        color: br.color,
         block: item.name,
         lines: item.players
           .map((p, pi) => {
@@ -1466,6 +1621,12 @@ function escapeHtml(str) {
 function renderPreview(preview) {
   const grouped = groupMatchesByTableau(preview.matches);
 
+  const tableauColorClass = {
+    "Tableau 1": "tableau-blue",
+    "Tableau 2": "tableau-red",
+    "Tableau 3": "tableau-yellow"
+  };
+
   return `
     <div class="bets-preview">
       <h3>Récapitulatif de vos paris</h3>
@@ -1476,7 +1637,7 @@ function renderPreview(preview) {
         <div class="preview-title">Gagnants finaux</div>
         <div class="preview-winners-grid">
           ${preview.winners.map(w => `
-            <div class="preview-winner-card">
+            <div class="preview-winner-card pw-${escapeHtml(w.color)}">
               <div class="pw-title">${escapeHtml(w.label)}</div>
               <div class="pw-value">${escapeHtml(w.value)}</div>
             </div>
@@ -1489,10 +1650,10 @@ function renderPreview(preview) {
 
         ${Object.keys(grouped).map(tableauName => `
           <div class="preview-tableau-block">
-            <div class="preview-tableau-name">${escapeHtml(tableauName)}</div>
+            <div class="preview-tableau-name ${tableauColorClass[tableauName] || ''}">${escapeHtml(tableauName)}</div>
             <div class="preview-matches-grid">
               ${grouped[tableauName].map(match => `
-                <div class="preview-match-card">
+                <div class="preview-match-card pm-${escapeHtml(match.color)}">
                   <div class="preview-match-title">${escapeHtml(match.block)}</div>
                   ${match.lines.map(line => `
                     <div class="preview-mini-line">
@@ -1537,7 +1698,7 @@ function finalSend(phase, name) {
           <button class="mini-btn grey" onclick="location.href='index.html'">← ACCUEIL</button>
         </div>
         <p style="margin-top:14px;font-size:0.75rem;color:rgba(255,255,255,0.25);">
-          Bonne chance, <strong style="color:rgba(255,215,0,0.6)">${escapeHtml(name)}</strong> ! 🍄
+          Bonne chance, <strong style="color:#8ec1ff">${escapeHtml(name)}</strong> ! 🍄
         </p>
         ${renderPreview(preview)}
       </div>`;
