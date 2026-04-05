@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paris — Mario Kart Tournoi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Exo+2:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #E8001D; --blue: #0052A5; --yellow: #FFD700;
+      --dark: #07071a; --red-glow: rgba(232,0,29,0.5);
+      --blue-glow: rgba(0,82,165,0.5); --yellow-glow: rgba(255,215,0,0.5);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--dark); font-family: 'Exo 2', sans-serif; color: #fff; min-height: 100vh; }
+
+    .bg {
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 80% 20%, rgba(255,215,0,0.08), transparent 60%),
+        radial-gradient(ellipse 50% 40% at 10% 80%, rgba(232,0,29,0.08), transparent 60%),
+        linear-gradient(180deg, #060610 0%, #0A0A1E 100%);
+    }
+
+    .top-bar {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; padding: 0 28px; height: 64px;
+      background: rgba(7,7,26,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,215,0,0.3);
+      box-shadow: 0 4px 32px rgba(0,0,0,0.5);
+    }
+    .brand { font-family: 'Russo One', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; color: var(--yellow); text-decoration: none; text-shadow: 0 0 12px rgba(255,215,0,0.6); white-space: nowrap; }
+    .brand span { color: rgba(255,255,255,0.5); }
+    .top-title { flex: 1; text-align: center; font-family: 'Russo One', sans-serif; font-size: 1.3rem; letter-spacing: 0.15em; text-transform: uppercase; }
+    .back-btn { font-size: 0.8rem; color: rgba(255,255,255,0.4); text-decoration: none; letter-spacing: 0.1em; transition: color 0.2s; white-space: nowrap; }
+    .back-btn:hover { color: var(--yellow); }
+
+    .page { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 48px 20px 80px; }
+
+    h1 { font-family: 'Russo One', sans-serif; font-size: 2rem; text-align: center; color: var(--yellow); text-shadow: 0 0 20px rgba(255,215,0,0.5); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em; }
+    .subtitle { text-align: center; color: rgba(255,255,255,0.4); letter-spacing: 0.15em; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 24px; }
+
+    /* INFO BOX */
+    .info-box { background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.2); border-radius: 12px; padding: 20px 24px; margin-bottom: 32px; }
+    .info-box h3 { font-family: 'Russo One', sans-serif; color: var(--yellow); font-size: 0.95rem; margin-bottom: 10px; letter-spacing: 0.08em; }
+    .info-box p { color: rgba(255,255,255,0.6); font-size: 0.85rem; line-height: 1.7; margin-bottom: 10px; }
+    .warning-line { color: rgba(255,215,0,0.8) !important; font-size: 0.82rem !important; }
+    .points-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 8px; margin-top: 12px; }
+    .point-item { background: rgba(0,0,0,0.25); border-radius: 8px; padding: 9px 13px; display: flex; align-items: center; gap: 10px; }
+    .point-badge { font-family: 'Russo One', sans-serif; font-size: 0.9rem; color: var(--yellow); min-width: 48px; text-align: center; white-space: nowrap; }
+    .point-desc { font-size: 0.77rem; color: rgba(255,255,255,0.55); line-height: 1.4; }
+
+    /* PHASE TABS */
+    .phase-tabs { display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
+    .phase-tab { padding: 10px 22px; border-radius: 8px; cursor: pointer; font-family: 'Russo One', sans-serif; font-size: 0.82rem; letter-spacing: 0.1em; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.4); transition: all 0.2s; user-select: none; }
+    .phase-tab.active { background: rgba(255,215,0,0.14); border-color: var(--yellow); color: var(--yellow); box-shadow: 0 0 14px rgba(255,215,0,0.18); }
+    .phase-tab.locked { cursor: not-allowed; opacity: 0.35; }
+
+    /* SECTION TITLE */
+    .section-title { font-family: 'Russo One', sans-serif; font-size: 1rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 4px; margin-top: 32px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+    .section-pts { font-family: 'Exo 2', sans-serif; font-size: 0.77rem; color: rgba(255,215,0,0.65); font-weight: 600; letter-spacing: 0.05em; }
+    .section-divider { height: 1px; background: rgba(255,255,255,0.08); margin-bottom: 16px; margin-top: 8px; }
+
+    /* NAME CARD */
+    .name-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,215,0,0.22); border-radius: 12px; padding: 20px 24px; margin-bottom: 28px; }
+    .name-card label { display: block; font-family: 'Russo One', sans-serif; font-size: 0.78rem; letter-spacing: 0.12em; color: var(--yellow); margin-bottom: 8px; text-transform: uppercase; }
+    .name-card input { width: 100%; padding: 11px 16px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; color: #fff; font-family: 'Exo 2', sans-serif; font-size: 0.95rem; outline: none; transition: border-color 0.2s; }
+    .name-card input:focus { border-color: var(--yellow); }
+
+    /* WINNER CARDS */
+    .winner-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin-bottom: 4px; }
+    .winner-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 15px; }
+    .winner-card-title { font-family: 'Russo One', sans-serif; font-size: 0.81rem; letter-spacing: 0.07em; margin-bottom: 11px; }
+    .winner-card-title span { display: block; font-family: 'Exo 2', sans-serif; font-size: 0.7rem; opacity: 0.4; margin-top: 2px; font-weight: 400; }
+    .winner-card.t1 { border-color: rgba(0,82,165,0.5); }
+    .winner-card.t1 .winner-card-title { color: #6eb4ff; }
+    .winner-card.t2 { border-color: rgba(232,0,29,0.45); }
+    .winner-card.t2 .winner-card-title { color: #ff8090; }
+    .winner-card.t3 { border-color: rgba(255,215,0,0.35); }
+    .winner-card.t3 .winner-card-title { color: var(--yellow); }
+    .winner-select { width: 100%; padding: 9px 13px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 7px; color: #fff; font-family: 'Exo 2', sans-serif; font-size: 0.87rem; outline: none; cursor: pointer; transition: border-color 0.2s; }
+    .winner-select:focus { border-color: var(--yellow); }
+    .winner-select option { background: #0A0A1E; }
+
+    /* TABLEAU BLOCKS */
+    .tableau-block { margin-bottom: 24px; }
+    .tableau-header { display: flex; align-items: center; gap: 10px; padding: 9px 15px; border-radius: 8px; margin-bottom: 11px; font-family: 'Russo One', sans-serif; font-size: 0.87rem; letter-spacing: 0.09em; }
+    .th-blue   { background: rgba(0,82,165,0.2); border: 1px solid rgba(0,82,165,0.42); color: #6eb4ff; }
+    .th-red    { background: rgba(232,0,29,0.17); border: 1px solid rgba(232,0,29,0.38); color: #ff8090; }
+    .th-yellow { background: rgba(255,215,0,0.12); border: 1px solid rgba(255,215,0,0.32); color: var(--yellow); }
+    .th-sub    { font-size: 0.68rem; opacity: 0.45; font-family: 'Exo 2', sans-serif; font-weight: 400; margin-left: 4px; }
+
+    .matches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(195px, 1fr)); gap: 9px; }
+
+    /* MATCH BET CARD */
+    .match-bet-card { background: rgba(255,255,255,0.032); border: 1px solid rgba(255,255,255,0.07); border-radius: 9px; overflow: hidden; }
+    .match-bet-header { display: flex; align-items: center; gap: 7px; padding: 8px 11px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .mh-blue   { background: rgba(0,82,165,0.22); }
+    .mh-red    { background: rgba(232,0,29,0.18); }
+    .mh-yellow { background: rgba(255,215,0,0.12); }
+    .match-bet-name { font-family: 'Russo One', sans-serif; font-size: 0.8rem; letter-spacing: 0.06em; }
+    .match-bet-tag  { font-size: 0.62rem; color: rgba(255,255,255,0.3); margin-left: auto; }
+
+    .players-bet-grid { padding: 9px 11px; display: flex; flex-direction: column; gap: 6px; }
+    .player-bet-row { display: flex; align-items: center; gap: 7px; }
+    .player-bet-name { flex: 1; font-size: 0.8rem; font-weight: 600; color: rgba(255,255,255,0.8); letter-spacing: 0.02em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .player-bet-name.tbd { color: rgba(255,255,255,0.22); font-style: italic; font-weight: 400; }
+    .rank-select { width: 70px; padding: 4px 7px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 5px; color: #fff; font-family: 'Exo 2', sans-serif; font-size: 0.76rem; outline: none; cursor: pointer; transition: border-color 0.15s; }
+    .rank-select:focus { border-color: var(--yellow); }
+    .rank-select option { background: #0A0A1E; }
+
+    /* SUBMIT */
+    .submit-zone { margin-top: 40px; }
+    .submit-btn { width: 100%; padding: 17px; background: linear-gradient(135deg, #1a0e00, #b8860b 40%, #FFD700 50%, #b8860b 60%, #1a0e00); background-size: 300% 100%; border: 1px solid var(--yellow); border-radius: 12px; color: #000; font-family: 'Russo One', sans-serif; font-size: 1rem; letter-spacing: 0.12em; cursor: pointer; transition: all 0.3s; }
+    .submit-btn:hover { background-position: 100% 0; box-shadow: 0 0 32px rgba(255,215,0,0.5); transform: translateY(-2px); }
+
+    /* PHASE PANELS */
+    .phase-panel { display: none; }
+    .phase-panel.active { display: block; }
+
+    /* REVISION NOTE */
+    .revision-note { color: rgba(255,255,255,0.42); font-size: 0.83rem; margin-bottom: 14px; line-height: 1.6; }
+
+    /* FALLBACK TEXTAREA */
+    .fallback-area { margin-top: 14px; width: 100%; height: 150px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.14); border-radius: 8px; color: rgba(255,255,255,0.55); font-family: monospace; font-size: 0.72rem; padding: 11px; resize: vertical; outline: none; }
+    .mini-btn { padding: 9px 20px; background: rgba(255,215,0,0.1); border: 1px solid var(--yellow); border-radius: 7px; color: var(--yellow); font-family: 'Russo One', sans-serif; font-size: 0.78rem; letter-spacing: 0.1em; cursor: pointer; margin-top: 8px; margin-right: 8px; transition: background 0.2s; }
+    .mini-btn:hover { background: rgba(255,215,0,0.2); }
+    .mini-btn.grey { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.4); }
+    .mini-btn.grey:hover { background: rgba(255,255,255,0.06); }
+
+    .success-wrap { text-align: center; padding: 48px 24px; background: rgba(255,215,0,0.06); border: 1px solid rgba(255,215,0,0.28); border-radius: 16px; }
+    .success-wrap .s-icon { font-size: 3.5rem; display: block; margin-bottom: 14px; }
+    .success-wrap h2 { font-family: 'Russo One', sans-serif; color: var(--yellow); font-size: 1.5rem; margin-bottom: 10px; }
+    .success-wrap p { color: rgba(255,255,255,0.5); font-size: 0.87rem; line-height: 1.8; }
+  </style>
+</head>
+<body>
+<div class="bg"></div>
+
+<div class="top-bar">
+  <a href="index.html" class="brand">🏆 <span>TOURNOI INTERNE</span> MARIO KART</a>
+  <div class="top-title">FAIRE DES PARIS</div>
+  <a href="index.html" class="back-btn">← Accueil</a>
+</div>
+
+<div class="page" id="mainPage">
+  <h1>🎰 FAIRE DES PARIS</h1>
+  <p class="subtitle">Pariez sur les matchs et les gagnants finaux</p>
+
+  <!-- INFO BOX -->
+  <div class="info-box">
+    <h3>🎯 Comment ça marche ?</h3>
+    <p>Pariez sur le classement de chaque match (1er à 4e) et sur le vainqueur final de chaque tableau. Votre pari est envoyé à l'organisateur par e-mail. Plus vous avez de bonnes prédictions, plus vous marquez de points ! Vous pouvez réviser votre pronostic sur le gagnant final après chaque tour.</p>
+    <p class="warning-line">⚠️ <strong>C'est le premier pari envoyé qui est pris en compte.</strong> Les envois ultérieurs dans la même phase ne seront pas comptabilisés.</p>
+    <div class="points-grid">
+      <div class="point-item"><div class="point-badge">+1 pts</div><div class="point-desc">Par joueur bien classé dans un match</div></div>
+      <div class="point-item"><div class="point-badge">+20 pts</div><div class="point-desc">Bon gagnant final prédit <em>avant</em> le tournoi</div></div>
+      <div class="point-item"><div class="point-badge">+10 pts</div><div class="point-desc">Bon gagnant final prédit <em>après</em> le Tour 1</div></div>
+      <div class="point-item"><div class="point-badge">+5 pts</div><div class="point-desc">Bon gagnant final prédit <em>après</em> le Tour 2</div></div>
+    </div>
+  </div>
+
+  <!-- PHASE TABS -->
+  <div class="phase-tabs">
+    <div class="phase-tab active" onclick="switchPhase('phase0')">🏁 Avant le tournoi</div>
+    <div class="phase-tab locked" id="tab-phase1">Après Tour 1 🔒</div>
+    <div class="phase-tab locked" id="tab-phase2">Après Tour 2 🔒</div>
+  </div>
+
+  <!-- ═══════════ PHASE 0 ═══════════ -->
+  <div class="phase-panel active" id="phase0">
+    <div class="name-card">
+      <label>Votre nom</label>
+      <input type="text" id="bettor-name-0" placeholder="Prénom Nom" autocomplete="off">
+    </div>
+
+    <div class="section-title" style="color:var(--yellow)">
+      🏆 Gagnants finaux
+      <span class="section-pts">— 20 points par bonne réponse</span>
+    </div>
+    <div class="section-divider"></div>
+    <div class="winner-cards">
+      <div class="winner-card t1">
+        <div class="winner-card-title">🥇 Vainqueur Tableau 1<span>1er au classement général</span></div>
+        <select class="winner-select" id="winner-t1-0"><option value="">— Choisir un joueur —</option></select>
+      </div>
+      <div class="winner-card t2">
+        <div class="winner-card-title">🥇 Vainqueur Tableau 2<span>17e au classement général</span></div>
+        <select class="winner-select" id="winner-t2-0"><option value="">— Choisir un joueur —</option></select>
+      </div>
+      <div class="winner-card t3">
+        <div class="winner-card-title">🥇 Vainqueur Tableau 3<span>33e au classement général</span></div>
+        <select class="winner-select" id="winner-t3-0"><option value="">— Choisir un joueur —</option></select>
+      </div>
+    </div>
+
+    <div class="section-title" style="color:rgba(255,255,255,0.8); margin-top:36px;">
+      🏎️ Paris sur les matchs — Tour 1
+      <span class="section-pts">— 1 point par bonne réponse</span>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="tableau-block">
+      <div class="tableau-header th-blue">🔵 Tableau 1 <span class="th-sub">Places 1–16</span></div>
+      <div class="matches-grid" id="p0-t1-matches"></div>
+    </div>
+    <div class="tableau-block">
+      <div class="tableau-header th-red">🔴 Tableau 2 <span class="th-sub">Places 17–32</span></div>
+      <div class="matches-grid" id="p0-t2-matches"></div>
+    </div>
+    <div class="tableau-block">
+      <div class="tableau-header th-yellow">🟡 Tableau 3 <span class="th-sub">Places 33–48</span></div>
+      <div class="matches-grid" id="p0-t3-matches"></div>
+    </div>
+
+    <div class="submit-zone">
+      <button class="submit-btn" onclick="submitBets(0)">🎯 ENVOYER MES PARIS PAR E-MAIL</button>
+    </div>
+  </div>
+
+  <!-- ═══════════ PHASE 1 ═══════════ -->
+  <div class="phase-panel" id="phase1">
+    <div class="name-card">
+      <label>Votre nom</label>
+      <input type="text" id="bettor-name-1" placeholder="Prénom Nom" autocomplete="off">
+    </div>
+
+    <div class="section-title" style="color:var(--yellow)">
+      🏆 Révision des gagnants finaux
+      <span class="section-pts">— 10 points par bonne réponse</span>
+    </div>
+    <div class="section-divider"></div>
+    <p class="revision-note">Le Tour 1 est terminé. Mettez à jour votre pronostic sur le vainqueur final de chaque tableau.</p>
+    <div class="winner-cards">
+      <div class="winner-card t1">
+        <div class="winner-card-title">🥇 Vainqueur Tableau 1<span>1er au classement général</span></div>
+        <select class="winner-select" id="winner-t1-1"><option value="">— Choisir un joueur —</option></select>
+      </div>
+      <div class="winner-card t2">
+        <div class="winner-card-title">🥇 Vainqueur Tableau 2<span>17e au classement général</span></div>
+        <select class="winner-select" id="winner-t2-1"><option value="">— Choisir un joueur —</option></select>
+      </div>
+      <div class="winner-card t3">
+        <div class="winner-card-title">🥇 Vainqueur Tableau 3<span>33e au classement général</span></div>
+        <select class="winner-select" id="winner-t3-1"><option value="">— Choisir un joueur —</option></select>
+      </div>
+    </div>
+
+    <div class="section-title" style="color:rgba(255,255,255,0.8); margin-top:36px;">
+      🔀 Paris sur les matchs — Tour 2
+      <span class="section-pts">— 1 point par bonne réponse</span>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="tableau-block">
+      <div class="tableau-header th-blue">🔵 Tableau 1</div>
+      <div class="matches-grid" id="p1-t1-matches"></div>
+    </div>
+    <div class="tableau-block">
+      <div class="tableau-header th-red">🔴 Tableau 2</div>
+      <div class="matches-grid" id="p1-t2-matches"></div>
+    </div>
+    <div class="tableau-block">
+      <div class="tableau-header th-yellow">🟡 Tableau 3</div>
+      <div class="matches-grid" id="p1-t3-matches"></div>
+    </div>
+
+    <div class="submit-zone">
+      <button class="submit-btn" onclick="submitBets(1)">🎯 ENVOYER MES PARIS TOUR 2 PAR E-MAIL</button>
+    </div>
+  </div>
+
+  <!-- ═══════════ PHASE 2 ═══════════ -->
+  <div class="phase-panel" id="phase2">
+    <div class="name-card">
+      <label>Votre nom</label>
+      <input type="text" id="bettor-name-2" placeholder="Prénom Nom" autocomplete="off">
+    </div>
+
+    <div class="section-title" style="color:var(--yellow)">
+      🏆 Dernière révision des gagnants finaux
+      <span class="section-pts">— 5 points par bonne réponse</span>
+    </div>
+    <div class="section-divider"></div>
+    <p class="revision-note">Le Tour 2 est terminé. Dernière chance pour ajuster votre pronostic sur le vainqueur final.</p>
+    <div class="winner-cards">
+      <div class="winner-card t1">
+        <div class="winner-card-title">🥇 Vainqueur Tableau 1<span>1er au classement général</span></div>
+        <select class="winner-select" id="winner-t1-2"><option value="">— Choisir un joueur —</option></select>
+      </div>
+      <div class="winner-card t2">
+        <div class="winner-card-title">🥇 Vainqueur Tableau 2<span>17e au classement général</span></div>
+        <select class="winner-select" id="winner-t2-2"><option value="">— Choisir un joueur —</option></select>
+      </div>
+      <div class="winner-card t3">
+        <div class="winner-card-title">🥇 Vainqueur Tableau 3<span>33e au classement général</span></div>
+        <select class="winner-select" id="winner-t3-2"><option value="">— Choisir un joueur —</option></select>
+      </div>
+    </div>
+
+    <div class="section-title" style="color:rgba(255,255,255,0.8); margin-top:36px;">
+      🏆 Paris sur les matchs — Tour 3
+      <span class="section-pts">— 1 point par bonne réponse</span>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="tableau-block">
+      <div class="tableau-header th-blue">🔵 Tableau 1</div>
+      <div class="matches-grid" id="p2-t1-matches"></div>
+    </div>
+    <div class="tableau-block">
+      <div class="tableau-header th-red">🔴 Tableau 2</div>
+      <div class="matches-grid" id="p2-t2-matches"></div>
+    </div>
+    <div class="tableau-block">
+      <div class="tableau-header th-yellow">🟡 Tableau 3</div>
+      <div class="matches-grid" id="p2-t3-matches"></div>
+    </div>
+
+    <div class="submit-zone">
+      <button class="submit-btn" onclick="submitBets(2)">🎯 ENVOYER MES PARIS TOUR 3 PAR E-MAIL</button>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+//  CONFIGURATION — À MODIFIER PAR L'ORGANISATEUR
+// ═══════════════════════════════════════════════════════════════════
+
+const PHASE1_OPEN = false;   // passer à true après le Tour 1
+const PHASE2_OPEN = false;   // passer à true après le Tour 2
+
+// Tour 1 — remplacez les noms fictifs par les vrais noms
+const BRACKETS_TOUR1 = [
+  { label: "Tableau 1", color: "blue", groups: [
+    { name: "Poule A", players: ["Joueur A1", "Joueur A2", "Joueur A3", "Joueur A4"] },
+    { name: "Poule B", players: ["Joueur B1", "Joueur B2", "Joueur B3", "Joueur B4"] },
+    { name: "Poule C", players: ["Joueur C1", "Joueur C2", "Joueur C3", "Joueur C4"] },
+    { name: "Poule D", players: ["Joueur D1", "Joueur D2", "Joueur D3", "Joueur D4"] },
+  ]},
+  { label: "Tableau 2", color: "red", groups: [
+    { name: "Poule E", players: ["Joueur E1", "Joueur E2", "Joueur E3", "Joueur E4"] },
+    { name: "Poule F", players: ["Joueur F1", "Joueur F2", "Joueur F3", "Joueur F4"] },
+    { name: "Poule G", players: ["Joueur G1", "Joueur G2", "Joueur G3", "Joueur G4"] },
+    { name: "Poule H", players: ["Joueur H1", "Joueur H2", "Joueur H3", "Joueur H4"] },
+  ]},
+  { label: "Tableau 3", color: "yellow", groups: [
+    { name: "Poule I", players: ["Joueur I1", "Joueur I2", "Joueur I3", "Joueur I4"] },
+    { name: "Poule J", players: ["Joueur J1", "Joueur J2", "Joueur J3", "Joueur J4"] },
+    { name: "Poule K", players: ["Joueur K1", "Joueur K2", "Joueur K3", "Joueur K4"] },
+    { name: "Poule L", players: ["Joueur L1", "Joueur L2", "Joueur L3", "Joueur L4"] },
+  ]}
+];
+
+// Tour 2 — remplir après le Tour 1 (remplacer "-" par les vrais noms)
+const BRACKETS_TOUR2 = [
+  { label: "Tableau 1", color: "blue", matches: [
+    { name: "Match 1", tag: "1ers A+C · 2es B+D", players: ["-","-","-","-"] },
+    { name: "Match 2", tag: "2es A+C · 1ers B+D", players: ["-","-","-","-"] },
+    { name: "Match 3", tag: "3es A+C · 4es B+D", players: ["-","-","-","-"] },
+    { name: "Match 4", tag: "4es A+C · 3es B+D", players: ["-","-","-","-"] },
+  ]},
+  { label: "Tableau 2", color: "red", matches: [
+    { name: "Match 1", tag: "1ers E+G · 2es F+H", players: ["-","-","-","-"] },
+    { name: "Match 2", tag: "2es E+G · 1ers F+H", players: ["-","-","-","-"] },
+    { name: "Match 3", tag: "3es E+G · 4es F+H", players: ["-","-","-","-"] },
+    { name: "Match 4", tag: "4es E+G · 3es F+H", players: ["-","-","-","-"] },
+  ]},
+  { label: "Tableau 3", color: "yellow", matches: [
+    { name: "Match 1", tag: "1ers I+K · 2es J+L", players: ["-","-","-","-"] },
+    { name: "Match 2", tag: "2es I+K · 1ers J+L", players: ["-","-","-","-"] },
+    { name: "Match 3", tag: "3es I+K · 4es J+L", players: ["-","-","-","-"] },
+    { name: "Match 4", tag: "4es I+K · 3es J+L", players: ["-","-","-","-"] },
+  ]}
+];
+
+// Tour 3 — remplir après le Tour 2
+const BRACKETS_TOUR3 = [
+  { label: "Tableau 1", color: "blue", matches: [
+    { name: "Match 1", tag: "Places 1–4",   players: ["-","-","-","-"] },
+    { name: "Match 2", tag: "Places 5–8",   players: ["-","-","-","-"] },
+    { name: "Match 3", tag: "Places 9–12",  players: ["-","-","-","-"] },
+    { name: "Match 4", tag: "Places 13–16", players: ["-","-","-","-"] },
+  ]},
+  { label: "Tableau 2", color: "red", matches: [
+    { name: "Match 1", tag: "Places 17–20", players: ["-","-","-","-"] },
+    { name: "Match 2", tag: "Places 21–24", players: ["-","-","-","-"] },
+    { name: "Match 3", tag: "Places 25–28", players: ["-","-","-","-"] },
+    { name: "Match 4", tag: "Places 29–32", players: ["-","-","-","-"] },
+  ]},
+  { label: "Tableau 3", color: "yellow", matches: [
+    { name: "Match 1", tag: "Places 33–36", players: ["-","-","-","-"] },
+    { name: "Match 2", tag: "Places 37–40", players: ["-","-","-","-"] },
+    { name: "Match 3", tag: "Places 41–44", players: ["-","-","-","-"] },
+    { name: "Match 4", tag: "Places 45–48", players: ["-","-","-","-"] },
+  ]}
+];
+
+const EMAIL_DEST = "val.duriez@yahoo.fr";
+
+// ═══════════════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════════════
+
+if (PHASE1_OPEN) {
+  const t = document.getElementById('tab-phase1');
+  t.classList.remove('locked'); t.innerHTML = '🔀 Après Tour 1';
+  t.onclick = () => switchPhase('phase1');
+}
+if (PHASE2_OPEN) {
+  const t = document.getElementById('tab-phase2');
+  t.classList.remove('locked'); t.innerHTML = '🏆 Après Tour 2';
+  t.onclick = () => switchPhase('phase2');
+}
+
+// Populate winner selects
+function allPlayers(bi) { return BRACKETS_TOUR1[bi].groups.flatMap(g => g.players).filter(p => p && p !== '-'); }
+function fillSelect(id, bi) {
+  const s = document.getElementById(id); if (!s) return;
+  allPlayers(bi).forEach(p => { const o = document.createElement('option'); o.value = p; o.textContent = p; s.appendChild(o); });
+}
+[0,1,2].forEach(ph => { fillSelect(`winner-t1-${ph}`, 0); fillSelect(`winner-t2-${ph}`, 1); fillSelect(`winner-t3-${ph}`, 2); });
+
+// Build match card
+function buildCard(matchName, matchTag, players, color, containerId, prefix) {
+  const cont = document.getElementById(containerId); if (!cont) return;
+  const card = document.createElement('div'); card.className = 'match-bet-card';
+  const rows = players.map((p, i) => {
+    const tbd = p === '-';
+    return `<div class="player-bet-row">
+      <span class="player-bet-name${tbd?' tbd':''}" title="${tbd?'':p}">${tbd?'À définir':p}</span>
+      <select class="rank-select" id="${prefix}-r${i}"${tbd?' disabled':''}>
+        <option value="">—</option><option value="1">🥇 1er</option><option value="2">🥈 2e</option><option value="3">🥉 3e</option><option value="4">4e</option>
+      </select></div>`;
+  }).join('');
+  card.innerHTML = `<div class="match-bet-header mh-${color}"><span class="match-bet-name">${matchName}</span><span class="match-bet-tag">${matchTag}</span></div><div class="players-bet-grid">${rows}</div>`;
+  cont.appendChild(card);
+}
+
+BRACKETS_TOUR1.forEach((br, bi) => br.groups.forEach((g, gi) => buildCard(g.name, 'Tour 1', g.players, br.color, `p0-t${bi+1}-matches`, `p0t${bi+1}g${gi}`)));
+BRACKETS_TOUR2.forEach((br, bi) => br.matches.forEach((m, mi) => buildCard(m.name, m.tag, m.players, br.color, `p1-t${bi+1}-matches`, `p1t${bi+1}m${mi}`)));
+BRACKETS_TOUR3.forEach((br, bi) => br.matches.forEach((m, mi) => buildCard(m.name, m.tag, m.players, br.color, `p2-t${bi+1}-matches`, `p2t${bi+1}m${mi}`)));
+
+// ═══════════════════════════════════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════════════════════════════════
+
+function switchPhase(id) {
+  document.querySelectorAll('.phase-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.phase-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const idx = { phase0: 0, phase1: 1, phase2: 2 }[id];
+  document.querySelectorAll('.phase-tab')[idx]?.classList.add('active');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  COLLECTE
+// ═══════════════════════════════════════════════════════════════════
+
+function getRank(prefix, i) { const e = document.getElementById(`${prefix}-r${i}`); return e ? (e.value || 'NC') : 'NC'; }
+
+function buildBody(phase, name) {
+  const phaseLabels = ["Avant le tournoi", "Après Tour 1", "Après Tour 2"];
+  const winPts = [20, 10, 5];
+  const w1 = document.getElementById(`winner-t1-${phase}`)?.value || 'Non renseigné';
+  const w2 = document.getElementById(`winner-t2-${phase}`)?.value || 'Non renseigné';
+  const w3 = document.getElementById(`winner-t3-${phase}`)?.value || 'Non renseigné';
+
+  let lines = [
+    `PARIEUR;${name}`,
+    `PHASE;${phaseLabels[phase]}`,
+    ``,
+    `=== GAGNANTS FINAUX (${winPts[phase]} pts chacun) ===`,
+    `Tableau;Vainqueur prédit`,
+    `Tableau 1 (1er général);${w1}`,
+    `Tableau 2 (17e général);${w2}`,
+    `Tableau 3 (33e général);${w3}`,
+    ``,
+    `=== PARIS SUR LES MATCHS (1 pt/joueur bien classé) ===`,
+    `Tableau;Match;Joueur;Rang prédit`
+  ];
+
+  const sources = [BRACKETS_TOUR1, BRACKETS_TOUR2, BRACKETS_TOUR3];
+  const prefixFn = [
+    (bi, gi) => `p0t${bi+1}g${gi}`,
+    (bi, mi) => `p1t${bi+1}m${mi}`,
+    (bi, mi) => `p2t${bi+1}m${mi}`
+  ];
+  const groups = [
+    (br) => br.groups,
+    (br) => br.matches,
+    (br) => br.matches
+  ];
+
+  sources[phase].forEach((br, bi) => {
+    groups[phase](br).forEach((item, idx) => {
+      item.players.forEach((p, pi) => {
+        if (p !== '-') lines.push(`${br.label};${item.name};${p};${getRank(prefixFn[phase](bi, idx), pi)}`);
+      });
+    });
+  });
+
+  return lines.join('\n');
+}
+
+function submitBets(phase) {
+  const name = document.getElementById(`bettor-name-${phase}`)?.value.trim();
+  if (!name) { alert('Veuillez entrer votre nom avant d\'envoyer vos paris.'); return; }
+
+  const phaseLabels = ["Avant le tournoi", "Après Tour 1", "Après Tour 2"];
+  const body = buildBody(phase, name);
+  const subject = `[PARIS Mario Kart] ${phaseLabels[phase]} — ${name}`;
+
+  window.location.href = `mailto:${EMAIL_DEST}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+  setTimeout(() => {
+    document.getElementById('mainPage').innerHTML = `
+      <div class="success-wrap">
+        <span class="s-icon">🏁</span>
+        <h2>PARIS ENVOYÉS !</h2>
+        <p>Votre application e-mail s'est ouverte avec vos paris pré-remplis.<br>
+        Si rien ne s'est ouvert, copiez le texte ci-dessous et envoyez-le manuellement<br>
+        à <strong style="color:var(--yellow)">${EMAIL_DEST}</strong></p>
+        <textarea class="fallback-area" id="csv-fallback">${body}</textarea>
+        <div>
+          <button class="mini-btn" onclick="copyFallback()">📋 COPIER LE TEXTE</button>
+          <button class="mini-btn grey" onclick="location.href='index.html'">← ACCUEIL</button>
+        </div>
+        <p style="margin-top:14px;font-size:0.75rem;color:rgba(255,255,255,0.25);">
+          Bonne chance, <strong style="color:rgba(255,215,0,0.6)">${name}</strong> ! 🍄
+        </p>
+      </div>`;
+  }, 700);
+}
+
+function copyFallback() {
+  const ta = document.getElementById('csv-fallback');
+  ta.select(); document.execCommand('copy');
+  alert('Texte copié ! Collez-le dans un e-mail à ' + EMAIL_DEST);
+}
+</script>
+</body>
+</html>
