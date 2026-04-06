@@ -1,95 +1,389 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Règles du jeu — Mario Kart Tournoi</title>
   <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Exo+2:wght@400;600;700;900&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --red:#E8001D; --blue:#0052A5; --yellow:#FFD700;
-      --dark:#07071a; --red-glow:rgba(232,0,29,0.5); --blue-glow:rgba(0,82,165,0.5);
+    :root{
+      --red:#E8001D;
+      --blue:#0052A5;
+      --yellow:#FFD700;
+      --dark:#07071a;
+      --panel:rgba(255,255,255,0.04);
+      --panel-border:rgba(255,255,255,0.09);
+      --text:rgba(255,255,255,0.78);
+      --muted:rgba(255,255,255,0.50);
     }
+
     *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:var(--dark);font-family:'Exo 2',sans-serif;color:#fff;min-height:100vh;}
-    .bg{position:fixed;inset:0;z-index:0;
-      background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(0,82,165,0.2),transparent 70%),
-        linear-gradient(180deg,#060610 0%,#0A0A1E 100%);
+
+    body{
+      background:var(--dark);
+      font-family:'Exo 2',sans-serif;
+      color:#fff;
+      min-height:100vh;
     }
-    .top-bar{position:sticky;top:0;z-index:100;display:flex;align-items:center;padding:0 28px;height:64px;
-      background:rgba(7,7,26,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(232,0,29,0.3);}
-    .brand{font-family:'Russo One',sans-serif;font-size:0.9rem;letter-spacing:0.1em;color:var(--yellow);
-      text-decoration:none;text-shadow:0 0 12px rgba(255,215,0,0.6);}
+
+    .bg{
+      position:fixed;
+      inset:0;
+      z-index:0;
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0,82,165,0.20), transparent 70%),
+        linear-gradient(180deg, #060610 0%, #0A0A1E 100%);
+    }
+
+    .top-bar{
+      position:sticky;
+      top:0;
+      z-index:100;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 28px;
+      height:64px;
+      background:rgba(7,7,26,0.92);
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(232,0,29,0.30);
+    }
+
+    .brand{
+      font-family:'Russo One',sans-serif;
+      font-size:0.9rem;
+      letter-spacing:0.1em;
+      color:var(--yellow);
+      text-decoration:none;
+      text-shadow:0 0 12px rgba(255,215,0,0.6);
+      white-space:nowrap;
+      position:relative;
+      z-index:2;
+    }
+
     .brand span{color:rgba(255,255,255,0.5);}
-    .top-title{flex:1;text-align:center;font-family:'Russo One',sans-serif;font-size:1.3rem;letter-spacing:0.15em;}
-    .back-btn{font-size:0.8rem;color:rgba(255,255,255,0.4);text-decoration:none;letter-spacing:0.1em;transition:color 0.2s;}
+
+    .top-title{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      text-align:center;
+      font-family:'Russo One',sans-serif;
+      font-size:1.3rem;
+      letter-spacing:0.16em;
+      color:#fff;
+      text-transform:uppercase;
+      width:max-content;
+      pointer-events:none;
+    }
+
+    .back-btn{
+      font-size:0.8rem;
+      color:rgba(255,255,255,0.4);
+      text-decoration:none;
+      letter-spacing:0.1em;
+      transition:color 0.2s;
+      white-space:nowrap;
+      position:relative;
+      z-index:2;
+    }
+
     .back-btn:hover{color:var(--red);}
-    .page{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:48px 20px 80px;}
-    h1{font-family:'Russo One',sans-serif;font-size:2rem;text-align:center;color:var(--yellow);
-      text-shadow:0 0 20px rgba(255,215,0,0.5);margin-bottom:12px;}
-    .subtitle{text-align:center;color:rgba(255,255,255,0.4);letter-spacing:0.15em;font-size:0.85rem;
-      text-transform:uppercase;margin-bottom:48px;}
-    .rule-block{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);
-      border-radius:12px;padding:28px 32px;margin-bottom:24px;border-left:3px solid var(--red);}
-    .rule-block h2{font-family:'Russo One',sans-serif;font-size:1.1rem;letter-spacing:0.08em;
-      color:#ff8090;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
-    .rule-block p, .rule-block li{color:rgba(255,255,255,0.7);line-height:1.7;font-size:0.92rem;}
-    .rule-block ul{padding-left:20px;}
-    .rule-block li{margin-bottom:6px;}
-    .rule-block.blue{border-left-color:var(--blue);}
+
+    .page{
+      position:relative;
+      z-index:1;
+      max-width:1100px;
+      margin:0 auto;
+      padding:48px 20px 80px;
+    }
+
+    h1{
+      font-family:'Russo One',sans-serif;
+      font-size:2rem;
+      text-align:center;
+      color:#FFD700;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      margin-bottom:8px;
+      text-shadow:0 0 18px rgba(255,215,0,0.6);
+    }
+
+    .subtitle{
+      text-align:center;
+      color:rgba(255,255,255,0.40);
+      letter-spacing:0.15em;
+      font-size:0.85rem;
+      text-transform:uppercase;
+      margin-bottom:40px;
+    }
+
+    .two-col{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
+      margin-bottom:20px;
+    }
+
+    @media(max-width:700px){
+      .two-col{grid-template-columns:1fr;}
+    }
+
+    .rule-block,
+    .ctrl-block{
+      background:var(--panel);
+      border:1px solid var(--panel-border);
+      border-radius:12px;
+      padding:24px 28px;
+    }
+
+    .rule-block{
+      border-left:3px solid var(--red);
+    }
+
+    .rule-block.blue{
+      border-left:3px solid var(--blue);
+    }
+
+    .ctrl-block{
+      border-left:3px solid var(--yellow);
+      padding:28px;
+    }
+
+    .rule-block h2,
+    .ctrl-block h2{
+      font-family:'Russo One',sans-serif;
+      font-size:1rem;
+      letter-spacing:0.08em;
+      margin-bottom:14px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .rule-block h2{color:#ff8090;}
     .rule-block.blue h2{color:#6eb4ff;}
-    .rule-block.gold{border-left-color:var(--yellow);}
-    .rule-block.gold h2{color:var(--yellow);}
+    .ctrl-block h2{color:var(--yellow);margin-bottom:22px;}
+
+    .rule-block h3{
+      font-family:'Russo One',sans-serif;
+      font-size:0.85rem;
+      letter-spacing:0.06em;
+      margin:14px 0 8px;
+      padding-top:12px;
+      border-top:1px solid rgba(255,255,255,0.07);
+    }
+
+    .rule-block h3:first-of-type{
+      margin-top:0;
+      padding-top:0;
+      border-top:none;
+    }
+
+    .rule-block h3{color:#ff8090;}
+    .rule-block.blue h3{color:#6eb4ff;}
+
+    .rule-block p,
+    .rule-block li{
+      color:var(--text);
+      line-height:1.7;
+      font-size:0.88rem;
+    }
+
+    .rule-block ul{
+      padding-left:18px;
+    }
+
+    .rule-block li{
+      margin-bottom:5px;
+    }
+
+    .result-note{
+      list-style:none;
+      margin-top:-4px;
+      margin-left:0;
+      padding-left:0;
+      font-style:italic;
+      color:rgba(255,255,255,0.58);
+    }
+
+    .subtle-sublist{
+      list-style:disc;
+      margin-top:3px;
+      margin-left:10px;
+      padding-left:18px;
+    }
+
+    .subtle-sublist li{
+      color:rgba(255,255,255,0.62);
+      margin-bottom:2px;
+    }
+
+    .ctrl-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:28px;
+    }
+
+    @media(max-width:700px){
+      .ctrl-grid{grid-template-columns:1fr;}
+    }
+
+    .ctrl-panel h3{
+      font-family:'Russo One',sans-serif;
+      font-size:0.82rem;
+      letter-spacing:0.08em;
+      color:rgba(255,255,255,0.6);
+      margin-bottom:14px;
+      text-transform:uppercase;
+    }
+
+    .ctrl-image{
+      width:100%;
+      display:block;
+      background:rgba(255,255,255,0.02);
+      border:1px solid rgba(255,255,255,0.06);
+      border-radius:12px;
+      padding:10px;
+    }
+
+    @media(max-width:900px){
+      .top-title{
+        font-size:1.05rem;
+        letter-spacing:0.10em;
+      }
+
+      .brand{
+        font-size:0.72rem;
+        max-width:34%;
+        overflow:hidden;
+        text-overflow:ellipsis;
+      }
+
+      .back-btn{
+        font-size:0.72rem;
+      }
+    }
+
+    @media(max-width:640px){
+      .top-bar{
+        padding:0 14px;
+      }
+
+      .top-title{
+        font-size:0.9rem;
+        letter-spacing:0.06em;
+      }
+
+      .brand{
+        max-width:32%;
+      }
+    }
   </style>
 </head>
 <body>
-<div class="bg"></div>
-<div class="top-bar">
-  <a href="index.html" class="brand">🏆 <span>TOURNOI INTERNE</span> MARIO KART</a>
-  <div class="top-title">Règles du jeu</div>
-  <a href="index.html" class="back-btn">← Accueil</a>
-</div>
-<div class="page">
-  <h1>📋 RÈGLES DU JEU</h1>
-  <p class="subtitle">Tournoi interne Mario Kart · 48 joueurs</p>
+  <div class="bg"></div>
 
-  <div class="rule-block">
-    <h2>🏎️ Format général</h2>
-    <ul>
-      <li>48 joueurs répartis en 3 tableaux de 16 personnes.</li>
-      <li>Chaque tableau détermine les places 1-16, 17-32 et 33-48.</li>
-      <li>Chaque match oppose <strong>4 joueurs</strong>.</li>
-    </ul>
+  <div class="top-bar">
+    <a href="index.html" class="brand">🏆 <span>TOURNOI INTERNE</span> MARIO KART</a>
+    <div class="top-title">RÈGLES DU JEU</div>
+    <a href="index.html" class="back-btn">← Accueil</a>
   </div>
 
-  <div class="rule-block blue">
-    <h2>🔵 Tour 1 — Poules</h2>
-    <ul>
-      <li>4 poules (A, B, C, D) de 4 joueurs chacune.</li>
-      <li>Chaque joueur joue 1 match contre les 3 autres de sa poule.</li>
-      <li>Les joueurs sont classés de 1er à 4e au sein de leur poule.</li>
-    </ul>
-  </div>
+  <div class="page">
+    <h1>RÈGLES DU JEU</h1>
+    <p class="subtitle">Tournoi interne Mario Kart · 48 joueurs</p>
 
-  <div class="rule-block">
-    <h2>🔴 Tour 2 — Qualifications croisées</h2>
-    <ul>
-      <li><strong>Match 1 :</strong> 1ers des poules A & C + 2es des poules B & D</li>
-      <li><strong>Match 2 :</strong> 2es des poules A & C + 1ers des poules B & D</li>
-      <li><strong>Match 3 :</strong> 3es des poules A & C + 4es des poules B & D</li>
-      <li><strong>Match 4 :</strong> 4es des poules A & C + 3es des poules B & D</li>
-    </ul>
-  </div>
+    <div class="two-col">
 
-  <div class="rule-block gold">
-    <h2>🏆 Tour 3 — Classement final</h2>
-    <ul>
-      <li><strong>Match 1 (places 1-4) :</strong> 2 premiers des matchs 1 & 2 du tour 2</li>
-      <li><strong>Match 2 (places 5-8) :</strong> 2 derniers des matchs 1 & 2 du tour 2</li>
-      <li><strong>Match 3 (places 9-12) :</strong> 2 premiers des matchs 3 & 4 du tour 2</li>
-      <li><strong>Match 4 (places 13-16) :</strong> 2 derniers des matchs 3 & 4 du tour 2</li>
-    </ul>
+      <div class="rule-block">
+        <h2>🏎️ Format général</h2>
+        <ul>
+          <li>48 joueurs répartis en 3 tableaux de 16 personnes.</li>
+          <li>
+            Chaque tableau détermine les places du classement final.<br>
+            Tableau 1 : places 1 à 16, Tableau 2 : places 17 à 32 et Tableau 3 : places 33 à 48.
+          </li>
+          <li>Chaque match oppose <strong>4 joueurs</strong>.</li>
+        </ul>
+
+        <h3>🔵 Tour 1 — Poules</h3>
+        <ul>
+          <li>4 poules (A, B, C, D) de 4 joueurs chacune.</li>
+          <li>Les joueurs sont classés de 1er à 4e au sein de leur poule.</li>
+        </ul>
+
+        <h3>🔴 Tour 2</h3>
+        <ul>
+          <li><strong>Match 1 :</strong> 1ers des poules A &amp; C + 2es des poules B &amp; D</li>
+          <li><strong>Match 2 :</strong> 2es des poules A &amp; C + 1ers des poules B &amp; D</li>
+          <li><strong>Match 3 :</strong> 3es des poules A &amp; C + 4es des poules B &amp; D</li>
+          <li><strong>Match 4 :</strong> 4es des poules A &amp; C + 3es des poules B &amp; D</li>
+        </ul>
+
+        <h3>🏆 Tour 3 — Classement final</h3>
+        <ul>
+          <li><strong>Match 1 :</strong> 2 premiers des matchs 1 &amp; 2 du tour 2</li>
+          <li class="result-note">résultats pour les places 1–4 (tab 1), 17–20 (tab 2), 33–36 (tab 3)</li>
+
+          <li><strong>Match 2 :</strong> 2 derniers des matchs 1 &amp; 2 du tour 2</li>
+          <li class="result-note">résultats pour les places 5–8 (tab 1), 21–24 (tab 2), 37–40 (tab 3)</li>
+
+          <li><strong>Match 3 :</strong> 2 premiers des matchs 3 &amp; 4 du tour 2</li>
+          <li class="result-note">résultats pour les places 9–12 (tab 1), 25–28 (tab 2), 41–44 (tab 3)</li>
+
+          <li><strong>Match 4 :</strong> 2 derniers des matchs 3 &amp; 4 du tour 2</li>
+          <li class="result-note">résultats pour les places 13–16 (tab 1), 29–32 (tab 2), 45–48 (tab 3)</li>
+        </ul>
+      </div>
+
+      <div class="rule-block blue">
+        <h2>🎮 Règles de course</h2>
+
+        <h3>⚙️ Paramètres</h3>
+        <ul>
+          <li><strong>Vitesse :</strong> 150cc</li>
+          <li><strong>Format :</strong> Championnat de 6 circuits (mode aléatoire)</li>
+          <li><strong>Participants :</strong> 4 joueurs + bots</li>
+          <li>
+            <strong>Antenne :</strong>
+            <ul class="subtle-sublist">
+              <li>Tableaux 1 et 2 interdits</li>
+              <li>Tableau 3 autorisé</li>
+            </ul>
+          </li>
+        </ul>
+
+        <h3>🕹️ Manettes autorisées</h3>
+        <ul>
+          <li><strong>Manette Pro</strong> — manette classique</li>
+          <li><strong>Joy-Con</strong> — tenu à l'horizontale</li>
+        </ul>
+
+        <p style="margin-top:12px;font-size:0.82rem;color:rgba(255,255,255,0.4);font-style:italic;">
+          Les commandes détaillées sont expliquées dans l'encadré ci-dessous.
+        </p>
+      </div>
+
+    </div>
+
+    <div class="ctrl-block">
+      <h2>🎯 Commandes des manettes</h2>
+
+      <div class="ctrl-grid">
+
+        <div class="ctrl-panel">
+          <h3>Joy-Con (tenu horizontalement)</h3>
+          <img src="Joy Con avec commande ok.png" alt="Joy-Con avec commandes" class="ctrl-image">
+        </div>
+
+        <div class="ctrl-panel">
+          <h3>Manette Pro</h3>
+          <img src="Manette pro avec commande ok.png" alt="Manette Pro avec commandes" class="ctrl-image">
+        </div>
+
+      </div>
+    </div>
   </div>
-</div>
 </body>
 </html>
