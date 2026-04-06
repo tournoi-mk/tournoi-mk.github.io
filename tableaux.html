@@ -300,15 +300,6 @@
       background: rgba(255,255,255,0.045);
     }
 
-    .row-rank {
-      font-size: 0.68rem;
-      color: rgba(255,255,255,0.22);
-      font-weight: 700;
-      width: 14px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
     .row-emoji {
       font-size: 1.05rem;
       flex-shrink: 0;
@@ -611,6 +602,11 @@
     const TOUR3_EMOJI = ["🦊","🐉","🦁","🐸","🦋","🌊","🔮","🎸","🎃","🍕","🦄","🐙","🌙","☄️","🦅","🎺"];
     const rng = arr => arr[Math.floor(Math.random() * arr.length)];
 
+    function getUniqueEmojis(sourceArray, count) {
+      const shuffled = [...sourceArray].sort(() => Math.random() - 0.5);
+      return shuffled.slice(0, count);
+    }
+
     const SCHEMES = [
       ["blue", "red", "yellow"],
       ["red", "yellow", "blue"],
@@ -662,6 +658,8 @@
       col1.innerHTML = `<div class="tour-label lbl-${cs[0]}">🏁 Tour 1 — Poules</div>`;
 
       bracket.groups.forEach(group => {
+        const groupEmojis = getUniqueEmojis(KART_EMOJI, group.players.length);
+
         const card = document.createElement("div");
         card.className = "group-card";
         card.innerHTML = `
@@ -671,8 +669,7 @@
           </div>
           ${group.players.map((player, i) => `
             <div class="card-row">
-              <span class="row-rank">${i + 1}</span>
-              <span class="row-emoji">${rng(KART_EMOJI)}</span>
+              <span class="row-emoji">${groupEmojis[i]}</span>
               <span class="row-name">${player}</span>
               <span class="row-score">—</span>
             </div>
