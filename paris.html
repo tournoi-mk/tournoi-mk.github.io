@@ -1120,139 +1120,82 @@
 <script>
 const PHASE1_OPEN = false;
 const PHASE2_OPEN = false;
+const EMAIL_DEST = "val.duriez@yahoo.fr";
+
+let pendingIncompleteSend = null;
+let lastMailtoUrl = '';
+
+let BRACKETS_TOUR1 = [];
+let BRACKETS_TOUR2 = [];
+let BRACKETS_TOUR3 = [];
 
 /* ─────────────────────────────────────────────────────────────
    CLASSEMENTS DE PRÉSÉLECTION
    À REMPLIR À LA MAIN
+   Les clés doivent correspondre EXACTEMENT aux noms saisis
+   dans tableaux.html
 ───────────────────────────────────────────────────────────── */
 const PRESELECTION_RANKS = {
-  "Joueur A1": "1er de la présélection",
-  "Joueur A2": "2e de la présélection",
-  "Joueur A3": "3e de la présélection",
-  "Joueur A4": "4e de la présélection",
+  "Mathieu B.": "1er de la présélection",
+  "Julie": "2e de la présélection",
+  "Noémie F.": "3e de la présélection",
+  "Marin": "4e de la présélection",
 
-  "Joueur B1": "5e de la présélection",
-  "Joueur B2": "6e de la présélection",
-  "Joueur B3": "7e de la présélection",
-  "Joueur B4": "8e de la présélection",
+  "Sebastien": "5e de la présélection",
+  "Clementine": "6e de la présélection",
+  "Jumi": "7e de la présélection",
+  "Marlène": "8e de la présélection",
 
-  "Joueur C1": "9e de la présélection",
-  "Joueur C2": "10e de la présélection",
-  "Joueur C3": "11e de la présélection",
-  "Joueur C4": "12e de la présélection",
+  "Louis": "9e de la présélection",
+  "Hugo P.": "10e de la présélection",
+  "Dolly": "11e de la présélection",
+  "Martin O.": "12e de la présélection",
 
-  "Joueur D1": "13e de la présélection",
-  "Joueur D2": "14e de la présélection",
-  "Joueur D3": "15e de la présélection",
-  "Joueur D4": "16e de la présélection",
+  "Bruno F.": "13e de la présélection",
+  "Arthur M.": "14e de la présélection",
+  "Flore": "15e de la présélection",
+  "Antoine": "16e de la présélection",
 
-  "Joueur E1": "17e de la présélection",
-  "Joueur E2": "18e de la présélection",
-  "Joueur E3": "19e de la présélection",
-  "Joueur E4": "20e de la présélection",
+  "Hugo B.": "17e de la présélection",
+  "Alexandre": "18e de la présélection",
+  "Madeleine": "19e de la présélection",
+  "Thierry": "20e de la présélection",
 
-  "Joueur F1": "21e de la présélection",
-  "Joueur F2": "22e de la présélection",
-  "Joueur F3": "23e de la présélection",
-  "Joueur F4": "24e de la présélection",
+  "Théo": "21e de la présélection",
+  "Alexis": "22e de la présélection",
+  "Justine": "23e de la présélection",
+  "Mathieu F.": "24e de la présélection",
 
-  "Joueur G1": "25e de la présélection",
-  "Joueur G2": "26e de la présélection",
-  "Joueur G3": "27e de la présélection",
-  "Joueur G4": "28e de la présélection",
+  "Arthur G.": "25e de la présélection",
+  "Marine": "26e de la présélection",
+  "Valérie": "27e de la présélection",
+  "Jean-Philippe": "28e de la présélection",
 
-  "Joueur H1": "29e de la présélection",
-  "Joueur H2": "30e de la présélection",
-  "Joueur H3": "31e de la présélection",
-  "Joueur H4": "32e de la présélection",
+  "Lisa": "29e de la présélection",
+  "Valentine": "30e de la présélection",
+  "Bruno A.": "31e de la présélection",
+  "Clélia M.": "32e de la présélection",
 
-  "Joueur I1": "33e de la présélection",
-  "Joueur I2": "34e de la présélection",
-  "Joueur I3": "35e de la présélection",
-  "Joueur I4": "36e de la présélection",
+  "Pierre-Benoit": "33e de la présélection",
+  "Aude": "34e de la présélection",
+  "Thomas": "35e de la présélection",
+  "Cécile": "36e de la présélection",
 
-  "Joueur J1": "37e de la présélection",
-  "Joueur J2": "38e de la présélection",
-  "Joueur J3": "39e de la présélection",
-  "Joueur J4": "40e de la présélection",
+  "Lydie": "37e de la présélection",
+  "Lionel": "38e de la présélection",
+  "Matthieu A.": "39e de la présélection",
+  "Virginie C.": "40e de la présélection",
 
-  "Joueur K1": "41e de la présélection",
-  "Joueur K2": "42e de la présélection",
-  "Joueur K3": "43e de la présélection",
-  "Joueur K4": "44e de la présélection",
+  "Mélanie": "41e de la présélection",
+  "Noé": "42e de la présélection",
+  "Aurélie": "43e de la présélection",
+  "Morgane": "44e de la présélection",
 
-  "Joueur L1": "45e de la présélection",
-  "Joueur L2": "46e de la présélection",
-  "Joueur L3": "47e de la présélection",
-  "Joueur L4": "48e de la présélection"
+  "Noémie H.": "45e de la présélection",
+  "Martin T.": "46e de la présélection",
+  "Clélia L.": "47e de la présélection",
+  "Chloé": "48e de la présélection"
 };
-
-const BRACKETS_TOUR1 = [
-  { label: "Tableau 1", color: "blue", groups: [
-    { name: "Poule A", players: ["Joueur A1", "Joueur A2", "Joueur A3", "Joueur A4"] },
-    { name: "Poule B", players: ["Joueur B1", "Joueur B2", "Joueur B3", "Joueur B4"] },
-    { name: "Poule C", players: ["Joueur C1", "Joueur C2", "Joueur C3", "Joueur C4"] },
-    { name: "Poule D", players: ["Joueur D1", "Joueur D2", "Joueur D3", "Joueur D4"] },
-  ]},
-  { label: "Tableau 2", color: "red", groups: [
-    { name: "Poule E", players: ["Joueur E1", "Joueur E2", "Joueur E3", "Joueur E4"] },
-    { name: "Poule F", players: ["Joueur F1", "Joueur F2", "Joueur F3", "Joueur F4"] },
-    { name: "Poule G", players: ["Joueur G1", "Joueur G2", "Joueur G3", "Joueur G4"] },
-    { name: "Poule H", players: ["Joueur H1", "Joueur H2", "Joueur H3", "Joueur H4"] },
-  ]},
-  { label: "Tableau 3", color: "yellow", groups: [
-    { name: "Poule I", players: ["Joueur I1", "Joueur I2", "Joueur I3", "Joueur I4"] },
-    { name: "Poule J", players: ["Joueur J1", "Joueur J2", "Joueur J3", "Joueur J4"] },
-    { name: "Poule K", players: ["Joueur K1", "Joueur K2", "Joueur K3", "Joueur K4"] },
-    { name: "Poule L", players: ["Joueur L1", "Joueur L2", "Joueur L3", "Joueur L4"] },
-  ]}
-];
-
-const BRACKETS_TOUR2 = [
-  { label: "Tableau 1", color: "blue", matches: [
-    { name: "Match 1", tag: "1ers A+C · 2es B+D", players: ["-","-","-","-"] },
-    { name: "Match 2", tag: "2es A+C · 1ers B+D", players: ["-","-","-","-"] },
-    { name: "Match 3", tag: "3es A+C · 4es B+D", players: ["-","-","-","-"] },
-    { name: "Match 4", tag: "4es A+C · 3es B+D", players: ["-","-","-","-"] },
-  ]},
-  { label: "Tableau 2", color: "red", matches: [
-    { name: "Match 1", tag: "1ers E+G · 2es F+H", players: ["-","-","-","-"] },
-    { name: "Match 2", tag: "2es E+G · 1ers F+H", players: ["-","-","-","-"] },
-    { name: "Match 3", tag: "3es E+G · 4es F+H", players: ["-","-","-","-"] },
-    { name: "Match 4", tag: "4es E+G · 3es F+H", players: ["-","-","-","-"] },
-  ]},
-  { label: "Tableau 3", color: "yellow", matches: [
-    { name: "Match 1", tag: "1ers I+K · 2es J+L", players: ["-","-","-","-"] },
-    { name: "Match 2", tag: "2es I+K · 1ers J+L", players: ["-","-","-","-"] },
-    { name: "Match 3", tag: "3es I+K · 4es J+L", players: ["-","-","-","-"] },
-    { name: "Match 4", tag: "4es I+K · 3es J+L", players: ["-","-","-","-"] },
-  ]}
-];
-
-const BRACKETS_TOUR3 = [
-  { label: "Tableau 1", color: "blue", matches: [
-    { name: "Match 1", tag: "Places 1–4",   players: ["-","-","-","-"] },
-    { name: "Match 2", tag: "Places 5–8",   players: ["-","-","-","-"] },
-    { name: "Match 3", tag: "Places 9–12",  players: ["-","-","-","-"] },
-    { name: "Match 4", tag: "Places 13–16", players: ["-","-","-","-"] },
-  ]},
-  { label: "Tableau 2", color: "red", matches: [
-    { name: "Match 1", tag: "Places 17–20", players: ["-","-","-","-"] },
-    { name: "Match 2", tag: "Places 21–24", players: ["-","-","-","-"] },
-    { name: "Match 3", tag: "Places 25–28", players: ["-","-","-","-"] },
-    { name: "Match 4", tag: "Places 29–32", players: ["-","-","-","-"] },
-  ]},
-  { label: "Tableau 3", color: "yellow", matches: [
-    { name: "Match 1", tag: "Places 33–36", players: ["-","-","-","-"] },
-    { name: "Match 2", tag: "Places 37–40", players: ["-","-","-","-"] },
-    { name: "Match 3", tag: "Places 41–44", players: ["-","-","-","-"] },
-    { name: "Match 4", tag: "Places 45–48", players: ["-","-","-","-"] },
-  ]}
-];
-
-const EMAIL_DEST = "val.duriez@yahoo.fr";
-let pendingIncompleteSend = null;
-let lastMailtoUrl = '';
 
 if (PHASE1_OPEN) {
   const t = document.getElementById('tab-phase1');
@@ -1268,17 +1211,74 @@ if (PHASE2_OPEN) {
   t.onclick = () => switchPhase('phase2');
 }
 
+async function loadBracketsFromTableaux() {
+  const response = await fetch('tableaux.html', { cache: 'no-store' });
+  if (!response.ok) {
+    throw new Error('Impossible de charger tableaux.html');
+  }
+
+  const html = await response.text();
+  const match = html.match(/const\s+BRACKETS\s*=\s*(\[[\s\S]*?\]);/);
+
+  if (!match || !match[1]) {
+    throw new Error('Constante BRACKETS introuvable dans tableaux.html');
+  }
+
+  return new Function(`return ${match[1]};`)();
+}
+
+function mapBracketsForBets(sourceBrackets) {
+  BRACKETS_TOUR1 = sourceBrackets.map(br => ({
+    label: br.tableTitle,
+    color: getBracketColor(br.tableNumber),
+    groups: br.groups.map(group => ({
+      name: group.groupName,
+      players: [...group.players]
+    }))
+  }));
+
+  BRACKETS_TOUR2 = sourceBrackets.map(br => ({
+    label: br.tableTitle,
+    color: getBracketColor(br.tableNumber),
+    matches: br.tour2Matches.map(match => ({
+      name: match.matchName,
+      tag: match.matchTag,
+      players: [...match.players]
+    }))
+  }));
+
+  BRACKETS_TOUR3 = sourceBrackets.map(br => ({
+    label: br.tableTitle,
+    color: getBracketColor(br.tableNumber),
+    matches: br.tour3Matches.map(match => ({
+      name: match.matchName,
+      tag: match.matchTag,
+      players: [...match.players]
+    }))
+  }));
+}
+
+function getBracketColor(tableNumber) {
+  if (tableNumber === 1) return 'blue';
+  if (tableNumber === 2) return 'red';
+  return 'yellow';
+}
+
 function getPreselectionRank(playerName) {
   return PRESELECTION_RANKS[playerName] || 'Classement non renseigné';
 }
 
 function allPlayers(bi) {
+  if (!BRACKETS_TOUR1[bi]) return [];
   return BRACKETS_TOUR1[bi].groups.flatMap(g => g.players).filter(p => p && p !== '-');
 }
 
 function fillSelect(id, bi) {
   const s = document.getElementById(id);
   if (!s) return;
+
+  s.innerHTML = '<option value="">— Choisir un joueur —</option>';
+
   allPlayers(bi).forEach(p => {
     const o = document.createElement('option');
     o.value = p;
@@ -1287,11 +1287,13 @@ function fillSelect(id, bi) {
   });
 }
 
-[0,1,2].forEach(ph => {
-  fillSelect(`winner-t1-${ph}`, 0);
-  fillSelect(`winner-t2-${ph}`, 1);
-  fillSelect(`winner-t3-${ph}`, 2);
-});
+function fillAllWinnerSelects() {
+  [0,1,2].forEach(ph => {
+    fillSelect(`winner-t1-${ph}`, 0);
+    fillSelect(`winner-t2-${ph}`, 1);
+    fillSelect(`winner-t3-${ph}`, 2);
+  });
+}
 
 function buildPlayerNameHtml(playerName, isTbd) {
   if (isTbd) {
@@ -1340,29 +1342,44 @@ function buildCard(matchName, matchTag, players, color, containerId, prefix) {
   cont.appendChild(card);
 }
 
-BRACKETS_TOUR1.forEach((br, bi) =>
-  br.groups.forEach((g, gi) =>
-    buildCard(g.name, 'Tour 1', g.players, br.color, `p0-t${bi+1}-matches`, `p0t${bi+1}g${gi}`)
-  )
-);
-
-BRACKETS_TOUR2.forEach((br, bi) =>
-  br.matches.forEach((m, mi) =>
-    buildCard(m.name, m.tag, m.players, br.color, `p1-t${bi+1}-matches`, `p1t${bi+1}m${mi}`)
-  )
-);
-
-BRACKETS_TOUR3.forEach((br, bi) =>
-  br.matches.forEach((m, mi) =>
-    buildCard(m.name, m.tag, m.players, br.color, `p2-t${bi+1}-matches`, `p2t${bi+1}m${mi}`)
-  )
-);
-
-document.querySelectorAll('.rank-select').forEach(select => {
-  select.addEventListener('change', () => {
-    enforceUniqueRanks(select.dataset.prefix);
+function clearMatchContainers() {
+  [
+    'p0-t1-matches','p0-t2-matches','p0-t3-matches',
+    'p1-t1-matches','p1-t2-matches','p1-t3-matches',
+    'p2-t1-matches','p2-t2-matches','p2-t3-matches'
+  ].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = '';
   });
-});
+}
+
+function buildAllCards() {
+  clearMatchContainers();
+
+  BRACKETS_TOUR1.forEach((br, bi) =>
+    br.groups.forEach((g, gi) =>
+      buildCard(g.name, 'Tour 1', g.players, br.color, `p0-t${bi+1}-matches`, `p0t${bi+1}g${gi}`)
+    )
+  );
+
+  BRACKETS_TOUR2.forEach((br, bi) =>
+    br.matches.forEach((m, mi) =>
+      buildCard(m.name, m.tag, m.players, br.color, `p1-t${bi+1}-matches`, `p1t${bi+1}m${mi}`)
+    )
+  );
+
+  BRACKETS_TOUR3.forEach((br, bi) =>
+    br.matches.forEach((m, mi) =>
+      buildCard(m.name, m.tag, m.players, br.color, `p2-t${bi+1}-matches`, `p2t${bi+1}m${mi}`)
+    )
+  );
+
+  document.querySelectorAll('.rank-select').forEach(select => {
+    select.addEventListener('change', () => {
+      enforceUniqueRanks(select.dataset.prefix);
+    });
+  });
+}
 
 function switchPhase(id) {
   document.querySelectorAll('.phase-panel').forEach(p => p.classList.remove('active'));
@@ -1735,6 +1752,40 @@ function copyFallback() {
   document.execCommand('copy');
   alert('Texte copié ! Collez-le dans un e-mail à ' + EMAIL_DEST);
 }
+
+function showLoadingError(message) {
+  const containers = [
+    'p0-t1-matches','p0-t2-matches','p0-t3-matches',
+    'p1-t1-matches','p1-t2-matches','p1-t3-matches',
+    'p2-t1-matches','p2-t2-matches','p2-t3-matches'
+  ];
+
+  containers.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.innerHTML = `
+        <div class="match-bet-card" style="padding:14px;color:rgba(255,255,255,0.7);border-color:rgba(232,0,29,0.35);">
+          Impossible de charger automatiquement les noms depuis <strong>tableaux.html</strong>.<br><br>
+          Détail : ${escapeHtml(message)}
+        </div>
+      `;
+    }
+  });
+}
+
+async function initPage() {
+  try {
+    const sourceBrackets = await loadBracketsFromTableaux();
+    mapBracketsForBets(sourceBrackets);
+    fillAllWinnerSelects();
+    buildAllCards();
+  } catch (err) {
+    console.error(err);
+    showLoadingError(err.message || 'Erreur inconnue');
+  }
+}
+
+initPage();
 </script>
 </body>
 </html>
