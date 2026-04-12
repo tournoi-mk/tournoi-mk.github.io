@@ -7,1102 +7,312 @@
   <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Exo+2:wght@400;600;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --red: #E8001D;
-      --blue: #0052A5;
-      --yellow: #FFD700;
-      --dark: #07071a;
-      --red-glow: rgba(232,0,29,0.5);
-      --blue-glow: rgba(0,82,165,0.5);
-      --yellow-glow: rgba(255,215,0,0.5);
+      --red:#E8001D; --blue:#0052A5; --yellow:#FFD700; --dark:#07071a;
+      --red-glow:rgba(232,0,29,0.5); --blue-glow:rgba(0,82,165,0.5); --yellow-glow:rgba(255,215,0,0.5);
     }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      background: var(--dark);
-      font-family: 'Exo 2', sans-serif;
-      color: #fff;
-      min-height: 100vh;
-    }
-
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:var(--dark); font-family:'Exo 2',sans-serif; color:#fff; min-height:100vh; }
     .bg {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
+      position:fixed; inset:0; z-index:0;
       background:
-        radial-gradient(ellipse 60% 40% at 80% 20%, rgba(255,215,0,0.08), transparent 60%),
-        radial-gradient(ellipse 50% 40% at 10% 80%, rgba(232,0,29,0.08), transparent 60%),
-        linear-gradient(180deg, #060610 0%, #0A0A1E 100%);
+        radial-gradient(ellipse 60% 40% at 80% 20%,rgba(255,215,0,0.08),transparent 60%),
+        radial-gradient(ellipse 50% 40% at 10% 80%,rgba(232,0,29,0.08),transparent 60%),
+        linear-gradient(180deg,#060610 0%,#0A0A1E 100%);
     }
-
     .top-bar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      padding: 0 28px;
-      min-height: 64px;
-      background: rgba(7,7,26,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,215,0,0.3);
-      box-shadow: 0 4px 32px rgba(0,0,0,0.5);
-      gap: 16px;
+      position:sticky; top:0; z-index:100;
+      display:grid; grid-template-columns:1fr auto 1fr; align-items:center;
+      padding:0 28px; min-height:64px;
+      background:rgba(7,7,26,0.92); backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(255,215,0,0.3); box-shadow:0 4px 32px rgba(0,0,0,0.5); gap:16px;
     }
-
-    .brand-wrap { justify-self: start; }
-    .title-wrap { justify-self: center; }
-    .back-wrap { justify-self: end; }
-
-    .brand {
-      font-family: 'Russo One', sans-serif;
-      font-size: 0.9rem;
-      letter-spacing: 0.1em;
-      color: var(--yellow);
-      text-decoration: none;
-      text-shadow: 0 0 12px rgba(255,215,0,0.6);
-      white-space: nowrap;
-    }
-
-    .brand span { color: rgba(255,255,255,0.5); }
-
-    .top-title {
-      text-align: center;
-      font-family: 'Russo One', sans-serif;
-      font-size: 1.3rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: #fff;
-      white-space: nowrap;
-    }
-
-    .back-btn {
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.4);
-      text-decoration: none;
-      letter-spacing: 0.1em;
-      transition: color 0.2s;
-      white-space: nowrap;
-    }
-
-    .back-btn:hover { color: var(--yellow); }
-
-    .page {
-      position: relative;
-      z-index: 1;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 48px 20px 80px;
-    }
-
-    h1 {
-      font-family: 'Russo One', sans-serif;
-      font-size: 2rem;
-      text-align: center;
-      color: var(--yellow);
-      text-shadow: 0 0 20px rgba(255,215,0,0.5);
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: rgba(255,255,255,0.4);
-      letter-spacing: 0.15em;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      margin-bottom: 24px;
-    }
-
-    .info-box {
-      background: linear-gradient(180deg, rgba(10,12,34,0.92) 0%, rgba(8,10,28,0.96) 100%);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-left: 3px solid rgba(0,132,255,0.85);
-      border-radius: 16px;
-      padding: 22px 24px 20px;
-      margin-bottom: 20px;
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.03),
-        0 10px 30px rgba(0,0,0,0.18);
-    }
-
-    .info-box h3 {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-family: 'Russo One', sans-serif;
-      color: #74adff;
-      font-size: 1rem;
-      margin-bottom: 14px;
-      letter-spacing: 0.04em;
-    }
-
-    .info-dot {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #8ec1ff 0%, #4f8ff0 45%, #2157be 100%);
-      box-shadow: 0 0 16px rgba(83,145,255,0.35);
-      flex-shrink: 0;
-    }
-
-    .info-box p {
-      color: rgba(255,255,255,0.72);
-      font-size: 0.88rem;
-      line-height: 1.7;
-      margin-bottom: 10px;
-    }
-
-    .warning-line {
-      color: rgba(255,255,255,0.86) !important;
-      font-size: 0.82rem !important;
-    }
-
-    .points-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .point-item {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 12px;
-      padding: 12px 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-height: 84px;
-    }
-
+    .brand-wrap{justify-self:start;} .title-wrap{justify-self:center;} .back-wrap{justify-self:end;}
+    .brand { font-family:'Russo One',sans-serif; font-size:0.9rem; letter-spacing:0.1em; color:var(--yellow); text-decoration:none; text-shadow:0 0 12px rgba(255,215,0,0.6); white-space:nowrap; }
+    .brand span{color:rgba(255,255,255,0.5);}
+    .top-title { text-align:center; font-family:'Russo One',sans-serif; font-size:1.3rem; letter-spacing:0.15em; text-transform:uppercase; color:#fff; white-space:nowrap; }
+    .back-btn { font-size:0.8rem; color:rgba(255,255,255,0.4); text-decoration:none; letter-spacing:0.1em; transition:color 0.2s; white-space:nowrap; }
+    .back-btn:hover{color:var(--yellow);}
+    .page { position:relative; z-index:1; max-width:900px; margin:0 auto; padding:48px 20px 80px; }
+    h1 { font-family:'Russo One',sans-serif; font-size:2rem; text-align:center; color:var(--yellow); text-shadow:0 0 20px rgba(255,215,0,0.5); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.1em; }
+    .subtitle { text-align:center; color:rgba(255,255,255,0.4); letter-spacing:0.15em; font-size:0.85rem; text-transform:uppercase; margin-bottom:24px; }
+    .info-box { background:linear-gradient(180deg,rgba(10,12,34,0.92) 0%,rgba(8,10,28,0.96) 100%); border:1px solid rgba(255,255,255,0.10); border-left:3px solid rgba(0,132,255,0.85); border-radius:16px; padding:22px 24px 20px; margin-bottom:20px; }
+    .info-box h3 { display:flex; align-items:center; gap:10px; font-family:'Russo One',sans-serif; color:#74adff; font-size:1rem; margin-bottom:14px; letter-spacing:0.04em; }
+    .info-dot { width:18px; height:18px; border-radius:50%; background:radial-gradient(circle at 35% 35%,#8ec1ff 0%,#4f8ff0 45%,#2157be 100%); box-shadow:0 0 16px rgba(83,145,255,0.35); flex-shrink:0; }
+    .info-box p { color:rgba(255,255,255,0.72); font-size:0.88rem; line-height:1.7; margin-bottom:10px; }
+    .warning-line { color:rgba(255,255,255,0.86) !important; font-size:0.82rem !important; }
+    .points-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(185px,1fr)); gap:10px; margin-top:14px; }
+    .point-item { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:12px 14px; display:flex; align-items:center; gap:12px; min-height:84px; }
     .point-badge {
-      min-width: 54px;
-      text-align: center;
-      font-family: 'Russo One', sans-serif;
-      color: #74adff;
-      line-height: 1;
-      flex-shrink: 0;
+      min-width:54px; text-align:center; font-family:'Russo One',sans-serif;
+      color:#74adff; line-height:1; flex-shrink:0;
+      display:flex; align-items:baseline; justify-content:center; gap:3px;
     }
-
-    .point-value {
-      display: block;
-      font-size: 1.2rem;
-      line-height: 1;
-    }
-
-    .point-unit {
-      display: block;
-      font-size: 0.9rem;
-      line-height: 1;
-      margin-top: 4px;
-      opacity: 0.9;
-      letter-spacing: 0.06em;
-    }
-
-    .point-desc {
-      font-size: 0.77rem;
-      color: rgba(255,255,255,0.58);
-      line-height: 1.45;
-    }
-
-    .phase-tabs {
-      display: flex;
-      gap: 20px;
-      margin-bottom: 32px;
-      flex-wrap: wrap;
-    }
-
+    .point-value { font-size:1.2rem; }
+    .point-unit  { font-size:0.9rem; opacity:0.9; letter-spacing:0.06em; }
+    .point-desc { font-size:0.77rem; color:rgba(255,255,255,0.58); line-height:1.45; }
+    .phase-tabs { display:flex; gap:12px; margin-bottom:32px; flex-wrap:wrap; }
     .phase-tab {
-      padding: 10px 22px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: 'Russo One', sans-serif;
-      font-size: 0.82rem;
-      letter-spacing: 0.1em;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.04);
-      color: rgba(255,255,255,0.4);
-      transition: all 0.2s;
-      user-select: none;
+      flex:1; min-width:160px;
+      padding:14px 20px; border-radius:10px; cursor:pointer;
+      font-family:'Russo One',sans-serif; font-size:0.88rem; letter-spacing:0.08em;
+      border:2px solid rgba(255,255,255,0.12);
+      background:rgba(255,255,255,0.04);
+      color:rgba(255,255,255,0.45);
+      transition:all 0.2s; user-select:none;
+      text-align:center; line-height:1.4;
     }
-
+    .phase-tab:hover { background:rgba(255,255,255,0.08); color:rgba(255,255,255,0.75); border-color:rgba(255,255,255,0.25); }
     .phase-tab.active {
-      background: rgba(255,215,0,0.14);
-      border-color: var(--yellow);
-      color: var(--yellow);
-      box-shadow: 0 0 14px rgba(255,215,0,0.18);
-    }
-
-    .phase-tab.locked {
-      cursor: not-allowed;
-      opacity: 0.35;
-    }
-
-    .section-title {
-      font-family: 'Russo One', sans-serif;
-      font-size: 1.2rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      margin-bottom: 4px;
-      margin-top: 32px;
-      display: flex;
-      align-items: baseline;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .section-pts {
-      font-family: 'Exo 2', sans-serif;
-      font-size: 0.77rem;
-      color: rgba(255,215,0,0.65);
-      font-weight: 600;
-      letter-spacing: 0.05em;
-    }
-
-    .section-divider {
-      height: 1px;
-      background: rgba(255,255,255,0.08);
-      margin-bottom: 16px;
-      margin-top: 8px;
-    }
-
-    .name-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,215,0,0.22);
-      border-radius: 12px;
-      padding: 20px 24px;
-      margin-bottom: 40px;
-    }
-
-    .name-card label {
-      display: block;
-      font-family: 'Russo One', sans-serif;
-      font-size: 1.4rem;
-      letter-spacing: 0.12em;
-      color: var(--yellow);
-      margin-bottom: 8px;
-      text-transform: uppercase;
-    }
-
-    .name-card input {
-      width: 100%;
-      padding: 11px 16px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 8px;
-      color: #fff;
-      font-family: 'Exo 2', sans-serif;
-      font-size: 0.95rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .name-card input:focus { border-color: var(--yellow); }
-
-    .winner-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 14px;
-      margin-bottom: 4px;
-    }
-
-    .winner-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 10px;
-      padding: 15px;
-    }
-
-    .winner-card-title {
-      font-family: 'Russo One', sans-serif;
-      font-size: 0.81rem;
-      letter-spacing: 0.07em;
-      margin-bottom: 11px;
-    }
-
-    .winner-card-title span {
-      display: block;
-      font-family: 'Exo 2', sans-serif;
-      font-size: 0.8rem;
-      opacity: 0.6;
-      margin-top: 2px;
-      font-weight: 400;
-    }
-
-    .winner-card.t1 { border-color: rgba(0,82,165,0.5); }
-    .winner-card.t1 .winner-card-title { color: #6eb4ff; }
-    .winner-card.t2 { border-color: rgba(232,0,29,0.45); }
-    .winner-card.t2 .winner-card-title { color: #ff8090; }
-    .winner-card.t3 { border-color: rgba(255,215,0,0.35); }
-    .winner-card.t3 .winner-card-title { color: var(--yellow); }
-
-    .winner-select {
-      width: 100%;
-      padding: 9px 13px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 7px;
-      color: #fff;
-      font-family: 'Exo 2', sans-serif;
-      font-size: 0.87rem;
-      outline: none;
-      cursor: pointer;
-      transition: border-color 0.2s;
-    }
-
-    .winner-select:focus { border-color: var(--yellow); }
-    .winner-select option { background: #0A0A1E; }
-
-    .tableau-block { margin-bottom: 24px; }
-
-    .tableau-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 9px 15px;
-      border-radius: 8px;
-      margin-bottom: 11px;
-      font-family: 'Russo One', sans-serif;
-      font-size: 0.87rem;
-      letter-spacing: 0.09em;
-    }
-
-    .th-blue   { background: rgba(0,82,165,0.2); border: 1px solid rgba(0,82,165,0.42); color: #6eb4ff; }
-    .th-red    { background: rgba(232,0,29,0.17); border: 1px solid rgba(232,0,29,0.38); color: #ff8090; }
-    .th-yellow { background: rgba(255,215,0,0.12); border: 1px solid rgba(255,215,0,0.32); color: var(--yellow); }
-
-    .th-sub {
-      font-size: 0.68rem;
-      opacity: 0.45;
-      font-family: 'Exo 2', sans-serif;
-      font-weight: 400;
-      margin-left: 4px;
-    }
-
-    .matches-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
-      gap: 9px;
-    }
-
-    .match-bet-card {
-      background: rgba(255,255,255,0.032);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 9px;
-      overflow: hidden;
-    }
-
-    .match-bet-header {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      padding: 8px 11px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .mh-blue   { background: rgba(0,82,165,0.22); }
-    .mh-red    { background: rgba(232,0,29,0.18); }
-    .mh-yellow { background: rgba(255,215,0,0.12); }
-
-    .match-bet-name {
-      font-family: 'Russo One', sans-serif;
-      font-size: 0.8rem;
-      letter-spacing: 0.06em;
-    }
-
-    .match-bet-tag  {
-      font-size: 0.62rem;
-      color: rgba(255,255,255,0.3);
-      margin-left: auto;
-    }
-
-    .players-bet-grid {
-      padding: 9px 11px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .player-bet-row {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-
-    .player-bet-name {
-      position: relative;
-      flex: 1;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: rgba(255,255,255,0.8);
-      letter-spacing: 0.02em;
-      overflow: visible;
-      white-space: nowrap;
-      cursor: help;
-    }
-
-    .player-bet-name.tbd {
-      color: rgba(255,255,255,0.22);
-      font-style: italic;
-      font-weight: 400;
-      cursor: default;
-    }
-
-    .player-tooltip {
-      position: absolute;
-      left: 0;
-      bottom: calc(100% + 8px);
-      min-width: 180px;
-      max-width: 230px;
-      padding: 8px 10px;
-      border-radius: 8px;
-      background: rgba(5, 8, 24, 0.96);
-      border: 1px solid rgba(79,143,240,0.45);
-      color: rgba(255,255,255,0.9);
-      font-size: 0.72rem;
-      line-height: 1.4;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.35);
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(4px);
-      transition: opacity 0.15s, transform 0.15s;
-      z-index: 20;
-      white-space: normal;
-    }
-
-    .player-tooltip strong {
-      color: #8ec1ff;
-    }
-
-    .player-bet-name.has-tooltip:hover .player-tooltip {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .rank-select {
-      width: 86px;
-      padding: 4px 7px;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 5px;
-      color: #fff;
-      font-family: 'Exo 2', sans-serif;
-      font-size: 0.76rem;
-      outline: none;
-      cursor: pointer;
-      transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
-    }
-
-    .rank-select:focus { border-color: var(--yellow); }
-    .rank-select option { background: #0A0A1E; }
-
-    .rank-select.duplicate-rank {
-      border-color: #ff8090;
-      box-shadow: 0 0 0 1px rgba(232,0,29,0.6);
-      background: rgba(232,0,29,0.10);
-    }
-
-    .submit-zone { margin-top: 40px; }
-
-    .submit-btn {
-      width: 100%;
-      padding: 17px;
-      background: linear-gradient(135deg, #081b3f 0%, #0d3d8f 42%, #4f8ff0 52%, #0d3d8f 62%, #081b3f 100%);
-      background-size: 300% 100%;
-      border: 1px solid #74adff;
-      border-radius: 12px;
-      color: #ffffff;
-      font-family: 'Russo One', sans-serif;
-      font-size: 1rem;
-      letter-spacing: 0.12em;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    .submit-btn:hover {
-      background-position: 100% 0;
-      box-shadow: 0 0 32px rgba(79,143,240,0.45);
-      transform: translateY(-2px);
-    }
-
-    .phase-panel { display: none; }
-    .phase-panel.active { display: block; }
-
-    .revision-note {
-      color: rgba(255,255,255,0.42);
-      font-size: 0.83rem;
-      margin-bottom: 14px;
-      line-height: 1.6;
-    }
-
-    .fallback-area {
-      margin-top: 14px;
-      width: 100%;
-      height: 150px;
-      background: rgba(3,8,26,0.72);
-      border: 1px solid rgba(116,173,255,0.2);
-      border-radius: 8px;
-      color: rgba(255,255,255,0.74);
-      font-family: monospace;
-      font-size: 0.72rem;
-      padding: 11px;
-      resize: vertical;
-      outline: none;
-    }
-
-    .mini-btn {
-      padding: 9px 20px;
-      background: rgba(255,215,0,0.1);
-      border: 1px solid var(--yellow);
-      border-radius: 7px;
-      color: var(--yellow);
-      font-family: 'Russo One', sans-serif;
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
-      cursor: pointer;
-      margin-top: 8px;
-      margin-right: 8px;
-      transition: background 0.2s;
-    }
-
-    .mini-btn:hover { background: rgba(255,215,0,0.2); }
-
-    .mini-btn.grey {
-      border-color: rgba(255,255,255,0.2);
-      color: rgba(255,255,255,0.4);
-    }
-
-    .mini-btn.grey:hover { background: rgba(255,255,255,0.06); }
-
-    .mini-btn.blue {
-      background: rgba(79,143,240,0.12);
-      border-color: #4f8ff0;
-      color: #8ec1ff;
-    }
-
-    .mini-btn.blue:hover {
-      background: rgba(79,143,240,0.22);
-    }
-
-    .success-wrap {
-      text-align: center;
-      padding: 48px 24px;
-      background: linear-gradient(180deg, rgba(8,18,48,0.92) 0%, rgba(6,12,34,0.97) 100%);
-      border: 1px solid rgba(116,173,255,0.18);
-      border-radius: 16px;
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.03),
-        0 16px 38px rgba(0,0,0,0.3);
-    }
-
-    .success-wrap .s-icon {
-      font-size: 3.5rem;
-      display: block;
-      margin-bottom: 14px;
-    }
-
-    .success-wrap h2 {
-      font-family: 'Russo One', sans-serif;
-      color: #8ec1ff;
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-      text-shadow: 0 0 16px rgba(79,143,240,0.18);
-    }
-
-    .success-wrap p {
-      color: rgba(255,255,255,0.6);
-      font-size: 0.87rem;
-      line-height: 1.8;
-    }
-
-    .warning-send {
-      color: rgba(255,255,255,0.78) !important;
-      margin-top: 6px;
-    }
-
-    .warning-send strong {
-      color: #ffcf66;
-    }
-
-    .bets-preview {
-      margin-top: 26px;
-      text-align: left;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(116,173,255,0.16);
-      border-radius: 14px;
-      padding: 18px;
-    }
-
-    .bets-preview h3 {
-      font-family: 'Russo One', sans-serif;
-      color: var(--yellow);
-      font-size: 1rem;
-      letter-spacing: 0.08em;
-      margin-bottom: 14px;
-      text-transform: uppercase;
-    }
-
-    .preview-phase-line {
-      font-size: 0.86rem;
-      color: rgba(255,255,255,0.82);
-      margin-bottom: 16px;
-      line-height: 1.5;
-    }
-
-    .preview-phase-line strong {
-      color: #8ec1ff;
-    }
-
-    .preview-block {
-      margin-bottom: 18px;
-    }
-
-    .preview-block:last-child {
-      margin-bottom: 0;
-    }
-
-    .preview-title {
-      font-family: 'Russo One', sans-serif;
-      font-size: 1rem;
-      color: rgba(255,255,255,0.86);
-      margin-bottom: 10px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .preview-winners-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .preview-winner-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 10px;
-      padding: 10px 12px;
-    }
-
-    .preview-winner-card.pw-blue { 
-      border-color: rgba(255,255,255,0.03);
-      background: rgba(255,255,255,0.08);
-    }
-
-    .preview-winner-card.pw-red {
-      border-color: rgba(255,255,255,0.03);
-      background: rgba(255,255,255,0.08);
-    }
-
-    .preview-winner-card.pw-yellow {
-      border-color: rgba(255,255,255,0.03);
-      background: rgba(255,255,255,0.08);
-    }
-
-    .preview-winner-card .pw-title {
-      font-family: 'Russo One', sans-serif;
-      font-size: 0.7rem;
-      letter-spacing: 0.05em;
-      color: rgba(255,255,255,0.84);
-      margin-bottom: 6px;
-      text-transform: uppercase;
-    }
-
-    .preview-winner-card .pw-value {
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.7);
-      line-height: 1.4;
-    }
-
-    .preview-tableau-block {
-      margin-bottom: 16px;
-    }
-
-    .preview-tableau-block:last-child {
-      margin-bottom: 0;
-    }
-
-    .preview-tableau-name {
-      font-family: 'Russo One', sans-serif;
-      font-size: 0.78rem;
-      letter-spacing: 0.05em;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-    }
-
-    .preview-tableau-name.tableau-blue { color: #6eb4ff; }
-    .preview-tableau-name.tableau-red { color: #ff8090; }
-    .preview-tableau-name.tableau-yellow { color: var(--yellow); }
-
-    .preview-matches-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .preview-match-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 10px;
-      padding: 10px 11px;
-    }
-
-    .preview-match-card.pm-blue {
-      border-color: rgba(255,255,255,0.03);
-      background: rgba(255,255,255,0.08);
-    }
-
-    .preview-match-card.pm-red {
-      border-color: rgba(255,255,255,0.03);
-      background: rgba(255,255,255,0.08);
-    }
-
-    .preview-match-card.pm-yellow {
-      border-color: rgba(255,255,255,0.03);
-      background: rgba(255,255,255,0.08);
-    }
-
-    .preview-match-title {
-      font-family: 'Russo One', sans-serif;
-      font-size: 0.68rem;
-      letter-spacing: 0.05em;
-      color: rgba(255,255,255,0.9);
-      margin-bottom: 7px;
-      text-transform: uppercase;
-    }
-
-    .preview-mini-line {
-      font-size: 0.74rem;
-      color: rgba(255,255,255,0.68);
-      line-height: 1.35;
-      margin-bottom: 4px;
-    }
-
-    .preview-mini-line:last-child {
-      margin-bottom: 0;
-    }
-
-    .preview-mini-line strong {
-      color: rgba(255,255,255,0.92);
-      font-weight: 600;
-    }
-
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.62);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 300;
-      padding: 20px;
-    }
-
-    .modal-overlay.show {
-      display: flex;
-    }
-
-    .modal-box {
-      width: 100%;
-      max-width: 520px;
-      background: #0c0d22;
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 16px;
-      padding: 22px 22px 18px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
-    }
-
-    .modal-title {
-      font-family: 'Russo One', sans-serif;
-      color: var(--yellow);
-      font-size: 1rem;
-      letter-spacing: 0.08em;
-      margin-bottom: 12px;
-      text-transform: uppercase;
-    }
-
-    .modal-text {
-      color: rgba(255,255,255,0.72);
-      font-size: 0.9rem;
-      line-height: 1.7;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-      margin-top: 18px;
-    }
-
-    .modal-btn {
-      padding: 10px 18px;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.06);
-      color: #fff;
-      cursor: pointer;
-      font-family: 'Russo One', sans-serif;
-      font-size: 0.78rem;
-      letter-spacing: 0.06em;
-    }
-
-    .modal-btn.primary {
-      background: rgba(255,215,0,0.14);
-      border-color: var(--yellow);
-      color: var(--yellow);
-    }
-
-    @media (max-width: 900px) {
-      .preview-winners-grid,
-      .preview-matches-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 760px) {
-      .top-bar {
-        grid-template-columns: 1fr;
-        padding: 14px 18px;
-      }
-
-      .brand-wrap,
-      .title-wrap,
-      .back-wrap {
-        justify-self: center;
-      }
-
-      .top-title {
-        white-space: normal;
-      }
-
-      .preview-winners-grid,
-      .preview-matches-grid {
-        grid-template-columns: 1fr;
-      }
-    }
+      background:linear-gradient(135deg,rgba(255,215,0,0.18),rgba(255,215,0,0.08));
+      border-color:var(--yellow);
+      color:var(--yellow);
+      box-shadow:0 0 20px rgba(255,215,0,0.22), inset 0 1px 0 rgba(255,255,255,0.06);
+      transform:translateY(-2px);
+    }
+    .section-title { font-family:'Russo One',sans-serif; font-size:1.2rem; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:4px; margin-top:32px; display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; }
+    .section-pts { font-family:'Exo 2',sans-serif; font-size:0.77rem; color:rgba(255,215,0,0.65); font-weight:600; letter-spacing:0.05em; }
+    .section-divider { height:1px; background:rgba(255,255,255,0.08); margin-bottom:16px; margin-top:8px; }
+    .name-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,215,0,0.22); border-radius:12px; padding:20px 24px; margin-bottom:40px; }
+    .name-card label { display:block; font-family:'Russo One',sans-serif; font-size:1.4rem; letter-spacing:0.12em; color:var(--yellow); margin-bottom:8px; text-transform:uppercase; }
+    .name-card input { width:100%; padding:11px 16px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:8px; color:#fff; font-family:'Exo 2',sans-serif; font-size:0.95rem; outline:none; transition:border-color 0.2s; }
+    .name-card input:focus{border-color:var(--yellow);}
+    .winner-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; margin-bottom:4px; }
+    .winner-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:15px; }
+    .winner-card-title { font-family:'Russo One',sans-serif; font-size:0.81rem; letter-spacing:0.07em; margin-bottom:11px; }
+    .winner-card-title span { display:block; font-family:'Exo 2',sans-serif; font-size:0.8rem; opacity:0.6; margin-top:2px; font-weight:400; }
+    .winner-card.t1{border-color:rgba(0,82,165,0.5);} .winner-card.t1 .winner-card-title{color:#6eb4ff;}
+    .winner-card.t2{border-color:rgba(232,0,29,0.45);} .winner-card.t2 .winner-card-title{color:#ff8090;}
+    .winner-card.t3{border-color:rgba(255,215,0,0.35);} .winner-card.t3 .winner-card-title{color:var(--yellow);}
+    .winner-select { width:100%; padding:9px 13px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:7px; color:#fff; font-family:'Exo 2',sans-serif; font-size:0.87rem; outline:none; cursor:pointer; transition:border-color 0.2s; }
+    .winner-select:focus{border-color:var(--yellow);}
+    .winner-select option{background:#0A0A1E;}
+    .winner-select:disabled { opacity:0.45; cursor:not-allowed; }
+    .tableau-block{margin-bottom:24px;}
+    .tableau-header { display:flex; align-items:center; gap:10px; padding:9px 15px; border-radius:8px; margin-bottom:11px; font-family:'Russo One',sans-serif; font-size:0.87rem; letter-spacing:0.09em; }
+    .th-blue   { background:rgba(0,82,165,0.2);  border:1px solid rgba(0,82,165,0.42);  color:#6eb4ff; }
+    .th-red    { background:rgba(232,0,29,0.17); border:1px solid rgba(232,0,29,0.38);  color:#ff8090; }
+    .th-yellow { background:rgba(255,215,0,0.12);border:1px solid rgba(255,215,0,0.32); color:var(--yellow); }
+    .th-sub { font-size:0.68rem; opacity:0.45; font-family:'Exo 2',sans-serif; font-weight:400; margin-left:4px; }
+    .matches-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(195px,1fr)); gap:9px; }
+    .match-bet-card { background:rgba(255,255,255,0.032); border:1px solid rgba(255,255,255,0.07); border-radius:9px; overflow:hidden; position:relative; }
+    /* États grisés avec tooltip custom */
+    .match-bet-card.played,
+    .match-bet-card.unavailable { opacity:0.45; }
+    .match-bet-card.played .players-bet-grid,
+    .match-bet-card.unavailable .players-bet-grid { pointer-events:none; }
+    /* Tooltip custom sur les cartes grisées */
+    .match-bet-card.played .match-card-tooltip,
+    .match-bet-card.unavailable .match-card-tooltip {
+      display:block;
+    }
+    .match-card-tooltip {
+      display:none;
+      position:absolute;
+      top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      z-index:30;
+      background:rgba(5,8,24,0.97);
+      border:1px solid rgba(255,255,255,0.28);
+      border-radius:10px;
+      padding:9px 14px;
+      font-size:0.76rem;
+      color:#ffffff;
+      text-align:center;
+      white-space:normal;
+      width:max-content;
+      max-width:160px;
+      pointer-events:none;
+      opacity:0;
+      transition:opacity 0.15s;
+      box-shadow:0 6px 20px rgba(0,0,0,0.5);
+      font-family:'Exo 2',sans-serif;
+      letter-spacing:0.04em;
+      line-height:1.4;
+    }
+    .match-bet-card.played:hover .match-card-tooltip,
+    .match-bet-card.unavailable:hover .match-card-tooltip {
+      opacity:1;
+    }
+    .match-bet-card.played { cursor:not-allowed; }
+    .match-bet-card.unavailable { cursor:not-allowed; }
+    /* Overlay tooltip simulé via title */
+    .match-bet-header { display:flex; align-items:center; gap:7px; padding:8px 11px; border-bottom:1px solid rgba(255,255,255,0.06); }
+    .mh-blue{background:rgba(0,82,165,0.22);} .mh-red{background:rgba(232,0,29,0.18);} .mh-yellow{background:rgba(255,215,0,0.12);}
+    .match-bet-name { font-family:'Russo One',sans-serif; font-size:0.8rem; letter-spacing:0.06em; }
+    .match-bet-tag { font-size:0.62rem; color:rgba(255,255,255,0.3); margin-left:auto; }
+    .match-status-badge { font-size:0.58rem; padding:2px 6px; border-radius:8px; margin-left:4px; font-family:'Russo One',sans-serif; white-space:nowrap; }
+    .msb-played { background:rgba(232,0,29,0.15); border:1px solid rgba(232,0,29,0.3); color:#ff8090; }
+    .msb-unavail { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); color:rgba(255,255,255,0.3); }
+    .players-bet-grid { padding:9px 11px; display:flex; flex-direction:column; gap:6px; }
+    .player-bet-row { display:flex; align-items:center; gap:7px; }
+    .player-bet-name { position:relative; flex:1; font-size:0.8rem; font-weight:600; color:rgba(255,255,255,0.8); letter-spacing:0.02em; overflow:visible; white-space:nowrap; cursor:help; }
+    .player-bet-name.tbd { color:rgba(255,255,255,0.22); font-style:italic; font-weight:400; cursor:default; }
+    .player-tooltip { position:absolute; left:0; bottom:calc(100% + 8px); min-width:180px; max-width:230px; padding:8px 10px; border-radius:8px; background:rgba(5,8,24,0.96); border:1px solid rgba(79,143,240,0.45); color:rgba(255,255,255,0.9); font-size:0.72rem; line-height:1.4; box-shadow:0 10px 25px rgba(0,0,0,0.35); opacity:0; pointer-events:none; transform:translateY(4px); transition:opacity 0.15s,transform 0.15s; z-index:20; white-space:normal; }
+    .player-tooltip strong{color:#8ec1ff;}
+    .player-bet-name.has-tooltip:hover .player-tooltip { opacity:1; transform:translateY(0); }
+    .rank-select { width:86px; padding:4px 7px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:5px; color:#fff; font-family:'Exo 2',sans-serif; font-size:0.76rem; outline:none; cursor:pointer; transition:border-color 0.15s,box-shadow 0.15s,background 0.15s; }
+    .rank-select:focus{border-color:var(--yellow);}
+    .rank-select option{background:#0A0A1E;}
+    .rank-select.duplicate-rank { border-color:#ff8090; box-shadow:0 0 0 1px rgba(232,0,29,0.6); background:rgba(232,0,29,0.10); }
+    .submit-zone{margin-top:40px;}
+    .submit-btn { width:100%; padding:17px; background:linear-gradient(135deg,#081b3f 0%,#0d3d8f 42%,#4f8ff0 52%,#0d3d8f 62%,#081b3f 100%); background-size:300% 100%; border:1px solid #74adff; border-radius:12px; color:#fff; font-family:'Russo One',sans-serif; font-size:1rem; letter-spacing:0.12em; cursor:pointer; transition:all 0.3s; }
+    .submit-btn:hover { background-position:100% 0; box-shadow:0 0 32px rgba(79,143,240,0.45); transform:translateY(-2px); }
+    .phase-panel{display:none;} .phase-panel.active{display:block;}
+    .revision-note { color:rgba(255,255,255,0.42); font-size:0.83rem; margin-bottom:14px; line-height:1.6; }
+    .fallback-area { margin-top:14px; width:100%; height:150px; background:rgba(3,8,26,0.72); border:1px solid rgba(116,173,255,0.2); border-radius:8px; color:rgba(255,255,255,0.74); font-family:monospace; font-size:0.72rem; padding:11px; resize:vertical; outline:none; }
+    .mini-btn { padding:9px 20px; background:rgba(255,215,0,0.1); border:1px solid var(--yellow); border-radius:7px; color:var(--yellow); font-family:'Russo One',sans-serif; font-size:0.78rem; letter-spacing:0.1em; cursor:pointer; margin-top:8px; margin-right:8px; transition:background 0.2s; }
+    .mini-btn:hover{background:rgba(255,215,0,0.2);}
+    .mini-btn.grey{border-color:rgba(255,255,255,0.2);color:rgba(255,255,255,0.4);}
+    .mini-btn.grey:hover{background:rgba(255,255,255,0.06);}
+    .mini-btn.blue{background:rgba(79,143,240,0.12);border-color:#4f8ff0;color:#8ec1ff;}
+    .mini-btn.blue:hover{background:rgba(79,143,240,0.22);}
+    .success-wrap { text-align:center; padding:48px 24px; background:linear-gradient(180deg,rgba(8,18,48,0.92) 0%,rgba(6,12,34,0.97) 100%); border:1px solid rgba(116,173,255,0.18); border-radius:16px; }
+    .success-wrap .s-icon{font-size:3.5rem;display:block;margin-bottom:14px;}
+    .success-wrap h2{font-family:'Russo One',sans-serif;color:#8ec1ff;font-size:1.5rem;margin-bottom:10px;}
+    .success-wrap p{color:rgba(255,255,255,0.6);font-size:0.87rem;line-height:1.8;}
+    .warning-send{color:rgba(255,255,255,0.78) !important;margin-top:6px;}
+    .warning-send strong{color:#ffcf66;}
+    .bets-preview { margin-top:26px; text-align:left; background:rgba(255,255,255,0.03); border:1px solid rgba(116,173,255,0.16); border-radius:14px; padding:18px; }
+    .bets-preview h3 { font-family:'Russo One',sans-serif; color:var(--yellow); font-size:1rem; letter-spacing:0.08em; margin-bottom:14px; text-transform:uppercase; }
+    .preview-phase-line{font-size:0.86rem;color:rgba(255,255,255,0.82);margin-bottom:16px;line-height:1.5;}
+    .preview-phase-line strong{color:#8ec1ff;}
+    .preview-block{margin-bottom:18px;}
+    .preview-title{font-family:'Russo One',sans-serif;font-size:1rem;color:rgba(255,255,255,0.86);margin-bottom:10px;letter-spacing:0.06em;text-transform:uppercase;}
+    .preview-winners-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;}
+    .preview-winner-card{background:rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;}
+    .preview-winner-card .pw-title{font-family:'Russo One',sans-serif;font-size:0.7rem;letter-spacing:0.05em;color:rgba(255,255,255,0.84);margin-bottom:6px;text-transform:uppercase;}
+    .preview-winner-card .pw-value{font-size:0.8rem;color:rgba(255,255,255,0.7);line-height:1.4;}
+    .preview-tableau-block{margin-bottom:16px;}
+    .preview-tableau-name{font-family:'Russo One',sans-serif;font-size:0.78rem;letter-spacing:0.05em;margin-bottom:10px;text-transform:uppercase;}
+    .tableau-blue{color:#6eb4ff;} .tableau-red{color:#ff8090;} .tableau-yellow{color:var(--yellow);}
+    .preview-matches-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;}
+    .preview-match-card{background:rgba(255,255,255,0.08);border-radius:10px;padding:10px 11px;}
+    .preview-match-title{font-family:'Russo One',sans-serif;font-size:0.68rem;letter-spacing:0.05em;color:rgba(255,255,255,0.9);margin-bottom:7px;text-transform:uppercase;}
+    .preview-mini-line{font-size:0.74rem;color:rgba(255,255,255,0.68);line-height:1.35;margin-bottom:4px;}
+    .preview-mini-line strong{color:rgba(255,255,255,0.92);font-weight:600;}
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.62);display:none;align-items:center;justify-content:center;z-index:300;padding:20px;}
+    .modal-overlay.show{display:flex;}
+    .modal-box{width:100%;max-width:520px;background:#0c0d22;border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:22px 22px 18px;box-shadow:0 20px 60px rgba(0,0,0,0.45);}
+    .modal-title{font-family:'Russo One',sans-serif;color:var(--yellow);font-size:1rem;letter-spacing:0.08em;margin-bottom:12px;text-transform:uppercase;}
+    .modal-text{color:rgba(255,255,255,0.72);font-size:0.9rem;line-height:1.7;}
+    .modal-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:18px;}
+    .modal-btn{padding:10px 18px;border-radius:8px;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.06);color:#fff;cursor:pointer;font-family:'Russo One',sans-serif;font-size:0.78rem;letter-spacing:0.06em;}
+    .modal-btn.primary{background:rgba(255,215,0,0.14);border-color:var(--yellow);color:var(--yellow);}
+    @media(max-width:900px){.preview-winners-grid,.preview-matches-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+    @media(max-width:760px){.top-bar{grid-template-columns:1fr;padding:14px 18px;}.brand-wrap,.title-wrap,.back-wrap{justify-self:center;}.top-title{white-space:normal;}.preview-winners-grid,.preview-matches-grid{grid-template-columns:1fr;}}
+
+    /* ── Tooltip côtes vainqueur ── */
+    .winner-card{position:relative;}
+    .cotes-tooltip{
+      display:none;
+      position:absolute;
+      top:calc(100% + 10px);
+      left:0;
+      z-index:200;
+      width:260px;
+      background:rgba(7,7,30,0.97);
+      border:1px solid rgba(255,255,255,0.14);
+      border-radius:12px;
+      padding:14px 16px;
+      box-shadow:0 12px 40px rgba(0,0,0,0.7);
+      pointer-events:none;
+    }
+    .winner-card:hover .cotes-tooltip{display:block;}
+    .cotes-tooltip-title{font-family:'Russo One',sans-serif;font-size:0.72rem;letter-spacing:0.1em;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-bottom:10px;}
+    .cotes-tt-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+    .cotes-tt-row:last-child{margin-bottom:0;}
+    .cotes-tt-name{font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.85);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .cotes-tt-bar-wrap{flex:1;margin:0 6px;}
+    .cotes-tt-bar-bg{height:5px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden;}
+    .cotes-tt-bar-fill{height:100%;border-radius:3px;}
+    .fill-t1{background:linear-gradient(90deg,#0052A5,#6eb4ff);}
+    .fill-t2{background:linear-gradient(90deg,#E8001D,#ff8090);}
+    .fill-t3{background:linear-gradient(90deg,#b8860b,#FFD700);}
+    .cotes-tt-count{font-family:'Russo One',sans-serif;font-size:0.72rem;color:rgba(255,255,255,0.4);min-width:22px;text-align:right;}
+    .cotes-tt-empty{font-size:0.78rem;color:rgba(255,255,255,0.22);font-style:italic;text-align:center;padding:4px 0;}
   </style>
 </head>
 <body>
 <div class="bg"></div>
 
 <div class="top-bar">
-  <div class="brand-wrap">
-    <a href="index.html" class="brand">🏆 <span>TOURNOI INTERNE</span> MARIO KART</a>
-  </div>
-  <div class="title-wrap">
-    <div class="top-title">FAIRE DES PARIS</div>
-  </div>
-  <div class="back-wrap">
-    <a href="index.html" class="back-btn">← Accueil</a>
-  </div>
+  <div class="brand-wrap"><a href="index.html" class="brand">🏆 <span>TOURNOI INTERNE</span> MARIO KART</a></div>
+  <div class="title-wrap"><div class="top-title">FAIRE DES PARIS</div></div>
+  <div class="back-wrap"><a href="index.html" class="back-btn">← Accueil</a></div>
 </div>
 
 <div class="page" id="mainPage">
   <h1>🎰 FAIRE DES PARIS</h1>
-  <p class="subtitle">Pariez sur les gagnants finaux et sur chaque résultat de match </p>
+  <p class="subtitle">Pariez sur les gagnants finaux et sur chaque résultat de match</p>
 
   <div class="info-box">
     <h3><span class="info-dot"></span>Comment ça marche ?</h3>
-    <p>Pariez sur le classement des joueurs sur chaque match (1er à 4e) et sur le vainqueur final de chaque tableau. Votre pari est envoyé à l'organisateur par e-mail. Plus vous avez de bonnes prédictions, plus vous marquez de points. Vous pourrez réviser votre pronostic sur le gagnant final après la fin de chaque tour.</p>
-    <p class="warning-line">⚠️ <strong>Si vous envoyez plusieurs paris lors d'une même phase de jeu (Tour 1, Tour 2, Tour 3), seul le premier pari envoyé sera pris en compte.</strong> </p>
-
+    <p>Pariez sur le classement des joueurs sur chaque match (1er à 4e) et sur le vainqueur final de chaque tableau. Votre pari est envoyé à l'organisateur par e-mail.</p>
+    <p class="warning-line">⚠️ <strong>Si vous envoyez plusieurs paris lors d'une même phase de jeu (Tour 1, Tour 2, Tour 3), seul le premier pari envoyé sera pris en compte.</strong></p>
     <div class="points-grid">
-      <div class="point-item">
-        <div class="point-badge">
-          <span class="point-value">+1</span>
-          <span class="point-unit">pt</span>
-        </div>
-        <div class="point-desc">Par joueur bien classé dans un match</div>
-      </div>
-
-      <div class="point-item">
-        <div class="point-badge">
-          <span class="point-value">+20</span>
-          <span class="point-unit">pts</span>
-        </div>
-        <div class="point-desc">Par bon gagnant final prédit <em>avant</em> le début du tournoi</div>
-      </div>
-
-      <div class="point-item">
-        <div class="point-badge">
-          <span class="point-value">+10</span>
-          <span class="point-unit">pts</span>
-        </div>
-        <div class="point-desc">Par bon gagnant final prédit <em>après</em> la fin du Tour 1</div>
-      </div>
-
-      <div class="point-item">
-        <div class="point-badge">
-          <span class="point-value">+5</span>
-          <span class="point-unit">pts</span>
-        </div>
-        <div class="point-desc">Par bon gagnant final prédit <em>après</em> la fin du Tour 2</div>
-      </div>
+      <div class="point-item"><div class="point-badge"><span class="point-value">+1</span><span class="point-unit">pt</span></div><div class="point-desc">Par joueur bien classé dans un match (toutes phases)</div></div>
+      <div class="point-item"><div class="point-badge"><span class="point-value">+20</span><span class="point-unit">pts</span></div><div class="point-desc">Par bon gagnant final prédit <em>avant</em> le début du tournoi</div></div>
     </div>
   </div>
 
   <div class="name-card">
     <label>Votre nom</label>
-    <input type="text" id="bettor-name-0" placeholder="Prénom Nom" autocomplete="off">
+    <input type="text" id="bettor-name-global" placeholder="Prénom Nom" autocomplete="off">
   </div>
 
   <div class="phase-tabs">
     <div class="phase-tab active" onclick="switchPhase('phase0')">🏁 Avant le tournoi</div>
-    <div class="phase-tab locked" id="tab-phase1">Après Tour 1 🔒</div>
-    <div class="phase-tab locked" id="tab-phase2">Après Tour 2 🔒</div>
+    <div class="phase-tab" id="tab-phase1" onclick="switchPhase('phase1')">🔀 Après Tour 1</div>
+    <div class="phase-tab" id="tab-phase2" onclick="switchPhase('phase2')">🏆 Après Tour 2</div>
   </div>
 
+  <!-- PHASE 0 -->
   <div class="phase-panel active" id="phase0">
-    <div class="section-title" style="color:var(--yellow)">
-      🏆 Gagnants finaux
-      <span class="section-pts">— 20 points par bonne réponse</span>
-    </div>
+    <div class="section-title" style="color:var(--yellow)">🏆 Gagnants finaux <span class="section-pts">— 20 points par bonne réponse</span></div>
     <div class="section-divider"></div>
-
     <div class="winner-cards">
       <div class="winner-card t1">
         <div class="winner-card-title">🥇 Vainqueur Tableau 1<span>1er au classement général</span></div>
         <select class="winner-select" id="winner-t1-0"><option value="">— Choisir un joueur —</option></select>
+        <div class="cotes-tooltip"><div class="cotes-tooltip-title">Pronostics · Tableau 1</div><div id="cotes-tip-t1-body"></div></div>
       </div>
       <div class="winner-card t2">
         <div class="winner-card-title">🥇 Vainqueur Tableau 2<span>17e au classement général</span></div>
         <select class="winner-select" id="winner-t2-0"><option value="">— Choisir un joueur —</option></select>
+        <div class="cotes-tooltip"><div class="cotes-tooltip-title">Pronostics · Tableau 2</div><div id="cotes-tip-t2-body"></div></div>
       </div>
       <div class="winner-card t3">
         <div class="winner-card-title">🥇 Vainqueur Tableau 3<span>33e au classement général</span></div>
         <select class="winner-select" id="winner-t3-0"><option value="">— Choisir un joueur —</option></select>
+        <div class="cotes-tooltip"><div class="cotes-tooltip-title">Pronostics · Tableau 3</div><div id="cotes-tip-t3-body"></div></div>
       </div>
     </div>
-
-    <div class="section-title" style="color:rgba(255,255,255,0.8); margin-top:36px;">
-      🏎️ Paris sur les matchs — Tour 1
-      <span class="section-pts">— 1 point par bonne réponse</span>
-    </div>
+    <div class="section-title" style="color:rgba(255,255,255,0.8);margin-top:36px;">🏎️ Paris sur les matchs — Tour 1 <span class="section-pts">— 1 point par bonne réponse</span></div>
     <div class="section-divider"></div>
-
-    <div class="tableau-block">
-      <div class="tableau-header th-blue">🔵 Tableau 1 <span class="th-sub">Places 1–16</span></div>
-      <div class="matches-grid" id="p0-t1-matches"></div>
-    </div>
-    <div class="tableau-block">
-      <div class="tableau-header th-red">🔴 Tableau 2 <span class="th-sub">Places 17–32</span></div>
-      <div class="matches-grid" id="p0-t2-matches"></div>
-    </div>
-    <div class="tableau-block">
-      <div class="tableau-header th-yellow">🟡 Tableau 3 <span class="th-sub">Places 33–48</span></div>
-      <div class="matches-grid" id="p0-t3-matches"></div>
-    </div>
-
-    <div class="submit-zone">
-      <button class="submit-btn" onclick="submitBets(0)">🎯 ENVOYER MES PARIS PAR E-MAIL</button>
-    </div>
+    <div class="tableau-block"><div class="tableau-header th-blue">🔵 Tableau 1 <span class="th-sub">Places 1–16</span></div><div class="matches-grid" id="p0-t1-matches"></div></div>
+    <div class="tableau-block"><div class="tableau-header th-red">🔴 Tableau 2 <span class="th-sub">Places 17–32</span></div><div class="matches-grid" id="p0-t2-matches"></div></div>
+    <div class="tableau-block"><div class="tableau-header th-yellow">🟡 Tableau 3 <span class="th-sub">Places 33–48</span></div><div class="matches-grid" id="p0-t3-matches"></div></div>
+    <div class="submit-zone"><button class="submit-btn" onclick="submitBets(0)">🎯 ENVOYER MES PARIS PAR E-MAIL</button></div>
   </div>
 
+  <!-- PHASE 1 -->
   <div class="phase-panel" id="phase1">
-    <div class="name-card">
-      <label>Votre nom</label>
-      <input type="text" id="bettor-name-1" placeholder="Prénom Nom" autocomplete="off">
-    </div>
-
-    <div class="section-title" style="color:var(--yellow)">
-      🏆 Révision des gagnants finaux
-      <span class="section-pts">— 10 points par bonne réponse</span>
-    </div>
+    <div class="section-title" style="color:rgba(255,255,255,0.8);margin-top:0;">🔀 Paris sur les matchs — Tour 2 <span class="section-pts">— 1 point par bonne réponse</span></div>
     <div class="section-divider"></div>
-    <p class="revision-note">Le Tour 1 est terminé. Mettez à jour votre pronostic sur le vainqueur final de chaque tableau.</p>
-
-    <div class="winner-cards">
-      <div class="winner-card t1">
-        <div class="winner-card-title">🥇 Vainqueur Tableau 1<span>1er au classement général</span></div>
-        <select class="winner-select" id="winner-t1-1"><option value="">— Choisir un joueur —</option></select>
-      </div>
-      <div class="winner-card t2">
-        <div class="winner-card-title">🥇 Vainqueur Tableau 2<span>17e au classement général</span></div>
-        <select class="winner-select" id="winner-t2-1"><option value="">— Choisir un joueur —</option></select>
-      </div>
-      <div class="winner-card t3">
-        <div class="winner-card-title">🥇 Vainqueur Tableau 3<span>33e au classement général</span></div>
-        <select class="winner-select" id="winner-t3-1"><option value="">— Choisir un joueur —</option></select>
-      </div>
-    </div>
-
-    <div class="section-title" style="color:rgba(255,255,255,0.8); margin-top:36px;">
-      🔀 Paris sur les matchs — Tour 2
-      <span class="section-pts">— 1 point par bonne réponse</span>
-    </div>
-    <div class="section-divider"></div>
-
-    <div class="tableau-block">
-      <div class="tableau-header th-blue">🔵 Tableau 1</div>
-      <div class="matches-grid" id="p1-t1-matches"></div>
-    </div>
-    <div class="tableau-block">
-      <div class="tableau-header th-red">🔴 Tableau 2</div>
-      <div class="matches-grid" id="p1-t2-matches"></div>
-    </div>
-    <div class="tableau-block">
-      <div class="tableau-header th-yellow">🟡 Tableau 3</div>
-      <div class="matches-grid" id="p1-t3-matches"></div>
-    </div>
-
-    <div class="submit-zone">
-      <button class="submit-btn" onclick="submitBets(1)">🎯 ENVOYER MES PARIS TOUR 2 PAR E-MAIL</button>
-    </div>
+    <div class="tableau-block"><div class="tableau-header th-blue">🔵 Tableau 1</div><div class="matches-grid" id="p1-t1-matches"></div></div>
+    <div class="tableau-block"><div class="tableau-header th-red">🔴 Tableau 2</div><div class="matches-grid" id="p1-t2-matches"></div></div>
+    <div class="tableau-block"><div class="tableau-header th-yellow">🟡 Tableau 3</div><div class="matches-grid" id="p1-t3-matches"></div></div>
+    <div class="submit-zone"><button class="submit-btn" onclick="submitBets(1)">🎯 ENVOYER MES PARIS TOUR 2 PAR E-MAIL</button></div>
   </div>
 
+  <!-- PHASE 2 -->
   <div class="phase-panel" id="phase2">
-    <div class="name-card">
-      <label>Votre nom</label>
-      <input type="text" id="bettor-name-2" placeholder="Prénom Nom" autocomplete="off">
-    </div>
-
-    <div class="section-title" style="color:var(--yellow)">
-      🏆 Dernière révision des gagnants finaux
-      <span class="section-pts">— 5 points par bonne réponse</span>
-    </div>
+    <div class="section-title" style="color:rgba(255,255,255,0.8);margin-top:0;">🏆 Paris sur les matchs — Tour 3 <span class="section-pts">— 1 point par bonne réponse</span></div>
     <div class="section-divider"></div>
-    <p class="revision-note">Le Tour 2 est terminé. Dernière chance pour ajuster votre pronostic sur le vainqueur final.</p>
-
-    <div class="winner-cards">
-      <div class="winner-card t1">
-        <div class="winner-card-title">🥇 Vainqueur Tableau 1<span>1er au classement général</span></div>
-        <select class="winner-select" id="winner-t1-2"><option value="">— Choisir un joueur —</option></select>
-      </div>
-      <div class="winner-card t2">
-        <div class="winner-card-title">🥇 Vainqueur Tableau 2<span>17e au classement général</span></div>
-        <select class="winner-select" id="winner-t2-2"><option value="">— Choisir un joueur —</option></select>
-      </div>
-      <div class="winner-card t3">
-        <div class="winner-card-title">🥇 Vainqueur Tableau 3<span>33e au classement général</span></div>
-        <select class="winner-select" id="winner-t3-2"><option value="">— Choisir un joueur —</option></select>
-      </div>
-    </div>
-
-    <div class="section-title" style="color:rgba(255,255,255,0.8); margin-top:36px;">
-      🏆 Paris sur les matchs — Tour 3
-      <span class="section-pts">— 1 point par bonne réponse</span>
-    </div>
-    <div class="section-divider"></div>
-
-    <div class="tableau-block">
-      <div class="tableau-header th-blue">🔵 Tableau 1</div>
-      <div class="matches-grid" id="p2-t1-matches"></div>
-    </div>
-    <div class="tableau-block">
-      <div class="tableau-header th-red">🔴 Tableau 2</div>
-      <div class="matches-grid" id="p2-t2-matches"></div>
-    </div>
-    <div class="tableau-block">
-      <div class="tableau-header th-yellow">🟡 Tableau 3</div>
-      <div class="matches-grid" id="p2-t3-matches"></div>
-    </div>
-
-    <div class="submit-zone">
-      <button class="submit-btn" onclick="submitBets(2)">🎯 ENVOYER MES PARIS TOUR 3 PAR E-MAIL</button>
-    </div>
+    <div class="tableau-block"><div class="tableau-header th-blue">🔵 Tableau 1</div><div class="matches-grid" id="p2-t1-matches"></div></div>
+    <div class="tableau-block"><div class="tableau-header th-red">🔴 Tableau 2</div><div class="matches-grid" id="p2-t2-matches"></div></div>
+    <div class="tableau-block"><div class="tableau-header th-yellow">🟡 Tableau 3</div><div class="matches-grid" id="p2-t3-matches"></div></div>
+    <div class="submit-zone"><button class="submit-btn" onclick="submitBets(2)">🎯 ENVOYER MES PARIS TOUR 3 PAR E-MAIL</button></div>
   </div>
 </div>
 
@@ -1118,210 +328,289 @@
 </div>
 
 <script>
-const PHASE1_OPEN = false;
-const PHASE2_OPEN = false;
 const EMAIL_DEST = "valerie.duriez@amaurymedia.fr";
-
 let pendingIncompleteSend = null;
 let lastMailtoUrl = '';
 
+/* ════════════════════════════════════════════════════════════
+   BRACKETS_BASE — identique à tableaux.html / admin.html
+════════════════════════════════════════════════════════════ */
+const BRACKETS_BASE = [
+  {
+    tableNumber:1, tableTitle:"Tableau 1",
+    groups:[
+      {groupName:"Poule A",players:["Mathieu B.","Julie","Noémie F.","Marin"]},
+      {groupName:"Poule B",players:["Sebastien","Clémentine","Jumi","Marlène"]},
+      {groupName:"Poule C",players:["Louis","Hugo P.","Dolly","Martin O."]},
+      {groupName:"Poule D",players:["Bruno F.","Arthur M.","Flore","Antoine"]}
+    ],
+    tour2Matches:[
+      {matchName:"Match 1",matchTag:"1ers A+C · 2es B+D",slots:["1er Poule A","2e Poule B","1er Poule C","2e Poule D"]},
+      {matchName:"Match 2",matchTag:"2es A+C · 1ers B+D",slots:["2e Poule A","1er Poule B","2e Poule C","1er Poule D"]},
+      {matchName:"Match 3",matchTag:"3es A+C · 4es B+D", slots:["3e Poule A","4e Poule B","3e Poule C","4e Poule D"]},
+      {matchName:"Match 4",matchTag:"4es A+C · 3es B+D", slots:["4e Poule A","3e Poule B","4e Poule C","3e Poule D"]}
+    ],
+    tour3Matches:[
+      {matchName:"Match 1",matchTag:"Places 1–4",   slots:["1er Match 1 T2","2e Match 1 T2","1er Match 2 T2","2e Match 2 T2"]},
+      {matchName:"Match 2",matchTag:"Places 5–8",   slots:["3e Match 1 T2","4e Match 1 T2","3e Match 2 T2","4e Match 2 T2"]},
+      {matchName:"Match 3",matchTag:"Places 9–12",  slots:["1er Match 3 T2","2e Match 3 T2","1er Match 4 T2","2e Match 4 T2"]},
+      {matchName:"Match 4",matchTag:"Places 13–16", slots:["3e Match 3 T2","4e Match 3 T2","3e Match 4 T2","4e Match 4 T2"]}
+    ]
+  },
+  {
+    tableNumber:2, tableTitle:"Tableau 2",
+    groups:[
+      {groupName:"Poule E",players:["Hugo B.","Alexandre","Madeleine","Thierry"]},
+      {groupName:"Poule F",players:["Théo","Alexis","Justine","Mathieu F."]},
+      {groupName:"Poule G",players:["Arthur G.","Marine","Valérie","Jean-Philippe"]},
+      {groupName:"Poule H",players:["Lisa","Valentine","Bruno A.","Clélia M."]}
+    ],
+    tour2Matches:[
+      {matchName:"Match 1",matchTag:"1ers E+G · 2es F+H",slots:["1er Poule E","2e Poule F","1er Poule G","2e Poule H"]},
+      {matchName:"Match 2",matchTag:"2es E+G · 1ers F+H",slots:["2e Poule E","1er Poule F","2e Poule G","1er Poule H"]},
+      {matchName:"Match 3",matchTag:"3es E+G · 4es F+H", slots:["3e Poule E","4e Poule F","3e Poule G","4e Poule H"]},
+      {matchName:"Match 4",matchTag:"4es E+G · 3es F+H", slots:["4e Poule E","3e Poule F","4e Poule G","3e Poule H"]}
+    ],
+    tour3Matches:[
+      {matchName:"Match 1",matchTag:"Places 17–20",slots:["1er Match 1 T2","2e Match 1 T2","1er Match 2 T2","2e Match 2 T2"]},
+      {matchName:"Match 2",matchTag:"Places 21–24",slots:["3e Match 1 T2","4e Match 1 T2","3e Match 2 T2","4e Match 2 T2"]},
+      {matchName:"Match 3",matchTag:"Places 25–28",slots:["1er Match 3 T2","2e Match 3 T2","1er Match 4 T2","2e Match 4 T2"]},
+      {matchName:"Match 4",matchTag:"Places 29–32",slots:["3e Match 3 T2","4e Match 3 T2","3e Match 4 T2","4e Match 4 T2"]}
+    ]
+  },
+  {
+    tableNumber:3, tableTitle:"Tableau 3",
+    groups:[
+      {groupName:"Poule I",players:["Pierre-Benoit","Aude","Thomas","Cécile"]},
+      {groupName:"Poule J",players:["Lydie","Lionel","Matthieu A.","Virginie C."]},
+      {groupName:"Poule K",players:["Mélanie","Noé","Aurélie","Morgane"]},
+      {groupName:"Poule L",players:["Noémie H.","Martin T.","Clélia L.","Chloé"]}
+    ],
+    tour2Matches:[
+      {matchName:"Match 1",matchTag:"1ers I+K · 2es J+L",slots:["1er Poule I","2e Poule J","1er Poule K","2e Poule L"]},
+      {matchName:"Match 2",matchTag:"2es I+K · 1ers J+L",slots:["2e Poule I","1er Poule J","2e Poule K","1er Poule L"]},
+      {matchName:"Match 3",matchTag:"3es I+K · 4es J+L", slots:["3e Poule I","4e Poule J","3e Poule K","4e Poule L"]},
+      {matchName:"Match 4",matchTag:"4es I+K · 3es J+L", slots:["4e Poule I","3e Poule J","4e Poule K","3e Poule L"]}
+    ],
+    tour3Matches:[
+      {matchName:"Match 1",matchTag:"Places 33–36",slots:["1er Match 1 T2","2e Match 1 T2","1er Match 2 T2","2e Match 2 T2"]},
+      {matchName:"Match 2",matchTag:"Places 37–40",slots:["3e Match 1 T2","4e Match 1 T2","3e Match 2 T2","4e Match 2 T2"]},
+      {matchName:"Match 3",matchTag:"Places 41–44",slots:["1er Match 3 T2","2e Match 3 T2","1er Match 4 T2","2e Match 4 T2"]},
+      {matchName:"Match 4",matchTag:"Places 45–48",slots:["3e Match 3 T2","4e Match 3 T2","3e Match 4 T2","4e Match 4 T2"]}
+    ]
+  }
+];
+
+const PRESELECTION_RANKS = {
+  "Mathieu B.":"1er de la présélection","Julie":"8e de la présélection","Noémie F.":"9e de la présélection","Marin":"16e de la présélection",
+  "Sebastien":"2e de la présélection","Clémentine":"7e de la présélection","Jumi":"10e de la présélection","Marlène":"15e de la présélection",
+  "Louis":"3e de la présélection","Hugo P.":"6e de la présélection","Dolly":"11e de la présélection","Martin O.":"14e de la présélection",
+  "Bruno F.":"4e de la présélection","Arthur M.":"5e de la présélection","Flore":"12e de la présélection","Antoine":"13e de la présélection",
+  "Hugo B.":"17e de la présélection","Alexandre":"24e de la présélection","Madeleine":"25e de la présélection","Thierry":"32e de la présélection",
+  "Théo":"18e de la présélection","Alexis":"23e de la présélection","Justine":"26e de la présélection","Mathieu F.":"31e de la présélection",
+  "Arthur G.":"19e de la présélection","Marine":"22e de la présélection","Valérie":"27e de la présélection","Jean-Philippe":"30e de la présélection",
+  "Lisa":"20e de la présélection","Valentine":"21e de la présélection","Bruno A.":"28e de la présélection","Clélia M.":"29e de la présélection",
+  "Pierre-Benoit":"33e de la présélection","Aude":"40e de la présélection","Thomas":"41e de la présélection","Cécile":"48e de la présélection",
+  "Lydie":"34e de la présélection","Lionel":"39e de la présélection","Matthieu A.":"42e de la présélection","Virginie C.":"47e de la présélection",
+  "Mélanie":"35e de la présélection","Noé":"38e de la présélection","Aurélie":"43e de la présélection","Morgane":"46e de la présélection",
+  "Noémie H.":"36e de la présélection","Martin T.":"37e de la présélection","Clélia L.":"44e de la présélection","Chloé":"45e de la présélection"
+};
+
+/* ════════════════════════════════════════════════════════════
+   PROPAGATION — même logique que tableaux.html
+════════════════════════════════════════════════════════════ */
+function buildEnrichedBrackets(results) {
+  const brackets = JSON.parse(JSON.stringify(BRACKETS_BASE));
+  brackets.forEach(br => {
+    const tab = br.tableNumber;
+    function getPlayerByRank(gi, rank) {
+      const key = `t${tab}_tour1_g${gi}`;
+      const res = results[key];
+      if (!res || !res.played || !res.ranks) return null;
+      return br.groups[gi].players.find(p => String(res.ranks[p])===String(rank)) || null;
+    }
+    const t2Mapping = [
+      [[0,1],[1,2],[2,1],[3,2]],[[0,2],[1,1],[2,2],[3,1]],
+      [[0,3],[1,4],[2,3],[3,4]],[[0,4],[1,3],[2,4],[3,3]]
+    ];
+    t2Mapping.forEach((slotMap,mi) => {
+      br.tour2Matches[mi].players = ["-","-","-","-"];
+      slotMap.forEach(([gi,rank],si) => { br.tour2Matches[mi].players[si] = getPlayerByRank(gi,rank)||"-"; });
+    });
+    function getT2PlayerByRank(matchIdx, rank) {
+      const key = `t${tab}_tour2_m${matchIdx}`;
+      const res = results[key];
+      if (!res||!res.played||!res.ranks) return null;
+      return br.tour2Matches[matchIdx].players.find(p=>p!=='-'&&String(res.ranks[p])===String(rank))||null;
+    }
+    const t3Mapping = [
+      [[0,1],[0,2],[1,1],[1,2]],[[0,3],[0,4],[1,3],[1,4]],
+      [[2,1],[2,2],[3,1],[3,2]],[[2,3],[2,4],[3,3],[3,4]]
+    ];
+    t3Mapping.forEach((slotMap,mi) => {
+      br.tour3Matches[mi].players = ["-","-","-","-"];
+      slotMap.forEach(([t2mi,rank],si) => { br.tour3Matches[mi].players[si] = getT2PlayerByRank(t2mi,rank)||"-"; });
+    });
+  });
+  return brackets;
+}
+
+/* ════════════════════════════════════════════════════════════
+   DONNÉES RUNTIME
+════════════════════════════════════════════════════════════ */
 let BRACKETS_TOUR1 = [];
 let BRACKETS_TOUR2 = [];
 let BRACKETS_TOUR3 = [];
+let ADMIN_RESULTS = {};
 
-/* ─────────────────────────────────────────────────────────────
-   CLASSEMENTS DE PRÉSÉLECTION
-   À REMPLIR À LA MAIN
-   Les clés doivent correspondre EXACTEMENT aux noms saisis
-   dans tableaux.html
-───────────────────────────────────────────────────────────── */
-const PRESELECTION_RANKS = {
-  "Mathieu B.": "1er de la présélection",
-  "Julie": "8e de la présélection",
-  "Noémie F.": "9e de la présélection",
-  "Marin": "16e de la présélection",
+let WINNER_LOCKS = { t1:false, t2:false, t3:false };
 
-  "Sebastien": "2e de la présélection",
-  "Clémentine": "7e de la présélection",
-  "Jumi": "10e de la présélection",
-  "Marlène": "15e de la présélection",
-
-  "Louis": "3e de la présélection",
-  "Hugo P.": "6e de la présélection",
-  "Dolly": "11e de la présélection",
-  "Martin O.": "14e de la présélection",
-
-  "Bruno F.": "4e de la présélection",
-  "Arthur M.": "5e de la présélection",
-  "Flore": "12e de la présélection",
-  "Antoine": "13e de la présélection",
-
-  "Hugo B.": "17e de la présélection",
-  "Alexandre": "24e de la présélection",
-  "Madeleine": "25e de la présélection",
-  "Thierry": "32e de la présélection",
-
-  "Théo": "18e de la présélection",
-  "Alexis": "23e de la présélection",
-  "Justine": "26e de la présélection",
-  "Mathieu F.": "31e de la présélection",
-
-  "Arthur G.": "19e de la présélection",
-  "Marine": "22e de la présélection",
-  "Valérie": "27e de la présélection",
-  "Jean-Philippe": "30e de la présélection",
-
-  "Lisa": "20e de la présélection",
-  "Valentine": "21e de la présélection",
-  "Bruno A.": "28e de la présélection",
-  "Clélia M.": "29e de la présélection",
-
-  "Pierre-Benoit": "33e de la présélection",
-  "Aude": "40e de la présélection",
-  "Thomas": "41e de la présélection",
-  "Cécile": "48e de la présélection",
-
-  "Lydie": "34e de la présélection",
-  "Lionel": "39e de la présélection",
-  "Matthieu A.": "42e de la présélection",
-  "Virginie C.": "47e de la présélection",
-
-  "Mélanie": "35e de la présélection",
-  "Noé": "38e de la présélection",
-  "Aurélie": "43e de la présélection",
-  "Morgane": "46e de la présélection",
-
-  "Noémie H.": "36e de la présélection",
-  "Martin T.": "37e de la présélection",
-  "Clélia L.": "44e de la présélection",
-  "Chloé": "45e de la présélection"
-};
-
-if (PHASE1_OPEN) {
-  const t = document.getElementById('tab-phase1');
-  t.classList.remove('locked');
-  t.innerHTML = '🔀 Après Tour 1';
-  t.onclick = () => switchPhase('phase1');
-}
-
-if (PHASE2_OPEN) {
-  const t = document.getElementById('tab-phase2');
-  t.classList.remove('locked');
-  t.innerHTML = '🏆 Après Tour 2';
-  t.onclick = () => switchPhase('phase2');
-}
-
-async function loadBracketsFromTableaux() {
-  const response = await fetch('tableaux.html', { cache: 'no-store' });
-  if (!response.ok) {
-    throw new Error('Impossible de charger tableaux.html');
+function loadAdminResults() {
+  try {
+    const stored = JSON.parse(localStorage.getItem('mk_tournament_data')||'{}');
+    ADMIN_RESULTS = stored?.results || {};
+    WINNER_LOCKS  = stored?.winnerLocks || { t1:false, t2:false, t3:false };
   }
+  catch { ADMIN_RESULTS = {}; WINNER_LOCKS = { t1:false, t2:false, t3:false }; }
+}
 
-  const html = await response.text();
-  const match = html.match(/const\s+BRACKETS\s*=\s*(\[[\s\S]*?\]);/);
+function isMatchPlayed(matchKey) {
+  return !!(ADMIN_RESULTS[matchKey]?.played);
+}
 
-  if (!match || !match[1]) {
-    throw new Error('Constante BRACKETS introuvable dans tableaux.html');
+function hasAllFourPlayers(players) {
+  return players.filter(p => p && p !== '-').length === 4;
+}
+
+function mapBracketsForBets(enriched) {
+  BRACKETS_TOUR1 = enriched.map(br => ({
+    label: br.tableTitle,
+    color: br.tableNumber===1?'blue':br.tableNumber===2?'red':'yellow',
+    groups: br.groups.map(g => ({ name:g.groupName, players:[...g.players] }))
+  }));
+  BRACKETS_TOUR2 = enriched.map(br => ({
+    label: br.tableTitle,
+    color: br.tableNumber===1?'blue':br.tableNumber===2?'red':'yellow',
+    matches: br.tour2Matches.map(m => ({ name:m.matchName, tag:m.matchTag, players:[...(m.players||["-","-","-","-"])] }))
+  }));
+  BRACKETS_TOUR3 = enriched.map(br => ({
+    label: br.tableTitle,
+    color: br.tableNumber===1?'blue':br.tableNumber===2?'red':'yellow',
+    matches: br.tour3Matches.map(m => ({ name:m.matchName, tag:m.matchTag, players:[...(m.players||["-","-","-","-"])] }))
+  }));
+}
+
+/* ════════════════════════════════════════════════════════════
+   WINNER SELECTS — avec filtrage par phase
+════════════════════════════════════════════════════════════ */
+function getEligibleWinnerPlayers(tabIdx, phase) {
+  const br = buildEnrichedBrackets(ADMIN_RESULTS)[tabIdx];
+  if (phase === 'p1') {
+    const eligible = new Set();
+    [0,1].forEach(mi => (br.tour2Matches[mi].players||[]).forEach(p=>{ if(p&&p!=='-') eligible.add(p); }));
+    return [...eligible];
   }
-
-  return new Function(`return ${match[1]};`)();
+  if (phase === 'p2') {
+    const eligible = new Set();
+    (br.tour3Matches[0].players||[]).forEach(p=>{ if(p&&p!=='-') eligible.add(p); });
+    return [...eligible];
+  }
+  // p0 : tous
+  return br.groups.flatMap(g=>g.players);
 }
 
-function mapBracketsForBets(sourceBrackets) {
-  BRACKETS_TOUR1 = sourceBrackets.map(br => ({
-    label: br.tableTitle,
-    color: getBracketColor(br.tableNumber),
-    groups: br.groups.map(group => ({
-      name: group.groupName,
-      players: [...group.players]
-    }))
-  }));
-
-  BRACKETS_TOUR2 = sourceBrackets.map(br => ({
-    label: br.tableTitle,
-    color: getBracketColor(br.tableNumber),
-    matches: br.tour2Matches.map(match => ({
-      name: match.matchName,
-      tag: match.matchTag,
-      players: [...match.players]
-    }))
-  }));
-
-  BRACKETS_TOUR3 = sourceBrackets.map(br => ({
-    label: br.tableTitle,
-    color: getBracketColor(br.tableNumber),
-    matches: br.tour3Matches.map(match => ({
-      name: match.matchName,
-      tag: match.matchTag,
-      players: [...match.players]
-    }))
-  }));
-}
-
-function getBracketColor(tableNumber) {
-  if (tableNumber === 1) return 'blue';
-  if (tableNumber === 2) return 'red';
-  return 'yellow';
-}
-
-function getPreselectionRank(playerName) {
-  return PRESELECTION_RANKS[playerName] || 'Classement non renseigné';
-}
-
-function allPlayers(bi) {
-  if (!BRACKETS_TOUR1[bi]) return [];
-  return BRACKETS_TOUR1[bi].groups.flatMap(g => g.players).filter(p => p && p !== '-');
-}
-
-function fillSelect(id, bi) {
+function fillWinnerSelect(id, tabIdx, phase) {
   const s = document.getElementById(id);
   if (!s) return;
+  const tabKey = `t${tabIdx+1}`;
+  const isLocked = !!WINNER_LOCKS[tabKey];
 
+  if (isLocked) {
+    s.innerHTML = '<option value="">— Paris clos —</option>';
+    s.disabled = true;
+    s.title = 'Paris sur le gagnant final verrouillé par l\'organisateur';
+    s.closest('.winner-card')?.style.setProperty('opacity','0.45');
+    return;
+  }
+
+  const players = getEligibleWinnerPlayers(tabIdx, phase);
   s.innerHTML = '<option value="">— Choisir un joueur —</option>';
-
-  allPlayers(bi).forEach(p => {
+  s.closest('.winner-card')?.style.removeProperty('opacity');
+  if (players.length === 0) {
+    s.disabled = true;
+    s.title = 'Les joueurs ne sont pas encore déterminés';
+    return;
+  }
+  s.disabled = false;
+  s.title = '';
+  players.forEach(p => {
     const o = document.createElement('option');
-    o.value = p;
-    o.textContent = p;
-    s.appendChild(o);
+    o.value = p; o.textContent = p; s.appendChild(o);
   });
 }
 
 function fillAllWinnerSelects() {
+  const phaseMap = { 0:'p0', 1:'p1', 2:'p2' };
   [0,1,2].forEach(ph => {
-    fillSelect(`winner-t1-${ph}`, 0);
-    fillSelect(`winner-t2-${ph}`, 1);
-    fillSelect(`winner-t3-${ph}`, 2);
+    [0,1,2].forEach(ti => {
+      fillWinnerSelect(`winner-t${ti+1}-${ph}`, ti, phaseMap[ph]);
+    });
   });
 }
 
-function buildPlayerNameHtml(playerName, isTbd) {
-  if (isTbd) {
-    return `<span class="player-bet-name tbd">À définir</span>`;
-  }
-
-  const tooltipText = getPreselectionRank(playerName);
-  return `
-    <span class="player-bet-name has-tooltip" title="Classement présélection : ${escapeHtml(tooltipText)}">
-      ${escapeHtml(playerName)}
-      <span class="player-tooltip"><strong>Présélection :</strong> ${escapeHtml(tooltipText)}</span>
-    </span>
-  `;
+/* ════════════════════════════════════════════════════════════
+   CONSTRUCTION DES CARTES DE MATCH
+════════════════════════════════════════════════════════════ */
+function getPreselectionRank(playerName) {
+  return PRESELECTION_RANKS[playerName] || 'Classement non renseigné';
 }
 
-function buildCard(matchName, matchTag, players, color, containerId, prefix) {
+function buildPlayerNameHtml(playerName, isTbd) {
+  if (isTbd) return `<span class="player-bet-name tbd">À définir</span>`;
+  const tooltipText = getPreselectionRank(playerName);
+  return `<span class="player-bet-name has-tooltip" title="${escapeHtml(tooltipText)}">
+    ${escapeHtml(playerName)}
+    <span class="player-tooltip"><strong>Présélection :</strong> ${escapeHtml(tooltipText)}</span>
+  </span>`;
+}
+
+function buildCard(matchName, matchTag, players, color, containerId, prefix, matchKey) {
   const cont = document.getElementById(containerId);
   if (!cont) return;
 
+  const played = matchKey ? isMatchPlayed(matchKey) : false;
+  const allFour = hasAllFourPlayers(players);
+  // Un match est jouable pour les paris si : 4 joueurs définis ET pas déjà joué
+  const unavailable = !allFour;
+
+  let cardState = '';
+  let statusBadge = '';
+  let cardTitle = '';
+
+  if (played) {
+    cardState = 'played';
+    statusBadge = `<span class="match-status-badge msb-played">🔒 Clos</span>`;
+  } else if (unavailable) {
+    cardState = 'unavailable';
+    statusBadge = `<span class="match-status-badge msb-unavail">⏳ N/D</span>`;
+  }
+
+  const tooltipText = played
+    ? 'Match déjà disputé — paris clos'
+    : unavailable
+      ? 'Affiche non complète — paris bientôt disponible'
+      : '';
+
   const card = document.createElement('div');
-  card.className = 'match-bet-card';
+  card.className = `match-bet-card${cardState ? ' '+cardState : ''}`;
   card.dataset.prefix = prefix;
 
   const rows = players.map((p, i) => {
     const tbd = p === '-';
+    const disabled = tbd || played || unavailable;
     return `<div class="player-bet-row">
       ${buildPlayerNameHtml(p, tbd)}
-      <select class="rank-select" id="${prefix}-r${i}" data-prefix="${prefix}" ${tbd ? 'disabled' : ''}>
+      <select class="rank-select" id="${prefix}-r${i}" data-prefix="${prefix}" ${disabled?'disabled':''}>
         <option value="">—</option>
         <option value="1">🥇 1er</option>
         <option value="2">🥈 2e</option>
@@ -1334,224 +623,196 @@ function buildCard(matchName, matchTag, players, color, containerId, prefix) {
   card.innerHTML = `
     <div class="match-bet-header mh-${color}">
       <span class="match-bet-name">${matchName}</span>
+      ${statusBadge}
       <span class="match-bet-tag">${matchTag}</span>
     </div>
     <div class="players-bet-grid">${rows}</div>
-  `;
+    ${tooltipText ? `<div class="match-card-tooltip">🚫 ${tooltipText}</div>` : ''}`;
 
   cont.appendChild(card);
 }
 
 function clearMatchContainers() {
-  [
-    'p0-t1-matches','p0-t2-matches','p0-t3-matches',
-    'p1-t1-matches','p1-t2-matches','p1-t3-matches',
-    'p2-t1-matches','p2-t2-matches','p2-t3-matches'
-  ].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.innerHTML = '';
-  });
+  ['p0-t1-matches','p0-t2-matches','p0-t3-matches',
+   'p1-t1-matches','p1-t2-matches','p1-t3-matches',
+   'p2-t1-matches','p2-t2-matches','p2-t3-matches']
+   .forEach(id => { const el=document.getElementById(id); if(el) el.innerHTML=''; });
 }
 
 function buildAllCards() {
   clearMatchContainers();
-
-  BRACKETS_TOUR1.forEach((br, bi) =>
-    br.groups.forEach((g, gi) =>
-      buildCard(g.name, 'Tour 1', g.players, br.color, `p0-t${bi+1}-matches`, `p0t${bi+1}g${gi}`)
-    )
+  BRACKETS_TOUR1.forEach((br,bi) =>
+    br.groups.forEach((g,gi) => {
+      const key = `t${bi+1}_tour1_g${gi}`;
+      buildCard(g.name,'Tour 1',g.players,br.color,`p0-t${bi+1}-matches`,`p0t${bi+1}g${gi}`,key);
+    })
   );
-
-  BRACKETS_TOUR2.forEach((br, bi) =>
-    br.matches.forEach((m, mi) =>
-      buildCard(m.name, m.tag, m.players, br.color, `p1-t${bi+1}-matches`, `p1t${bi+1}m${mi}`)
-    )
+  BRACKETS_TOUR2.forEach((br,bi) =>
+    br.matches.forEach((m,mi) => {
+      const key = `t${bi+1}_tour2_m${mi}`;
+      buildCard(m.name,m.tag,m.players,br.color,`p1-t${bi+1}-matches`,`p1t${bi+1}m${mi}`,key);
+    })
   );
-
-  BRACKETS_TOUR3.forEach((br, bi) =>
-    br.matches.forEach((m, mi) =>
-      buildCard(m.name, m.tag, m.players, br.color, `p2-t${bi+1}-matches`, `p2t${bi+1}m${mi}`)
-    )
+  BRACKETS_TOUR3.forEach((br,bi) =>
+    br.matches.forEach((m,mi) => {
+      const key = `t${bi+1}_tour3_m${mi}`;
+      buildCard(m.name,m.tag,m.players,br.color,`p2-t${bi+1}-matches`,`p2t${bi+1}m${mi}`,key);
+    })
   );
-
   document.querySelectorAll('.rank-select').forEach(select => {
-    select.addEventListener('change', () => {
-      enforceUniqueRanks(select.dataset.prefix);
-    });
+    select.addEventListener('change', () => enforceUniqueRanks(select.dataset.prefix));
   });
 }
 
+/* ════════════════════════════════════════════════════════════
+   LOGIQUE DE PARIS
+════════════════════════════════════════════════════════════ */
 function switchPhase(id) {
-  document.querySelectorAll('.phase-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.phase-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.phase-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.phase-tab').forEach(t=>t.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  const idx = { phase0: 0, phase1: 1, phase2: 2 }[id];
+  const idx = {phase0:0,phase1:1,phase2:2}[id];
   document.querySelectorAll('.phase-tab')[idx]?.classList.add('active');
 }
 
-function getRank(prefix, i) {
+function getRank(prefix,i) {
   const e = document.getElementById(`${prefix}-r${i}`);
-  return e ? (e.value || 'NC') : 'NC';
+  return e ? (e.value||'NC') : 'NC';
 }
 
 function getSelectsByPrefix(prefix) {
-  return Array.from(document.querySelectorAll(`.rank-select[data-prefix="${prefix}"]`)).filter(s => !s.disabled);
+  return Array.from(document.querySelectorAll(`.rank-select[data-prefix="${prefix}"]`)).filter(s=>!s.disabled);
 }
 
 function enforceUniqueRanks(prefix) {
   const selects = getSelectsByPrefix(prefix);
-  const selectedValues = selects.map(s => s.value).filter(Boolean);
-
+  const selectedValues = selects.map(s=>s.value).filter(Boolean);
   selects.forEach(select => {
     select.classList.remove('duplicate-rank');
     Array.from(select.options).forEach(option => {
-      if (!option.value) {
-        option.disabled = false;
-        return;
-      }
-      option.disabled = selectedValues.includes(option.value) && select.value !== option.value;
+      if (!option.value) { option.disabled=false; return; }
+      option.disabled = selectedValues.includes(option.value) && select.value!==option.value;
     });
   });
-
   const counts = {};
-  selects.forEach(select => {
-    if (!select.value) return;
-    counts[select.value] = (counts[select.value] || 0) + 1;
-  });
-
-  selects.forEach(select => {
-    if (select.value && counts[select.value] > 1) {
-      select.classList.add('duplicate-rank');
-    }
-  });
+  selects.forEach(s => { if(s.value) counts[s.value]=(counts[s.value]||0)+1; });
+  selects.forEach(s => { if(s.value && counts[s.value]>1) s.classList.add('duplicate-rank'); });
 }
 
 function getIncompleteSelections(phase) {
   const missing = [];
-  const winnerIds = [`winner-t1-${phase}`, `winner-t2-${phase}`, `winner-t3-${phase}`];
-
-  winnerIds.forEach((id, idx) => {
+  const winnerIds = [`winner-t1-${phase}`,`winner-t2-${phase}`,`winner-t3-${phase}`];
+  winnerIds.forEach((id,idx) => {
     const el = document.getElementById(id);
-    if (el && !el.value) missing.push(`Gagnant final Tableau ${idx + 1}`);
+    if (el && !el.disabled && !el.value) missing.push(`Gagnant final Tableau ${idx+1}`);
   });
-
-  const sources = [BRACKETS_TOUR1, BRACKETS_TOUR2, BRACKETS_TOUR3];
-  const prefixFn = [
-    (bi, gi) => `p0t${bi+1}g${gi}`,
-    (bi, mi) => `p1t${bi+1}m${mi}`,
-    (bi, mi) => `p2t${bi+1}m${mi}`
-  ];
-  const groups = [
-    (br) => br.groups,
-    (br) => br.matches,
-    (br) => br.matches
-  ];
-
-  sources[phase].forEach((br, bi) => {
-    groups[phase](br).forEach((item, idx) => {
-      const prefix = prefixFn[phase](bi, idx);
+  const sources = [BRACKETS_TOUR1,BRACKETS_TOUR2,BRACKETS_TOUR3];
+  const prefixFn = [(bi,gi)=>`p0t${bi+1}g${gi}`,(bi,mi)=>`p1t${bi+1}m${mi}`,(bi,mi)=>`p2t${bi+1}m${mi}`];
+  const groups   = [(br)=>br.groups,(br)=>br.matches,(br)=>br.matches];
+  sources[phase].forEach((br,bi) => {
+    groups[phase](br).forEach((item,idx) => {
+      const prefix = prefixFn[phase](bi,idx);
       const selects = getSelectsByPrefix(prefix);
-      const hasMissing = selects.some(s => !s.value);
-      if (hasMissing) {
-        missing.push(`${br.label} — ${item.name}`);
-      }
+      if (selects.length > 0 && selects.some(s=>!s.value)) missing.push(`${br.label} — ${item.name}`);
     });
   });
-
   return missing;
 }
 
 function validateNoDuplicateRanks(phase) {
-  const invalidMatches = [];
-  const sources = [BRACKETS_TOUR1, BRACKETS_TOUR2, BRACKETS_TOUR3];
-  const prefixFn = [
-    (bi, gi) => `p0t${bi+1}g${gi}`,
-    (bi, mi) => `p1t${bi+1}m${mi}`,
-    (bi, mi) => `p2t${bi+1}m${mi}`
-  ];
-  const groups = [
-    (br) => br.groups,
-    (br) => br.matches,
-    (br) => br.matches
-  ];
-
-  sources[phase].forEach((br, bi) => {
-    groups[phase](br).forEach((item, idx) => {
-      const prefix = prefixFn[phase](bi, idx);
+  const invalid = [];
+  const sources = [BRACKETS_TOUR1,BRACKETS_TOUR2,BRACKETS_TOUR3];
+  const prefixFn = [(bi,gi)=>`p0t${bi+1}g${gi}`,(bi,mi)=>`p1t${bi+1}m${mi}`,(bi,mi)=>`p2t${bi+1}m${mi}`];
+  const groups   = [(br)=>br.groups,(br)=>br.matches,(br)=>br.matches];
+  sources[phase].forEach((br,bi) => {
+    groups[phase](br).forEach((item,idx) => {
+      const prefix = prefixFn[phase](bi,idx);
       const selects = getSelectsByPrefix(prefix);
-      const values = selects.map(s => s.value).filter(Boolean);
-      const hasDuplicate = new Set(values).size !== values.length;
-      if (hasDuplicate) {
-        invalidMatches.push(`${br.label} — ${item.name}`);
-        selects.forEach(s => {
-          if (s.value) {
-            const count = values.filter(v => v === s.value).length;
-            s.classList.toggle('duplicate-rank', count > 1);
-          }
-        });
+      const values = selects.map(s=>s.value).filter(Boolean);
+      if (new Set(values).size !== values.length) {
+        invalid.push(`${br.label} — ${item.name}`);
+        const counts={};
+        selects.forEach(s=>{if(s.value) counts[s.value]=(counts[s.value]||0)+1;});
+        selects.forEach(s=>{if(s.value&&counts[s.value]>1) s.classList.add('duplicate-rank');});
       }
     });
   });
-
-  return invalidMatches;
+  return invalid;
 }
 
 function buildBody(phase, name) {
-  const phaseLabels = ["Avant le tournoi", "Après Tour 1", "Après Tour 2"];
-  const winPts = [20, 10, 5];
-  const w1 = document.getElementById(`winner-t1-${phase}`)?.value || 'Non renseigné';
-  const w2 = document.getElementById(`winner-t2-${phase}`)?.value || 'Non renseigné';
-  const w3 = document.getElementById(`winner-t3-${phase}`)?.value || 'Non renseigné';
+  const phaseLabels = ["Avant le tournoi","Après Tour 1","Après Tour 2"];
+  const winPts = [20,10,5];
+  const sources = [BRACKETS_TOUR1,BRACKETS_TOUR2,BRACKETS_TOUR3];
+  const prefixFn = [(bi,gi)=>`p0t${bi+1}g${gi}`,(bi,mi)=>`p1t${bi+1}m${mi}`,(bi,mi)=>`p2t${bi+1}m${mi}`];
+  const groups   = [(br)=>br.groups,(br)=>br.matches,(br)=>br.matches];
 
-  let lines = [
-    `PARIEUR;${name}`,
-    `PHASE;${phaseLabels[phase]}`,
-    ``,
-    `=== GAGNANTS FINAUX (${winPts[phase]} pts chacun) ===`,
-    `Tableau;Vainqueur prédit`,
-    `Tableau 1 (1er général);${w1}`,
-    `Tableau 2 (17e général);${w2}`,
-    `Tableau 3 (33e général);${w3}`,
-    ``,
-    `=== PARIS SUR LES MATCHS (1 pt/joueur bien classé) ===`,
-    `Tableau;Match;Joueur;Rang prédit`
-  ];
+  // Collect all phases that have at least one bet filled in
+  const phasesToInclude = [];
+  for (let ph = 0; ph <= 2; ph++) {
+    const hasWinner = [0,1,2].some(ti => {
+      const el = document.getElementById(`winner-t${ti+1}-${ph}`);
+      return el && !el.disabled && el.value;
+    });
+    const hasBet = sources[ph].some((br,bi) =>
+      groups[ph](br).some((item,idx) => {
+        const prefix = prefixFn[ph](bi,idx);
+        return getSelectsByPrefix(prefix).some(s => s.value);
+      })
+    );
+    if (hasWinner || hasBet) phasesToInclude.push(ph);
+  }
+  // Always include the current phase even if empty
+  if (!phasesToInclude.includes(phase)) phasesToInclude.push(phase);
+  phasesToInclude.sort();
 
-  const sources = [BRACKETS_TOUR1, BRACKETS_TOUR2, BRACKETS_TOUR3];
-  const prefixFn = [
-    (bi, gi) => `p0t${bi+1}g${gi}`,
-    (bi, mi) => `p1t${bi+1}m${mi}`,
-    (bi, mi) => `p2t${bi+1}m${mi}`
-  ];
-  const groups = [
-    (br) => br.groups,
-    (br) => br.matches,
-    (br) => br.matches
-  ];
+  let lines = [`PARIEUR;${name}`, ``];
 
-  sources[phase].forEach((br, bi) => {
-    groups[phase](br).forEach((item, idx) => {
-      item.players.forEach((p, pi) => {
-        if (p !== '-') {
-          lines.push(`${br.label};${item.name};${p};${getRank(prefixFn[phase](bi, idx), pi)}`);
-        }
+  phasesToInclude.forEach(ph => {
+    const w1 = document.getElementById(`winner-t1-${ph}`)?.value || 'Non renseigné';
+    const w2 = document.getElementById(`winner-t2-${ph}`)?.value || 'Non renseigné';
+    const w3 = document.getElementById(`winner-t3-${ph}`)?.value || 'Non renseigné';
+
+    lines.push(`=== PHASE : ${phaseLabels[ph].toUpperCase()} ===`);
+
+    const hasWinnerSection = [w1,w2,w3].some(w => w && w !== 'Non renseigné');
+    if (hasWinnerSection || ph === 0) {
+      lines.push(``, `-- Gagnants finaux (${winPts[ph]} pts chacun) --`);
+      lines.push(`Tableau;Vainqueur prédit`);
+      lines.push(`Tableau 1 (1er général);${w1}`);
+      lines.push(`Tableau 2 (17e général);${w2}`);
+      lines.push(`Tableau 3 (33e général);${w3}`);
+    }
+
+    lines.push(``, `-- Paris sur les matchs (1 pt/joueur bien classé) --`);
+    lines.push(`Tableau;Match;Joueur;Rang prédit`);
+    sources[ph].forEach((br,bi) => {
+      groups[ph](br).forEach((item,idx) => {
+        item.players.forEach((p,pi) => {
+          if (!p || p==='-') return;
+          const selectEl = document.getElementById(`${prefixFn[ph](bi,idx)}-r${pi}`);
+          if (!selectEl || selectEl.disabled) return; // match clos ou non dispo
+          const rank = selectEl.value;
+          if (!rank) return; // non renseigné
+          lines.push(`${br.label};${item.name};${p};${getRank(prefixFn[ph](bi,idx),pi)}`);
+        });
       });
     });
+    lines.push(``);
   });
 
   return lines.join('\n');
 }
 
 function getPhaseNameInput(phase) {
-  if (phase === 0) return document.getElementById('bettor-name-0');
-  return document.getElementById(`bettor-name-${phase}`);
+  return document.getElementById(phase===0?'bettor-name-0':`bettor-name-${phase}`);
 }
 
 function openIncompleteModal(missing, onConfirm) {
   pendingIncompleteSend = onConfirm;
   const text = document.getElementById('confirm-modal-text');
-  const preview = missing.slice(0, 8).map(item => `• ${item}`).join('<br>');
-  const extra = missing.length > 8 ? `<br>• ... et ${missing.length - 8} autre(s)` : '';
+  const preview = missing.slice(0,8).map(item=>`• ${item}`).join('<br>');
+  const extra = missing.length>8 ? `<br>• … et ${missing.length-8} autre(s)` : '';
   text.innerHTML = `Il manque encore des sélections dans votre pari.<br><br>${preview}${extra}<br><br>Voulez-vous revenir en arrière ou confirmer l'envoi incomplet ?`;
   document.getElementById('confirm-modal').classList.add('show');
 }
@@ -1567,142 +828,96 @@ document.getElementById('confirm-incomplete-btn').addEventListener('click', () =
   if (action) action();
 });
 
-function groupMatchesByTableau(matches) {
-  const map = {};
-  matches.forEach(match => {
-    const key = match.tableau;
-    if (!map[key]) map[key] = [];
-    map[key].push(match);
-  });
-  return map;
-}
-
 function collectPreviewData(phase, name) {
-  const phaseLabels = ["Avant le tournoi", "Après Tour 1", "Après Tour 2"];
-  const sources = [BRACKETS_TOUR1, BRACKETS_TOUR2, BRACKETS_TOUR3];
-  const prefixFn = [
-    (bi, gi) => `p0t${bi+1}g${gi}`,
-    (bi, mi) => `p1t${bi+1}m${mi}`,
-    (bi, mi) => `p2t${bi+1}m${mi}`
-  ];
-  const groups = [
-    (br) => br.groups,
-    (br) => br.matches,
-    (br) => br.matches
-  ];
+  const phaseLabels=["Avant le tournoi","Après Tour 1","Après Tour 2"];
+  const winPts=[20,10,5];
+  const sources=[BRACKETS_TOUR1,BRACKETS_TOUR2,BRACKETS_TOUR3];
+  const prefixFn=[(bi,gi)=>`p0t${bi+1}g${gi}`,(bi,mi)=>`p1t${bi+1}m${mi}`,(bi,mi)=>`p2t${bi+1}m${mi}`];
+  const groups=[(br)=>br.groups,(br)=>br.matches,(br)=>br.matches];
 
-  return {
-    name,
-    phaseLabel: phaseLabels[phase],
-    winners: [
-      { label: 'Tableau 1', value: document.getElementById(`winner-t1-${phase}`)?.value || 'Non renseigné', color: 'blue' },
-      { label: 'Tableau 2', value: document.getElementById(`winner-t2-${phase}`)?.value || 'Non renseigné', color: 'red' },
-      { label: 'Tableau 3', value: document.getElementById(`winner-t3-${phase}`)?.value || 'Non renseigné', color: 'yellow' }
+  // Same logic as buildBody: collect all phases with at least one bet
+  const phasesToInclude = [];
+  for (let ph = 0; ph <= 2; ph++) {
+    const hasWinner = [0,1,2].some(ti => {
+      const el = document.getElementById(`winner-t${ti+1}-${ph}`);
+      return el && !el.disabled && el.value;
+    });
+    const hasBet = sources[ph].some((br,bi) =>
+      groups[ph](br).some((item,idx) => {
+        const prefix = prefixFn[ph](bi,idx);
+        return getSelectsByPrefix(prefix).some(s => s.value);
+      })
+    );
+    if (hasWinner || hasBet) phasesToInclude.push(ph);
+  }
+  if (!phasesToInclude.includes(phase)) phasesToInclude.push(phase);
+  phasesToInclude.sort();
+
+  const phases = phasesToInclude.map(ph => ({
+    phaseLabel: phaseLabels[ph],
+    winPts: winPts[ph],
+    winners:[
+      {label:'Tableau 1',value:document.getElementById(`winner-t1-${ph}`)?.value||'Non renseigné',color:'blue'},
+      {label:'Tableau 2',value:document.getElementById(`winner-t2-${ph}`)?.value||'Non renseigné',color:'red'},
+      {label:'Tableau 3',value:document.getElementById(`winner-t3-${ph}`)?.value||'Non renseigné',color:'yellow'}
     ],
-    matches: sources[phase].flatMap((br, bi) =>
-      groups[phase](br).map((item, idx) => ({
-        tableau: br.label,
-        color: br.color,
-        block: item.name,
-        lines: item.players
-          .map((p, pi) => {
-            if (p === '-') return null;
-            return {
-              player: p,
-              rank: getRank(prefixFn[phase](bi, idx), pi)
-            };
-          })
-          .filter(Boolean)
+    matches:sources[ph].flatMap((br,bi)=>
+      groups[ph](br).map((item,idx)=>({
+        tableau:br.label, color:br.color, block:item.name,
+        lines:item.players.map((p,pi)=>{
+          if(!p||p==='-') return null;
+          const selectEl = document.getElementById(`${prefixFn[ph](bi,idx)}-r${pi}`);
+          if(!selectEl||selectEl.disabled||!selectEl.value) return null;
+          return {player:p,rank:getRank(prefixFn[ph](bi,idx),pi)};
+        }).filter(Boolean)
       }))
     )
-  };
+  }));
+
+  return { name, phases };
 }
 
-function rankLabel(rank) {
-  if (rank === '1') return '🥇 1er';
-  if (rank === '2') return '🥈 2e';
-  if (rank === '3') return '🥉 3e';
-  if (rank === '4') return '🍌 4e';
-  return 'Non renseigné';
-}
+function rankLabel(rank){if(rank==='1')return'🥇 1er';if(rank==='2')return'🥈 2e';if(rank==='3')return'🥉 3e';if(rank==='4')return'🍌 4e';return'Non renseigné';}
 
-function escapeHtml(str) {
-  return String(str)
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#039;');
-}
+function escapeHtml(str){return String(str).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#039;");}
 
-function renderPreview(preview) {
-  const grouped = groupMatchesByTableau(preview.matches);
+function groupMatchesByTableau(matches){const map={};matches.forEach(m=>{if(!map[m.tableau])map[m.tableau]=[];map[m.tableau].push(m);});return map;}
 
-  const tableauColorClass = {
-    "Tableau 1": "tableau-blue",
-    "Tableau 2": "tableau-red",
-    "Tableau 3": "tableau-yellow"
-  };
-
-  return `
-    <div class="bets-preview">
-      <h3>Récapitulatif de vos paris</h3>
-
-      <div class="preview-phase-line"><strong>Phase :</strong> ${escapeHtml(preview.phaseLabel)}</div>
-
-      <div class="preview-block">
-        <div class="preview-title">Gagnants finaux</div>
-        <div class="preview-winners-grid">
-          ${preview.winners.map(w => `
-            <div class="preview-winner-card pw-${escapeHtml(w.color)}">
-              <div class="pw-title">${escapeHtml(w.label)}</div>
-              <div class="pw-value">${escapeHtml(w.value)}</div>
-            </div>
-          `).join('')}
-        </div>
+function renderPreview(preview){
+  const tableauColorClass={"Tableau 1":"tableau-blue","Tableau 2":"tableau-red","Tableau 3":"tableau-yellow"};
+  const phaseSections = preview.phases.map(ph => {
+    const grouped=groupMatchesByTableau(ph.matches);
+    return `
+    <div class="preview-phase-section">
+      <div class="preview-phase-line"><strong>Phase :</strong> ${escapeHtml(ph.phaseLabel)}</div>
+      <div class="preview-block"><div class="preview-title">Gagnants finaux</div>
+        <div class="preview-winners-grid">${ph.winners.map(w=>`<div class="preview-winner-card pw-${escapeHtml(w.color)}"><div class="pw-title">${escapeHtml(w.label)}</div><div class="pw-value">${escapeHtml(w.value)}</div></div>`).join('')}</div>
       </div>
-
-      <div class="preview-block">
-        <div class="preview-title">Matchs</div>
-
-        ${Object.keys(grouped).map(tableauName => `
-          <div class="preview-tableau-block">
-            <div class="preview-tableau-name ${tableauColorClass[tableauName] || ''}">${escapeHtml(tableauName)}</div>
-            <div class="preview-matches-grid">
-              ${grouped[tableauName].map(match => `
-                <div class="preview-match-card pm-${escapeHtml(match.color)}">
-                  <div class="preview-match-title">${escapeHtml(match.block)}</div>
-                  ${match.lines.map(line => `
-                    <div class="preview-mini-line">
-                      <strong>${escapeHtml(line.player)}</strong> — ${escapeHtml(rankLabel(line.rank))}
-                    </div>
-                  `).join('')}
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        `).join('')}
+      <div class="preview-block"><div class="preview-title">Matchs</div>
+        ${Object.keys(grouped).map(tn=>`<div class="preview-tableau-block">
+          <div class="preview-tableau-name ${tableauColorClass[tn]||''}">${escapeHtml(tn)}</div>
+          <div class="preview-matches-grid">${grouped[tn].map(match=>`<div class="preview-match-card pm-${escapeHtml(match.color)}"><div class="preview-match-title">${escapeHtml(match.block)}</div>${match.lines.map(line=>`<div class="preview-mini-line"><strong>${escapeHtml(line.player)}</strong> — ${escapeHtml(rankLabel(line.rank))}</div>`).join('')}</div>`).join('')}</div>
+        </div>`).join('')}
       </div>
-    </div>
-  `;
+    </div>`;
+  }).join('<hr style="border:none;border-top:1px solid rgba(255,255,255,0.10);margin:18px 0;">');
+
+  return `<div class="bets-preview"><h3>Récapitulatif de vos paris</h3>${phaseSections}</div>`;
 }
 
-function openMailClientAgain() {
-  if (!lastMailtoUrl) return;
-  window.location.href = lastMailtoUrl;
-}
+function openMailClientAgain(){if(lastMailtoUrl)window.location.href=lastMailtoUrl;}
 
-function finalSend(phase, name) {
-  const phaseLabels = ["Avant le tournoi", "Après Tour 1", "Après Tour 2"];
-  const body = buildBody(phase, name);
-  const subject = `[PARIS Mario Kart] ${phaseLabels[phase]} — ${name}`;
-  const preview = collectPreviewData(phase, name);
-
-  lastMailtoUrl = `mailto:${EMAIL_DEST}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  window.location.href = lastMailtoUrl;
-
-  setTimeout(() => {
-    document.getElementById('mainPage').innerHTML = `
+function finalSend(phase, name){
+  const phaseLabels=["Avant le tournoi","Après Tour 1","Après Tour 2"];
+  const body=buildBody(phase,name);
+  const preview=collectPreviewData(phase,name);
+  // Build subject mentioning all phases included
+  const phaseStr = preview.phases.map(ph=>ph.phaseLabel).join(' + ');
+  const subject=`[PARIS Mario Kart] ${phaseStr} — ${name}`;
+  lastMailtoUrl=`mailto:${EMAIL_DEST}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href=lastMailtoUrl;
+  setTimeout(()=>{
+    document.getElementById('mainPage').innerHTML=`
       <div class="success-wrap">
         <span class="s-icon">🏁</span>
         <h2>PARIS EN COURS D'ENVOI !</h2>
@@ -1714,74 +929,114 @@ function finalSend(phase, name) {
           <button class="mini-btn blue" onclick="openMailClientAgain()">✉️ ROUVRIR L'APPLICATION E-MAIL</button>
           <button class="mini-btn grey" onclick="location.href='index.html'">← ACCUEIL</button>
         </div>
-        <p style="margin-top:14px;font-size:0.75rem;color:rgba(255,255,255,0.25);">
-          Bonne chance, <strong style="color:#8ec1ff">${escapeHtml(name)}</strong> ! 🍄
-        </p>
+        <p style="margin-top:14px;font-size:0.75rem;color:rgba(255,255,255,0.25);">Bonne chance, <strong style="color:#8ec1ff">${escapeHtml(name)}</strong> ! 🍄</p>
         ${renderPreview(preview)}
       </div>`;
-  }, 700);
+  },700);
 }
 
-function submitBets(phase) {
-  const nameInput = getPhaseNameInput(phase);
-  const name = nameInput?.value.trim();
-
-  if (!name) {
-    alert('Veuillez entrer votre nom avant d\'envoyer vos paris.');
-    return;
-  }
-
+function submitBets(phase){
+  const name = (document.getElementById('bettor-name-global')?.value || '').trim();
+  if (!name) { alert('Veuillez entrer votre nom avant d\'envoyer vos paris.'); return; }
   const duplicateMatches = validateNoDuplicateRanks(phase);
-  if (duplicateMatches.length > 0) {
-    alert("Impossible d'envoyer : dans une poule ou un match, deux joueurs ne peuvent pas avoir le même rang. Il faut forcément un 1er, un 2e, un 3e et un 4e.");
-    return;
-  }
-
+  if (duplicateMatches.length>0) { alert('Impossible d\'envoyer : dans une poule ou un match, deux joueurs ne peuvent pas avoir le même rang.'); return; }
   const missing = getIncompleteSelections(phase);
-  if (missing.length > 0) {
-    openIncompleteModal(missing, () => finalSend(phase, name));
-    return;
-  }
-
-  finalSend(phase, name);
+  if (missing.length>0) { openIncompleteModal(missing, ()=>finalSend(phase,name)); return; }
+  finalSend(phase,name);
 }
 
-function copyFallback() {
-  const ta = document.getElementById('csv-fallback');
-  ta.select();
-  document.execCommand('copy');
-  alert('Texte copié ! Collez-le dans un e-mail à ' + EMAIL_DEST);
+function copyFallback(){
+  const ta=document.getElementById('csv-fallback');
+  ta.select();document.execCommand('copy');
+  alert('Texte copié ! Collez-le dans un e-mail à '+EMAIL_DEST);
 }
 
-function showLoadingError(message) {
-  const containers = [
-    'p0-t1-matches','p0-t2-matches','p0-t3-matches',
-    'p1-t1-matches','p1-t2-matches','p1-t3-matches',
-    'p2-t1-matches','p2-t2-matches','p2-t3-matches'
+/* ════════════════════════════════════════════════════════════
+   INITIALISATION
+════════════════════════════════════════════════════════════ */
+function hasAnyBettableMatch(phaseIndex) {
+  const sources = [BRACKETS_TOUR1, BRACKETS_TOUR2, BRACKETS_TOUR3];
+  const groups   = [(br)=>br.groups, (br)=>br.matches, (br)=>br.matches];
+  return sources[phaseIndex].some((br, bi) =>
+    groups[phaseIndex](br).some((item, idx) => {
+      const matchKey = phaseIndex === 0
+        ? `t${bi+1}_tour1_g${idx}`
+        : phaseIndex === 1
+          ? `t${bi+1}_tour2_m${idx}`
+          : `t${bi+1}_tour3_m${idx}`;
+      return hasAllFourPlayers(item.players) && !isMatchPlayed(matchKey);
+    })
+  );
+}
+
+/* ════════════════════════════════════════════════════════════
+   CÔTES — calcul depuis localStorage et injection dans tooltips
+════════════════════════════════════════════════════════════ */
+function buildCotesFromStorage() {
+  try {
+    const stored = JSON.parse(localStorage.getItem('mk_tournament_data') || 'null');
+    const bettors = stored?.bettors || [];
+    const cotes = { t1:{}, t2:{}, t3:{} };
+    bettors.forEach(b => {
+      ['p0','p1','p2'].forEach(phase => {
+        const wb = b[`winnerBets_${phase}`] || {};
+        ['t1','t2','t3'].forEach(tab => {
+          const pick = wb[tab];
+          if (pick) cotes[tab][pick] = (cotes[tab][pick] || 0) + 1;
+        });
+      });
+    });
+    const toArr = obj => Object.entries(obj).sort((a,b)=>b[1]-a[1]).map(([name,count])=>({name,count}));
+    return { t1: toArr(cotes.t1), t2: toArr(cotes.t2), t3: toArr(cotes.t3) };
+  } catch { return { t1:[], t2:[], t3:[] }; }
+}
+
+function renderCotesTooltips() {
+  const cotes = buildCotesFromStorage();
+  const tabs = [
+    { key:'t1', fill:'fill-t1' },
+    { key:'t2', fill:'fill-t2' },
+    { key:'t3', fill:'fill-t3' },
   ];
-
-  containers.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.innerHTML = `
-        <div class="match-bet-card" style="padding:14px;color:rgba(255,255,255,0.7);border-color:rgba(232,0,29,0.35);">
-          Impossible de charger automatiquement les noms depuis <strong>tableaux.html</strong>.<br><br>
-          Détail : ${escapeHtml(message)}
-        </div>
-      `;
+  tabs.forEach(({ key, fill }) => {
+    const bodyEl = document.getElementById(`cotes-tip-${key}-body`);
+    if (!bodyEl) return;
+    const list = cotes[key] || [];
+    const maxCount = list.length > 0 ? list[0].count : 1;
+    const totalVotes = list.reduce((s,x) => s + x.count, 0);
+    if (list.length === 0) {
+      bodyEl.innerHTML = '<div class="cotes-tt-empty">Aucun pronostic enregistré</div>';
+      return;
     }
+    bodyEl.innerHTML = list.map((item, i) => `
+      <div class="cotes-tt-row">
+        <span class="cotes-tt-name">${i===0?'👑 ':''}${escapeHtml(item.name)}</span>
+        <div class="cotes-tt-bar-wrap">
+          <div class="cotes-tt-bar-bg">
+            <div class="cotes-tt-bar-fill ${fill}" style="width:${Math.round(item.count/maxCount*100)}%"></div>
+          </div>
+        </div>
+        <span class="cotes-tt-count">${item.count}×</span>
+      </div>`).join('') +
+      `<div style="margin-top:8px;font-size:0.7rem;color:rgba(255,255,255,0.22);text-align:right;">${totalVotes} vote${totalVotes>1?'s':''} au total</div>`;
   });
 }
 
-async function initPage() {
-  try {
-    const sourceBrackets = await loadBracketsFromTableaux();
-    mapBracketsForBets(sourceBrackets);
-    fillAllWinnerSelects();
-    buildAllCards();
-  } catch (err) {
-    console.error(err);
-    showLoadingError(err.message || 'Erreur inconnue');
+function initPage() {
+  loadAdminResults();
+  const enriched = buildEnrichedBrackets(ADMIN_RESULTS);
+  mapBracketsForBets(enriched);
+  fillAllWinnerSelects();
+  buildAllCards();
+  renderCotesTooltips();
+
+  // Ouvrir automatiquement la première phase avec des matchs pariables
+  if (!hasAnyBettableMatch(0)) {
+    if (!hasAnyBettableMatch(1)) {
+      switchPhase('phase2');
+    } else {
+      switchPhase('phase1');
+    }
   }
 }
 
