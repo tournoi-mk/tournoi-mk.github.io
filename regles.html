@@ -282,6 +282,7 @@
   </style>
 </head>
 <body>
+
   <div class="bg"></div>
 
   <div class="top-bar">
@@ -294,77 +295,159 @@
     <h1>RÈGLES DU JEU</h1>
     <p class="subtitle">Tournoi interne Mario Kart · 48 joueurs</p>
 
-    <div class="two-col">
-
-      <div class="rule-block">
-        <h2>🏎️ Format général</h2>
-        <ul>
-          <li>48 joueurs répartis en 3 tableaux de 16 personnes.</li>
-          <li>
-            Chaque tableau détermine les places du classement final.<br>
-            Tableau 1 : places 1 à 16, Tableau 2 : places 17 à 32 et Tableau 3 : places 33 à 48.
-          </li>
-          <li>Chaque match oppose <strong>4 joueurs</strong>.</li>
-        </ul>
-
-        <h3>🏁 Tour 1 — Poules</h3>
-        <ul>
-          <li>4 poules (A, B, C, D) de 4 joueurs chacune.</li>
-          <li>Les joueurs sont classés de 1er à 4e au sein de leur poule.</li>
-        </ul>
-
-        <h3>🔀 Tour 2</h3>
-        <ul>
-          <li><strong>Match 1 :</strong> 1ers des poules A &amp; C + 2es des poules B &amp; D</li>
-          <li><strong>Match 2 :</strong> 2es des poules A &amp; C + 1ers des poules B &amp; D</li>
-          <li><strong>Match 3 :</strong> 3es des poules A &amp; C + 4es des poules B &amp; D</li>
-          <li><strong>Match 4 :</strong> 4es des poules A &amp; C + 3es des poules B &amp; D</li>
-        </ul>
-
-        <h3>🏆 Tour 3 — Classement final</h3>
-        <ul>
-          <li><strong>Match 1 :</strong> 2 premiers des matchs 1 &amp; 2 du tour 2</li>
-          <li class="result-note">résultats pour les places 1–4 (tab 1), 17–20 (tab 2), 33–36 (tab 3)</li>
-
-          <li><strong>Match 2 :</strong> 2 derniers des matchs 1 &amp; 2 du tour 2</li>
-          <li class="result-note">résultats pour les places 5–8 (tab 1), 21–24 (tab 2), 37–40 (tab 3)</li>
-
-          <li><strong>Match 3 :</strong> 2 premiers des matchs 3 &amp; 4 du tour 2</li>
-          <li class="result-note">résultats pour les places 9–12 (tab 1), 25–28 (tab 2), 41–44 (tab 3)</li>
-
-          <li><strong>Match 4 :</strong> 2 derniers des matchs 3 &amp; 4 du tour 2</li>
-          <li class="result-note">résultats pour les places 13–16 (tab 1), 29–32 (tab 2), 45–48 (tab 3)</li>
-        </ul>
+    <!-- BLOC 1 : Format général pleine largeur avec 3 colonnes tours -->
+    <div class="rule-block" style="margin-bottom:20px;">
+      <h2>🏎️ Format général</h2>
+      <ul style="margin-bottom:20px;">
+        <li>48 joueurs répartis en <strong>3 tableaux</strong> de 16 personnes.</li>
+        <li>Chaque tableau détermine un segment du classement final : <strong>Tableau 1</strong> → places 1–16, <strong>Tableau 2</strong> → places 17–32, <strong>Tableau 3</strong> → places 33–48.</li>
+        <li>Chaque match oppose <strong>4 joueurs</strong>, classés de 1er à 4e.</li>
+      </ul>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+        <div style="background:rgba(0,82,165,0.10);border:1px solid rgba(0,82,165,0.35);border-radius:10px;padding:16px 18px;">
+          <div style="font-family:'Russo One',sans-serif;font-size:0.85rem;color:#6eb4ff;letter-spacing:0.08em;margin-bottom:10px;">🏁 TOUR 1 — POULES</div>
+          <ul style="color:rgba(255,255,255,0.72);font-size:0.84rem;line-height:1.7;padding-left:16px;">
+            <li>4 poules (A, B, C, D) de 4 joueurs chacune.</li>
+            <li>Finir <strong>1er ou 2e</strong> → voie places hautes (1–8).</li>
+            <li>Finir <strong>3e ou 4e</strong> → voie places basses (9–16).</li>
+          </ul>
+        </div>
+        <div style="background:rgba(232,0,29,0.08);border:1px solid rgba(232,0,29,0.30);border-radius:10px;padding:16px 18px;">
+          <div style="font-family:'Russo One',sans-serif;font-size:0.85rem;color:#ff8090;letter-spacing:0.08em;margin-bottom:10px;">🔀 TOUR 2</div>
+          <ul style="color:rgba(255,255,255,0.72);font-size:0.84rem;line-height:1.7;padding-left:16px;">
+            <li><strong>Match 1 :</strong> 1ers A+C · 2es B+D</li>
+            <li><strong>Match 2 :</strong> 2es A+C · 1ers B+D</li>
+            <li><strong>Match 3 :</strong> 3es A+C · 4es B+D</li>
+            <li><strong>Match 4 :</strong> 4es A+C · 3es B+D</li>
+          </ul>
+        </div>
+        <div style="background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.28);border-radius:10px;padding:16px 18px;">
+          <div style="font-family:'Russo One',sans-serif;font-size:0.85rem;color:var(--yellow);letter-spacing:0.08em;margin-bottom:10px;">🏆 TOUR 3 — CLASSEMENT</div>
+          <ul style="color:rgba(255,255,255,0.72);font-size:0.84rem;line-height:1.7;padding-left:16px;">
+            <li><strong>Match 1 :</strong> 1ers &amp; 2es des M1+M2 → <span style="color:#FFD700">places 1–4</span></li>
+            <li><strong>Match 2 :</strong> 3es &amp; 4es des M1+M2 → places 5–8</li>
+            <li><strong>Match 3 :</strong> 1ers &amp; 2es des M3+M4 → places 9–12</li>
+            <li><strong>Match 4 :</strong> 3es &amp; 4es des M3+M4 → places 13–16</li>
+          </ul>
+        </div>
       </div>
+    </div>
 
-      <div class="rule-block blue">
-        <h2>🎮 Règles de course</h2>
+    <!-- BLOC 2 : Schéma pleine largeur -->
+    <div class="rule-block" style="border-left:3px solid var(--yellow);margin-bottom:20px;">
+      <h2 style="color:var(--yellow);">📊 Schéma des tableaux</h2>
+      <p style="color:rgba(255,255,255,0.45);font-size:0.82rem;margin-bottom:20px;line-height:1.6;">Exemple pour le Tableau 1 (places 1–16). Pour le Tableau 2 ajouter +16, pour le Tableau 3 ajouter +32 à chaque numéro de place.</p>
+      <svg viewBox="0 0 980 430" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;font-family:'Exo 2',sans-serif;">
+        <defs>
+          <marker id="sarr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
 
-        <h3>⚙️ Paramètres</h3>
-        <ul>
-          <li><strong>Vitesse :</strong> 150cc</li>
-          <li><strong>Format :</strong> Championnat de 6 circuits (mode aléatoire)</li>
-          <li><strong>Participants :</strong> 4 joueurs + bots</li>
-          <li>
-            <strong>Antenne :</strong>
-            <ul class="subtle-sublist">
-              <li>Tableaux 1 et 2 - interdit</li>
-              <li>Tableau 3 - autorisé</li>
-            </ul>
-          </li>
-        </ul>
+        <!-- Titres colonnes -->
+        <text x="90" y="22" text-anchor="middle" fill="#6eb4ff" font-size="13" font-family="'Russo One',sans-serif" letter-spacing="0.1em">🏁 TOUR 1</text>
+        <text x="360" y="22" text-anchor="middle" fill="#ff8090" font-size="13" font-family="'Russo One',sans-serif" letter-spacing="0.1em">🔀 TOUR 2</text>
+        <text x="810" y="22" text-anchor="middle" fill="#FFD700" font-size="13" font-family="'Russo One',sans-serif" letter-spacing="0.1em">🏆 TOUR 3</text>
 
-        <h3>🕹️ Manettes autorisées</h3>
-        <ul>
-          <li><strong>Manette Pro</strong> — manette classique</li>
-          <li><strong>Joy-Con</strong> — tenu à l'horizontale</li>
-        </ul>
+        <!-- POULES -->
+        <rect x="20" y="155" width="140" height="90" rx="8" fill="rgba(0,82,165,0.22)" stroke="rgba(0,82,165,0.65)" stroke-width="1"/>
+        <text x="90" y="193" text-anchor="middle" fill="#6eb4ff" font-size="15" font-weight="700" font-family="'Russo One',sans-serif">Poules</text>
+        <text x="90" y="213" text-anchor="middle" fill="rgba(110,180,255,0.55)" font-size="12" font-family="'Exo 2',sans-serif">A · B · C · D</text>
 
-        <p style="margin-top:12px;font-size:0.82rem;color:rgba(255,255,255,0.4);font-style:italic;">
-          Les commandes détaillées sont expliquées dans l'encadré ci-dessous.
-        </p>
+        <!-- TOUR 2 Matchs 1+2 (rouge, moins large) -->
+        <rect x="230" y="70" width="200" height="75" rx="8" fill="rgba(232,0,29,0.15)" stroke="rgba(232,0,29,0.55)" stroke-width="1"/>
+        <text x="330" y="103" text-anchor="middle" fill="#ff8090" font-size="15" font-weight="700" font-family="'Russo One',sans-serif">Matchs 1 &amp; 2</text>
+        <text x="330" y="125" text-anchor="middle" fill="rgba(255,128,144,0.6)" font-size="12" font-family="'Exo 2',sans-serif">Places 1 à 8</text>
+
+        <!-- TOUR 2 Matchs 3+4 (rouge, moins large) -->
+        <rect x="230" y="265" width="200" height="75" rx="8" fill="rgba(232,0,29,0.15)" stroke="rgba(232,0,29,0.55)" stroke-width="1"/>
+        <text x="330" y="298" text-anchor="middle" fill="#ff8090" font-size="15" font-weight="700" font-family="'Russo One',sans-serif">Matchs 3 &amp; 4</text>
+        <text x="330" y="320" text-anchor="middle" fill="rgba(255,128,144,0.6)" font-size="12" font-family="'Exo 2',sans-serif">Places 9 à 16</text>
+
+        <!-- TOUR 3 Match 1 -->
+        <rect x="660" y="30" width="300" height="65" rx="8" fill="rgba(255,215,0,0.13)" stroke="rgba(255,215,0,0.52)" stroke-width="1"/>
+        <text x="810" y="57" text-anchor="middle" fill="#FFD700" font-size="15" font-weight="700" font-family="'Russo One',sans-serif">Match 1</text>
+        <text x="810" y="78" text-anchor="middle" fill="rgba(255,215,0,0.65)" font-size="12" font-family="'Exo 2',sans-serif">Places 1 à 4</text>
+
+        <!-- TOUR 3 Match 2 -->
+        <rect x="660" y="115" width="300" height="65" rx="8" fill="rgba(255,215,0,0.07)" stroke="rgba(255,215,0,0.32)" stroke-width="1"/>
+        <text x="810" y="142" text-anchor="middle" fill="#FFD700" font-size="15" font-weight="700" font-family="'Russo One',sans-serif">Match 2</text>
+        <text x="810" y="163" text-anchor="middle" fill="rgba(255,215,0,0.65)" font-size="12" font-family="'Exo 2',sans-serif">Places 5 à 8</text>
+
+        <!-- TOUR 3 Match 3 -->
+        <rect x="660" y="225" width="300" height="65" rx="8" fill="rgba(255,215,0,0.07)" stroke="rgba(255,215,0,0.32)" stroke-width="1"/>
+        <text x="810" y="252" text-anchor="middle" fill="#FFD700" font-size="15" font-weight="700" font-family="'Russo One',sans-serif">Match 3</text>
+        <text x="810" y="273" text-anchor="middle" fill="rgba(255,215,0,0.65)" font-size="12" font-family="'Exo 2',sans-serif">Places 9 à 12</text>
+
+        <!-- TOUR 3 Match 4 -->
+        <rect x="660" y="310" width="300" height="65" rx="8" fill="rgba(255,215,0,0.07)" stroke="rgba(255,215,0,0.32)" stroke-width="1"/>
+        <text x="810" y="337" text-anchor="middle" fill="#FFD700" font-size="15" font-weight="700" font-family="'Russo One',sans-serif">Match 4</text>
+        <text x="810" y="358" text-anchor="middle" fill="rgba(255,215,0,0.65)" font-size="12" font-family="'Exo 2',sans-serif">Places 13 à 16</text>
+
+        <!-- Flèche Poules → Matchs 1+2 -->
+        <path d="M160 185 L195 185 L195 107 L230 107" fill="none" stroke="rgba(232,0,29,0.6)" stroke-width="1.5" marker-end="url(#sarr)"/>
+        <text x="163" y="155" text-anchor="start" fill="rgba(255,255,255,0.55)" font-size="11" font-family="'Exo 2',sans-serif">1ers &amp; 2es</text>
+        <text x="163" y="170" text-anchor="start" fill="rgba(255,255,255,0.55)" font-size="11" font-family="'Exo 2',sans-serif">de poule</text>
+
+        <!-- Flèche Poules → Matchs 3+4 -->
+        <path d="M160 215 L195 215 L195 302 L230 302" fill="none" stroke="rgba(232,0,29,0.35)" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#sarr)"/>
+        <text x="163" y="242" text-anchor="start" fill="rgba(255,255,255,0.38)" font-size="11" font-family="'Exo 2',sans-serif">3es &amp; 4es</text>
+        <text x="163" y="257" text-anchor="start" fill="rgba(255,255,255,0.38)" font-size="11" font-family="'Exo 2',sans-serif">de poule</text>
+
+        <!-- Flèche Matchs 1+2 → Match 1 T3 (1ers/2es) -->
+        <path d="M430 95 L545 95 L545 62 L660 62" fill="none" stroke="rgba(255,215,0,0.65)" stroke-width="1.5" marker-end="url(#sarr)"/>
+        <text x="438" y="80" text-anchor="start" fill="rgba(255,255,255,0.55)" font-size="11" font-family="'Exo 2',sans-serif">1ers &amp; 2es</text>
+
+        <!-- Flèche Matchs 1+2 → Match 2 T3 (3es/4es) -->
+        <path d="M430 112 L558 112 L558 148 L660 148" fill="none" stroke="rgba(255,215,0,0.38)" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#sarr)"/>
+        <text x="438" y="133" text-anchor="start" fill="rgba(255,255,255,0.38)" font-size="11" font-family="'Exo 2',sans-serif">3es &amp; 4es</text>
+
+        <!-- Flèche Matchs 3+4 → Match 3 T3 (1ers/2es) -->
+        <path d="M430 285 L545 285 L545 257 L660 257" fill="none" stroke="rgba(255,215,0,0.65)" stroke-width="1.5" marker-end="url(#sarr)"/>
+        <text x="438" y="273" text-anchor="start" fill="rgba(255,255,255,0.55)" font-size="11" font-family="'Exo 2',sans-serif">1ers &amp; 2es</text>
+
+        <!-- Flèche Matchs 3+4 → Match 4 T3 (3es/4es) -->
+        <path d="M430 302 L558 302 L558 342 L660 342" fill="none" stroke="rgba(255,215,0,0.38)" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#sarr)"/>
+        <text x="438" y="323" text-anchor="start" fill="rgba(255,255,255,0.38)" font-size="11" font-family="'Exo 2',sans-serif">3es &amp; 4es</text>
+
+        <!-- Légende -->
+        <line x1="20" y1="410" x2="55" y2="410" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" marker-end="url(#sarr)"/>
+        <text x="63" y="414" fill="rgba(255,255,255,0.45)" font-size="11" font-family="'Exo 2',sans-serif" dominant-baseline="middle">1er / 2e du match</text>
+        <line x1="220" y1="410" x2="255" y2="410" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#sarr)"/>
+        <text x="263" y="414" fill="rgba(255,255,255,0.35)" font-size="11" font-family="'Exo 2',sans-serif" dominant-baseline="middle">3e / 4e du match</text>
+      </svg>
+    </div>
+
+    <!-- BLOC 3 : Règles de course — 1 cadre, 2 colonnes internes -->
+    <div class="rule-block blue" style="margin-bottom:20px;">
+      <h2>🎮 Règles de course</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:4px;">
+        <div>
+          <h3>⚙️ Paramètres</h3>
+          <ul>
+            <li><strong>Vitesse :</strong> 150cc</li>
+            <li><strong>Format :</strong> Championnat de 6 circuits (mode aléatoire)</li>
+            <li><strong>Participants :</strong> 4 joueurs + bots</li>
+            <li>
+              <strong>Antenne :</strong>
+              <ul class="subtle-sublist">
+                <li>Tableaux 1 et 2 - interdit</li>
+                <li>Tableau 3 - autorisé</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3>🕹️ Manettes de jeu</h3>
+          <ul>
+            <li><strong>Manette Pro</strong> — manette classique</li>
+            <li><strong>Joy-Con</strong> — tenu à l'horizontale</li>
+          </ul>
+          <p style="margin-top:12px;font-size:0.82rem;color:rgba(255,255,255,0.4);font-style:italic;">
+            Les commandes détaillées sont expliquées dans l'encadré ci-dessous.
+          </p>
+        </div>
       </div>
-
     </div>
 
     <div class="ctrl-block">
@@ -385,5 +468,6 @@
       </div>
     </div>
   </div>
+
 </body>
 </html>
