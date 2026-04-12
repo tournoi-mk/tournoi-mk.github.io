@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Mario Kart Tournoi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Exo+2:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root { --red:#E8001D; --blue:#0052A5; --yellow:#FFD700; --dark:#07071a; --green:#00c97a; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:var(--dark); font-family:'Exo 2',sans-serif; color:#fff; min-height:100vh; }
+    .bg { position:fixed; inset:0; z-index:0; background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(0,82,165,0.18),transparent 70%),linear-gradient(180deg,#060610 0%,#0A0A1E 100%); }
+    #login-screen { position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center; background:rgba(7,7,26,0.97); }
+    .login-box { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:40px 36px; text-align:center; width:340px; }
+    .login-icon { font-size:3rem; margin-bottom:12px; }
+    .login-title { font-family:'Russo One',sans-serif; font-size:1.1rem; letter-spacing:0.1em; color:var(--yellow); margin-bottom:6px; }
+    .login-sub { font-size:0.78rem; color:rgba(255,255,255,0.35); margin-bottom:24px; letter-spacing:0.08em; }
+    .login-input { width:100%; padding:12px 16px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14); border-radius:8px; color:#fff; font-family:'Exo 2',sans-serif; font-size:1rem; outline:none; text-align:center; letter-spacing:0.15em; margin-bottom:14px; transition:border-color 0.2s; }
+    .login-input:focus { border-color:var(--yellow); }
+    .login-input.error { border-color:var(--red); }
+    .login-btn { width:100%; padding:12px; background:linear-gradient(135deg,rgba(255,215,0,0.12),rgba(255,215,0,0.22)); border:1px solid var(--yellow); border-radius:8px; color:var(--yellow); font-family:'Russo One',sans-serif; font-size:0.9rem; letter-spacing:0.1em; cursor:pointer; transition:background 0.2s; }
+    .login-btn:hover { background:rgba(255,215,0,0.28); }
+    .login-error { color:#ff8090; font-size:0.78rem; margin-top:10px; display:none; }
+    .top-bar { position:sticky; top:0; z-index:100; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; padding:0 28px; min-height:64px; background:rgba(7,7,26,0.94); backdrop-filter:blur(12px); border-bottom:1px solid rgba(232,0,29,0.3); box-shadow:0 4px 32px rgba(0,0,0,0.5); gap:16px; }
+    .brand { font-family:'Russo One',sans-serif; font-size:0.9rem; letter-spacing:0.1em; color:var(--yellow); text-decoration:none; text-shadow:0 0 12px rgba(255,215,0,0.6); white-space:nowrap; }
+    .brand span { color:rgba(255,255,255,0.5); }
+    .top-title { text-align:center; font-family:'Russo One',sans-serif; font-size:1.2rem; letter-spacing:0.15em; color:#ff8090; }
+    .back-btn { font-size:0.8rem; color:rgba(255,255,255,0.4); text-decoration:none; letter-spacing:0.1em; transition:color 0.2s; justify-self:end; }
+    .back-btn:hover { color:var(--red); }
+    .page { position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:40px 20px 80px; }
+    .admin-section { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:28px; margin-bottom:24px; }
+    .admin-section-title { font-family:'Russo One',sans-serif; font-size:1rem; letter-spacing:0.1em; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+    .ast-red    { color:#ff8090; border-left:3px solid var(--red);    padding-left:12px; }
+    .ast-blue   { color:#6eb4ff; border-left:3px solid var(--blue);   padding-left:12px; }
+    .ast-yellow { color:var(--yellow); border-left:3px solid var(--yellow); padding-left:12px; }
+    .ast-green  { color:#6fffbe; border-left:3px solid var(--green);  padding-left:12px; }
+    .ast-orange { color:#ffb347; border-left:3px solid #ff8c00; padding-left:12px; }
+    label { display:block; font-size:0.76rem; letter-spacing:0.08em; color:rgba(255,255,255,0.45); text-transform:uppercase; margin-bottom:5px; }
+    input[type=text],input[type=password],select,textarea { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:8px; color:#fff; font-family:'Exo 2',sans-serif; font-size:0.88rem; padding:9px 13px; outline:none; transition:border-color 0.2s; width:100%; }
+    input:focus,select:focus,textarea:focus { border-color:var(--yellow); }
+    select option { background:#0A0A1E; }
+    textarea { resize:vertical; min-height:80px; font-size:0.8rem; font-family:monospace; line-height:1.5; }
+    .field-group { margin-bottom:14px; }
+    .btn { padding:10px 20px; border-radius:8px; font-family:'Russo One',sans-serif; font-size:0.8rem; letter-spacing:0.08em; cursor:pointer; transition:all 0.2s; border:1px solid; }
+    .btn-yellow { background:rgba(255,215,0,0.1); border-color:var(--yellow); color:var(--yellow); }
+    .btn-yellow:hover { background:rgba(255,215,0,0.22); }
+    .btn-red { background:rgba(232,0,29,0.1); border-color:var(--red); color:#ff8090; }
+    .btn-red:hover { background:rgba(232,0,29,0.2); }
+    .btn-blue { background:rgba(0,82,165,0.12); border-color:var(--blue); color:#6eb4ff; }
+    .btn-blue:hover { background:rgba(0,82,165,0.22); }
+    .btn-green { background:rgba(0,201,122,0.1); border-color:var(--green); color:#6fffbe; }
+    .btn-green:hover { background:rgba(0,201,122,0.2); }
+    .btn-ghost { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.14); color:rgba(255,255,255,0.45); }
+    .btn-ghost:hover { background:rgba(255,255,255,0.08); color:#fff; }
+    .btn-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+    .bettor-table { width:100%; border-collapse:collapse; font-size:0.82rem; }
+    .bettor-table th { font-family:'Russo One',sans-serif; font-size:0.68rem; letter-spacing:0.09em; color:rgba(255,255,255,0.3); text-transform:uppercase; padding:7px 10px; text-align:left; border-bottom:1px solid rgba(255,255,255,0.07); }
+    .bettor-table td { padding:8px 10px; border-bottom:1px solid rgba(255,255,255,0.04); vertical-align:top; }
+    .bettor-table tr:hover td { background:rgba(255,255,255,0.025); }
+    .bettor-table tr:last-child td { border-bottom:none; }
+    .bettor-name-cell { font-weight:700; color:rgba(255,255,255,0.85); }
+    .phase-tag { display:inline-block; font-size:0.62rem; padding:2px 7px; border-radius:20px; font-family:'Russo One',sans-serif; margin-right:3px; border:1px solid; }
+    .pt-p0 { background:rgba(79,143,240,0.1); border-color:rgba(79,143,240,0.3); color:#8ec1ff; }
+    .pt-p1 { background:rgba(232,0,29,0.08); border-color:rgba(232,0,29,0.3); color:#ff8090; }
+    .pt-p2 { background:rgba(255,215,0,0.08); border-color:rgba(255,215,0,0.3); color:var(--yellow); }
+    .del-btn { padding:3px 9px; border-radius:5px; background:rgba(232,0,29,0.1); border:1px solid rgba(232,0,29,0.3); color:#ff8090; font-size:0.68rem; cursor:pointer; font-family:'Russo One',sans-serif; transition:background 0.15s; }
+    .del-btn:hover { background:rgba(232,0,29,0.22); }
+    .match-result-section { margin-bottom:24px; }
+    .match-result-section h3 { font-family:'Russo One',sans-serif; font-size:0.82rem; letter-spacing:0.1em; color:rgba(255,255,255,0.45); text-transform:uppercase; margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid rgba(255,255,255,0.06); }
+    .match-result-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:12px; }
+    .match-result-card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:10px; overflow:hidden; }
+    .mrc-head { display:flex; align-items:center; justify-content:space-between; padding:9px 13px; border-bottom:1px solid rgba(255,255,255,0.06); gap:8px; }
+    .mrc-head-blue { background:rgba(0,82,165,0.22); }
+    .mrc-head-red  { background:rgba(232,0,29,0.18); }
+    .mrc-head-yellow { background:rgba(255,215,0,0.12); }
+    .mrc-name { font-family:'Russo One',sans-serif; font-size:0.78rem; letter-spacing:0.06em; }
+    .played-badge { font-size:0.62rem; padding:2px 7px; border-radius:10px; background:rgba(0,201,122,0.15); border:1px solid rgba(0,201,122,0.35); color:#6fffbe; font-family:'Russo One',sans-serif; white-space:nowrap; }
+    .unplayed-badge { font-size:0.62rem; padding:2px 7px; border-radius:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); color:rgba(255,255,255,0.3); font-family:'Russo One',sans-serif; white-space:nowrap; }
+    .mrc-body { padding:10px 13px; }
+    .mrc-player-row { display:flex; align-items:center; gap:8px; margin-bottom:7px; }
+    .mrc-player-name { flex:1; font-size:0.8rem; font-weight:600; color:rgba(255,255,255,0.78); }
+    .mrc-player-name.tbd { color:rgba(255,255,255,0.22); font-style:italic; }
+    .mrc-rank-select { width:90px; padding:4px 8px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:5px; color:#fff; font-size:0.76rem; font-family:'Exo 2',sans-serif; outline:none; }
+    .mrc-rank-select:focus { border-color:var(--yellow); }
+    .save-match-btn { width:100%; padding:7px; margin-top:6px; background:rgba(0,201,122,0.1); border:1px solid rgba(0,201,122,0.35); border-radius:6px; color:#6fffbe; font-family:'Russo One',sans-serif; font-size:0.72rem; letter-spacing:0.08em; cursor:pointer; transition:background 0.15s; }
+    .save-match-btn:hover { background:rgba(0,201,122,0.2); }
+    .save-match-btn:disabled { opacity:0.35; cursor:not-allowed; }
+    .notif { position:fixed; bottom:24px; right:24px; z-index:500; background:#0c0d22; border:1px solid rgba(0,201,122,0.4); border-radius:10px; padding:12px 20px; color:#6fffbe; font-family:'Russo One',sans-serif; font-size:0.82rem; letter-spacing:0.06em; box-shadow:0 8px 24px rgba(0,0,0,0.4); transform:translateY(80px); opacity:0; transition:all 0.3s; pointer-events:none; max-width:420px; }
+    .notif.show { transform:translateY(0); opacity:1; }
+    .notif.err { border-color:rgba(232,0,29,0.45); color:#ff8090; }
+    .import-help { font-size:0.78rem; color:rgba(255,255,255,0.35); line-height:1.6; margin-bottom:12px; }
+    .import-help code { background:rgba(255,255,255,0.06); border-radius:3px; padding:1px 5px; font-size:0.75rem; color:#8ec1ff; }
+    .note { font-size:0.76rem; color:rgba(255,255,255,0.28); margin-top:8px; line-height:1.5; }
+    .separator { height:1px; background:rgba(255,255,255,0.06); margin:20px 0; }
+    .data-raw { font-size:0.72rem; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.07); border-radius:6px; padding:12px; font-family:monospace; color:rgba(255,255,255,0.45); white-space:pre-wrap; word-break:break-word; max-height:240px; overflow-y:auto; }
+    .page-title { font-family:'Russo One',sans-serif; font-size:1.8rem; color:#ff8090; text-align:center; margin-bottom:6px; letter-spacing:0.08em; }
+    .page-sub { text-align:center; color:rgba(255,255,255,0.35); font-size:0.82rem; letter-spacing:0.12em; margin-bottom:32px; text-transform:uppercase; }
+    .import-preview-box { margin-top:14px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:14px; }
+    .import-preview-title { font-family:'Russo One',sans-serif; font-size:0.75rem; letter-spacing:0.08em; color:rgba(255,255,255,0.45); margin-bottom:10px; text-transform:uppercase; }
+    .pill { display:inline-block; padding:4px 8px; border-radius:999px; font-size:0.68rem; border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.7); margin-right:6px; margin-bottom:6px; }
+
+    /* ── TOGGLE SWITCH ── */
+    .lock-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+    @media(max-width:700px) { .lock-grid { grid-template-columns:1fr; } }
+    .lock-card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:18px 20px; display:flex; flex-direction:column; gap:14px; }
+    .lock-card-title { font-family:'Russo One',sans-serif; font-size:0.82rem; letter-spacing:0.08em; }
+    .lct-blue   { color:#6eb4ff; }
+    .lct-red    { color:#ff8090; }
+    .lct-yellow { color:var(--yellow); }
+    .lock-row { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .lock-label { font-size:0.78rem; color:rgba(255,255,255,0.55); line-height:1.4; }
+    .toggle-switch { position:relative; width:46px; height:24px; flex-shrink:0; cursor:pointer; }
+    .toggle-switch input { opacity:0; width:0; height:0; }
+    .toggle-track { position:absolute; inset:0; border-radius:12px; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.15); transition:background 0.25s,border-color 0.25s; }
+    .toggle-switch input:checked + .toggle-track { background:rgba(232,0,29,0.35); border-color:rgba(232,0,29,0.6); }
+    .toggle-thumb { position:absolute; top:3px; left:3px; width:16px; height:16px; border-radius:50%; background:#fff; transition:transform 0.25s,background 0.25s; box-shadow:0 1px 4px rgba(0,0,0,0.4); }
+    .toggle-switch input:checked ~ .toggle-thumb { transform:translateX(22px); background:#ff8090; }
+    .lock-status { font-size:0.68rem; font-family:'Russo One',sans-serif; letter-spacing:0.06em; text-align:center; padding:4px 10px; border-radius:20px; }
+    .lock-status.open   { background:rgba(0,201,122,0.12); border:1px solid rgba(0,201,122,0.3); color:#6fffbe; }
+    .lock-status.closed { background:rgba(232,0,29,0.12); border:1px solid rgba(232,0,29,0.3); color:#ff8090; }
+  </style>
+</head>
+<body>
+<div class="bg"></div>
+
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-icon">🔐</div>
+    <div class="login-title">ACCÈS ADMIN</div>
+    <div class="login-sub">TOURNOI MARIO KART · ORGANISATEUR</div>
+    <input type="password" class="login-input" id="pwd-input" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">ENTRER</button>
+    <div class="login-error" id="login-error">Mot de passe incorrect.</div>
+  </div>
+</div>
+
+<div id="main-content" style="display:none">
+  <div class="top-bar">
+    <div style="justify-self:start"><a href="index.html" class="brand">🏆 <span>TOURNOI INTERNE</span> MARIO KART</a></div>
+    <div class="top-title">⚙️ ADMIN</div>
+    <a href="index.html" class="back-btn">← Accueil</a>
+  </div>
+
+  <div class="page">
+    <div class="page-title">⚙️ ADMINISTRATION</div>
+    <p class="page-sub">Saisie des résultats et gestion des paris</p>
+
+    <!-- ── VERROUILLAGE PARIS GAGNANTS ── -->
+    <div class="admin-section">
+      <div class="admin-section-title ast-orange">🔒 Verrouillage des paris — Gagnants finaux</div>
+      <p class="note" style="margin-bottom:18px;">Activez le verrou pour interdire les nouveaux paris sur le gagnant final d'un tableau. Les paris déjà enregistrés ne sont pas supprimés.</p>
+      <div class="lock-grid" id="lock-grid"></div>
+      <div class="btn-row">
+        <button class="btn btn-red" onclick="saveWinnerLocks()">🔒 Enregistrer les verrous</button>
+      </div>
+    </div>
+
+    <!-- ── IMPORT MAIL ── -->
+    <div class="admin-section">
+      <div class="admin-section-title ast-green">📥 Importer un pari depuis un e-mail</div>
+      <p class="import-help">
+        Collez ici le contenu brut reçu par e-mail. Le format multi-phases (plusieurs tableaux à des rythmes différents) est supporté automatiquement.<br>
+        Les paris sur des matchs déjà enregistrés sont ignorés ; les nouveaux matchs sont ajoutés. Un pari sur le vainqueur final ne peut être enregistré qu'une seule fois par personne.
+      </p>
+      <div class="field-group">
+        <label>Contenu du mail</label>
+        <textarea id="mail-import-text" style="min-height:260px;" placeholder="Collez ici le contenu du mail reçu…"></textarea>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-green" onclick="importBetFromEmail()">✅ Importer le mail</button>
+        <button class="btn btn-ghost" onclick="clearMailImport()">🗑 Vider</button>
+      </div>
+      <div class="import-preview-box">
+        <div class="import-preview-title">Aide phase reconnue</div>
+        <span class="pill">Avant le tournoi → p0</span>
+        <span class="pill">Après Tour 1 → p1</span>
+        <span class="pill">Après Tour 2 → p2</span>
+      </div>
+    </div>
+
+    <!-- ── VAINQUEURS RÉELS ── -->
+    <div class="admin-section">
+      <div class="admin-section-title ast-yellow">🏆 Vainqueurs réels des tableaux</div>
+      <p class="note" style="margin-bottom:16px;">Déterminés automatiquement depuis le résultat du match 1 du tour 3 (joueur classé 1er).</p>
+      <div id="winners-display" style="display:flex;gap:16px;flex-wrap:wrap;"></div>
+    </div>
+
+    <!-- ── RÉSULTATS DES MATCHS ── -->
+    <div class="admin-section">
+      <div class="admin-section-title ast-red">🏁 Résultats des matchs</div>
+      <p class="note" style="margin-bottom:18px;">Pour chaque match joué, indiquez le classement réel (1er à 4e) et cliquez "Valider". Les 4 joueurs doivent être nommés avant de pouvoir valider.</p>
+      <div id="match-results-container">
+        <p style="color:rgba(255,255,255,0.25);font-style:italic;font-size:0.85rem;">Chargement des matchs…</p>
+      </div>
+    </div>
+
+    <!-- ── PARIEURS ── -->
+    <div class="admin-section">
+      <div class="admin-section-title ast-yellow">👥 Parieurs enregistrés</div>
+      <div id="bettors-list-wrap">
+        <p style="color:rgba(255,255,255,0.25);font-style:italic;font-size:0.85rem;">Aucun parieur enregistré.</p>
+      </div>
+    </div>
+
+    <!-- ── SAUVEGARDE ── -->
+    <div class="admin-section">
+      <div class="admin-section-title ast-blue">💾 Sauvegarde & Export</div>
+      <p class="note" style="margin-bottom:14px;">Les données sont stockées dans le localStorage. Exportez-les en JSON pour les sauvegarder ou les partager entre appareils.</p>
+      <div class="btn-row">
+        <button class="btn btn-blue" onclick="exportData()">📤 Exporter JSON</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('import-file').click()">📥 Importer JSON</button>
+        <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(this)">
+        <button class="btn btn-red" onclick="confirmClearData()">🗑 Réinitialiser tout</button>
+      </div>
+      <div class="separator"></div>
+      <label>Aperçu JSON brut</label>
+      <div class="data-raw" id="raw-preview">—</div>
+    </div>
+  </div>
+</div>
+
+<div class="notif" id="notif"></div>
+
+<script>
+const ADMIN_PASSWORD = "mariokart2025";
+const LS_KEY = 'mk_tournament_data';
+
+const BRACKETS_BASE = [
+  {
+    tableNumber:1, tableTitle:"Tableau 1",
+    groups:[
+      {groupName:"Poule A",players:["Mathieu B.","Julie","Noémie F.","Marin"]},
+      {groupName:"Poule B",players:["Sebastien","Clémentine","Jumi","Marlène"]},
+      {groupName:"Poule C",players:["Louis","Hugo P.","Dolly","Martin O."]},
+      {groupName:"Poule D",players:["Bruno F.","Arthur M.","Flore","Antoine"]}
+    ],
+    tour2Matches:[
+      {matchName:"Match 1",matchTag:"1ers A+C · 2es B+D",slots:["1er Poule A","2e Poule B","1er Poule C","2e Poule D"]},
+      {matchName:"Match 2",matchTag:"2es A+C · 1ers B+D",slots:["2e Poule A","1er Poule B","2e Poule C","1er Poule D"]},
+      {matchName:"Match 3",matchTag:"3es A+C · 4es B+D", slots:["3e Poule A","4e Poule B","3e Poule C","4e Poule D"]},
+      {matchName:"Match 4",matchTag:"4es A+C · 3es B+D", slots:["4e Poule A","3e Poule B","4e Poule C","3e Poule D"]}
+    ],
+    tour3Matches:[
+      {matchName:"Match 1",matchTag:"Places 1–4",   slots:["1er Match 1 T2","2e Match 1 T2","1er Match 2 T2","2e Match 2 T2"]},
+      {matchName:"Match 2",matchTag:"Places 5–8",   slots:["3e Match 1 T2","4e Match 1 T2","3e Match 2 T2","4e Match 2 T2"]},
+      {matchName:"Match 3",matchTag:"Places 9–12",  slots:["1er Match 3 T2","2e Match 3 T2","1er Match 4 T2","2e Match 4 T2"]},
+      {matchName:"Match 4",matchTag:"Places 13–16", slots:["3e Match 3 T2","4e Match 3 T2","3e Match 4 T2","4e Match 4 T2"]}
+    ]
+  },
+  {
+    tableNumber:2, tableTitle:"Tableau 2",
+    groups:[
+      {groupName:"Poule E",players:["Hugo B.","Alexandre","Madeleine","Thierry"]},
+      {groupName:"Poule F",players:["Théo","Alexis","Justine","Mathieu F."]},
+      {groupName:"Poule G",players:["Arthur G.","Marine","Valérie","Jean-Philippe"]},
+      {groupName:"Poule H",players:["Lisa","Valentine","Bruno A.","Clélia M."]}
+    ],
+    tour2Matches:[
+      {matchName:"Match 1",matchTag:"1ers E+G · 2es F+H",slots:["1er Poule E","2e Poule F","1er Poule G","2e Poule H"]},
+      {matchName:"Match 2",matchTag:"2es E+G · 1ers F+H",slots:["2e Poule E","1er Poule F","2e Poule G","1er Poule H"]},
+      {matchName:"Match 3",matchTag:"3es E+G · 4es F+H", slots:["3e Poule E","4e Poule F","3e Poule G","4e Poule H"]},
+      {matchName:"Match 4",matchTag:"4es E+G · 3es F+H", slots:["4e Poule E","3e Poule F","4e Poule G","3e Poule H"]}
+    ],
+    tour3Matches:[
+      {matchName:"Match 1",matchTag:"Places 17–20",slots:["1er Match 1 T2","2e Match 1 T2","1er Match 2 T2","2e Match 2 T2"]},
+      {matchName:"Match 2",matchTag:"Places 21–24",slots:["3e Match 1 T2","4e Match 1 T2","3e Match 2 T2","4e Match 2 T2"]},
+      {matchName:"Match 3",matchTag:"Places 25–28",slots:["1er Match 3 T2","2e Match 3 T2","1er Match 4 T2","2e Match 4 T2"]},
+      {matchName:"Match 4",matchTag:"Places 29–32",slots:["3e Match 3 T2","4e Match 3 T2","3e Match 4 T2","4e Match 4 T2"]}
+    ]
+  },
+  {
+    tableNumber:3, tableTitle:"Tableau 3",
+    groups:[
+      {groupName:"Poule I",players:["Pierre-Benoit","Aude","Thomas","Cécile"]},
+      {groupName:"Poule J",players:["Lydie","Lionel","Matthieu A.","Virginie C."]},
+      {groupName:"Poule K",players:["Mélanie","Noé","Aurélie","Morgane"]},
+      {groupName:"Poule L",players:["Noémie H.","Martin T.","Clélia L.","Chloé"]}
+    ],
+    tour2Matches:[
+      {matchName:"Match 1",matchTag:"1ers I+K · 2es J+L",slots:["1er Poule I","2e Poule J","1er Poule K","2e Poule L"]},
+      {matchName:"Match 2",matchTag:"2es I+K · 1ers J+L",slots:["2e Poule I","1er Poule J","2e Poule K","1er Poule L"]},
+      {matchName:"Match 3",matchTag:"3es I+K · 4es J+L", slots:["3e Poule I","4e Poule J","3e Poule K","4e Poule L"]},
+      {matchName:"Match 4",matchTag:"4es I+K · 3es J+L", slots:["4e Poule I","3e Poule J","4e Poule K","3e Poule L"]}
+    ],
+    tour3Matches:[
+      {matchName:"Match 1",matchTag:"Places 33–36",slots:["1er Match 1 T2","2e Match 1 T2","1er Match 2 T2","2e Match 2 T2"]},
+      {matchName:"Match 2",matchTag:"Places 37–40",slots:["3e Match 1 T2","4e Match 1 T2","3e Match 2 T2","4e Match 2 T2"]},
+      {matchName:"Match 3",matchTag:"Places 41–44",slots:["1er Match 3 T2","2e Match 3 T2","1er Match 4 T2","2e Match 4 T2"]},
+      {matchName:"Match 4",matchTag:"Places 45–48",slots:["3e Match 3 T2","4e Match 3 T2","3e Match 4 T2","4e Match 4 T2"]}
+    ]
+  }
+];
+
+function buildEnrichedBrackets(results) {
+  const brackets = JSON.parse(JSON.stringify(BRACKETS_BASE));
+  brackets.forEach(br => {
+    const tab = br.tableNumber;
+    function getPlayerByRank(gi, rank) {
+      const key = `t${tab}_tour1_g${gi}`;
+      const res = results[key];
+      if (!res || !res.played || !res.ranks) return null;
+      return br.groups[gi].players.find(p => String(res.ranks[p]) === String(rank)) || null;
+    }
+    const t2Mapping = [[[0,1],[1,2],[2,1],[3,2]],[[0,2],[1,1],[2,2],[3,1]],[[0,3],[1,4],[2,3],[3,4]],[[0,4],[1,3],[2,4],[3,3]]];
+    t2Mapping.forEach((slotMap, mi) => {
+      br.tour2Matches[mi].players = br.tour2Matches[mi].players || ["-","-","-","-"];
+      slotMap.forEach(([gi, rank], si) => { br.tour2Matches[mi].players[si] = getPlayerByRank(gi, rank) || "-"; });
+    });
+    function getT2PlayerByRank(matchIdx, rank) {
+      const key = `t${tab}_tour2_m${matchIdx}`;
+      const res = results[key];
+      if (!res || !res.played || !res.ranks) return null;
+      return br.tour2Matches[matchIdx].players.find(p => p !== '-' && String(res.ranks[p]) === String(rank)) || null;
+    }
+    const t3Mapping = [[[0,1],[0,2],[1,1],[1,2]],[[0,3],[0,4],[1,3],[1,4]],[[2,1],[2,2],[3,1],[3,2]],[[2,3],[2,4],[3,3],[3,4]]];
+    t3Mapping.forEach((slotMap, mi) => {
+      br.tour3Matches[mi].players = br.tour3Matches[mi].players || ["-","-","-","-"];
+      slotMap.forEach(([t2mi, rank], si) => { br.tour3Matches[mi].players[si] = getT2PlayerByRank(t2mi, rank) || "-"; });
+    });
+  });
+  return brackets;
+}
+
+function buildMatchDefs(results) {
+  const enriched = buildEnrichedBrackets(results);
+  const defs = [];
+  enriched.forEach(br => {
+    const tab = br.tableNumber;
+    const color = tab===1?'blue':tab===2?'red':'yellow';
+    br.groups.forEach((g, gi) => defs.push({ key:`t${tab}_tour1_g${gi}`, tour:1, tableau:tab, label:`Tableau ${tab}`, name:g.groupName, tag:'', color, players:[...g.players] }));
+    br.tour2Matches.forEach((m, mi) => defs.push({ key:`t${tab}_tour2_m${mi}`, tour:2, tableau:tab, label:`Tableau ${tab}`, name:m.matchName, tag:m.matchTag, color, players:[...(m.players||["-","-","-","-"])], slots:m.slots }));
+    br.tour3Matches.forEach((m, mi) => defs.push({ key:`t${tab}_tour3_m${mi}`, tour:3, tableau:tab, label:`Tableau ${tab}`, name:m.matchName, tag:m.matchTag, color, players:[...(m.players||["-","-","-","-"])], slots:m.slots }));
+  });
+  return defs;
+}
+
+let notifTimer;
+
+function doLogin() {
+  const v = document.getElementById('pwd-input').value;
+  if (v === ADMIN_PASSWORD) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('main-content').style.display = 'block';
+    initAdmin();
+  } else {
+    const inp = document.getElementById('pwd-input');
+    inp.classList.add('error');
+    document.getElementById('login-error').style.display = 'block';
+    setTimeout(() => inp.classList.remove('error'), 800);
+  }
+}
+
+function getEmptyData() { return { bettors:[], results:{}, winnerLocks:{ t1:false, t2:false, t3:false }, lastUpdate:null }; }
+
+function getData() {
+  try {
+    const d = JSON.parse(localStorage.getItem(LS_KEY) || 'null') || getEmptyData();
+    if (!d.winnerLocks) d.winnerLocks = { t1:false, t2:false, t3:false };
+    return d;
+  } catch { return getEmptyData(); }
+}
+
+function saveData(data) {
+  data.lastUpdate = new Date().toISOString();
+  localStorage.setItem(LS_KEY, JSON.stringify(data));
+  updateRawPreview(data);
+}
+
+function updateRawPreview(data) {
+  const el = document.getElementById('raw-preview');
+  if (!el) return;
+  const raw = JSON.stringify(data, null, 2);
+  el.textContent = raw.length > 4000 ? raw.slice(0,4000)+'\n…' : raw;
+}
+
+function notify(msg, isError=false) {
+  const el = document.getElementById('notif');
+  el.textContent = msg;
+  el.className = 'notif show' + (isError?' err':'');
+  clearTimeout(notifTimer);
+  notifTimer = setTimeout(() => el.className='notif', 3500);
+}
+
+function initAdmin() {
+  const data = getData();
+  renderLockGrid(data);
+  loadWinnerFields(data);
+  renderMatchResults(data);
+  renderBettorsList(data);
+  updateRawPreview(data);
+}
+
+/* ════════════════════════════════════════════════════════════
+   VERROUILLAGE GAGNANTS FINAUX
+════════════════════════════════════════════════════════════ */
+function renderLockGrid(data) {
+  const locks = data.winnerLocks || { t1:false, t2:false, t3:false };
+  const tabs = [
+    { key:'t1', label:'Tableau 1', colorCls:'lct-blue',   desc:'1er au classement général' },
+    { key:'t2', label:'Tableau 2', colorCls:'lct-red',    desc:'17e au classement général' },
+    { key:'t3', label:'Tableau 3', colorCls:'lct-yellow', desc:'33e au classement général' }
+  ];
+  const wrap = document.getElementById('lock-grid');
+  wrap.innerHTML = tabs.map(tab => {
+    const locked = !!locks[tab.key];
+    return `
+      <div class="lock-card">
+        <div class="lock-card-title ${tab.colorCls}">🏆 ${tab.label}</div>
+        <div style="font-size:0.72rem;color:rgba(255,255,255,0.35);">${tab.desc}</div>
+        <div class="lock-row">
+          <div class="lock-label">${locked ? '🔒 Paris gagnant <strong>verrouillé</strong>' : '🟢 Paris gagnant <strong>ouvert</strong>'}</div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="lock-${tab.key}" ${locked ? 'checked' : ''} onchange="previewLock('${tab.key}', this.checked)">
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+        </div>
+        <div class="lock-status ${locked ? 'closed' : 'open'}" id="lock-status-${tab.key}">
+          ${locked ? '🔒 VERROUILLÉ' : '✅ OUVERT'}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function previewLock(tabKey, isLocked) {
+  const statusEl = document.getElementById(`lock-status-${tabKey}`);
+  const cardEl = statusEl?.closest('.lock-card');
+  const labelEl = cardEl?.querySelector('.lock-label');
+  if (statusEl) {
+    statusEl.className = `lock-status ${isLocked ? 'closed' : 'open'}`;
+    statusEl.textContent = isLocked ? '🔒 VERROUILLÉ' : '✅ OUVERT';
+  }
+  if (labelEl) {
+    labelEl.innerHTML = isLocked ? '🔒 Paris gagnant <strong>verrouillé</strong>' : '🟢 Paris gagnant <strong>ouvert</strong>';
+  }
+}
+
+function saveWinnerLocks() {
+  const data = getData();
+  if (!data.winnerLocks) data.winnerLocks = {};
+  ['t1','t2','t3'].forEach(t => {
+    const el = document.getElementById(`lock-${t}`);
+    data.winnerLocks[t] = el ? el.checked : false;
+  });
+  saveData(data);
+  notify('✅ Verrous enregistrés !');
+}
+
+function loadWinnerFields(data) {
+  const results = data.results || {};
+  const wrap = document.getElementById('winners-display');
+  if (!wrap) return;
+  const colors = ['#6eb4ff','#ff8090','var(--yellow)'];
+  wrap.innerHTML = [1,2,3].map((tabNum, i) => {
+    const w = getActualWinner(tabNum, results);
+    return `<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 18px;min-width:180px;">
+      <div style="font-family:'Russo One',sans-serif;font-size:0.78rem;color:${colors[i]};margin-bottom:8px;">Tableau ${tabNum}</div>
+      <div style="font-size:0.9rem;font-weight:600;color:${w ? '#fff' : 'rgba(255,255,255,0.25)'};">${w ? '🏆 '+esc(w) : '— pas encore joué'}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderMatchResults(data) {
+  const container = document.getElementById('match-results-container');
+  if (!container) return;
+  const results = data.results || {};
+  const MATCH_DEFS = buildMatchDefs(results);
+  const tourLabels = { 1:'🏁 Tour 1 — Poules', 2:'🔀 Tour 2', 3:'🏆 Tour 3 — Classement final' };
+  let html = '';
+  [1,2,3].forEach(tour => {
+    const tourMatches = MATCH_DEFS.filter(d => d.tour === tour);
+    if (!tourMatches.length) return;
+    html += `<div class="match-result-section"><h3>${tourLabels[tour]}</h3><div class="match-result-grid">`;
+    tourMatches.forEach(match => {
+      const res = results[match.key] || {};
+      const isPlayed = !!res.played;
+      const ranks = res.ranks || {};
+      const realPlayers = match.players.filter(p => p && p !== '-');
+      const allDefined = realPlayers.length === 4;
+      const playerRows = match.players.map(p => {
+        const tbd = !p || p === '-';
+        const currentRank = tbd ? '' : (ranks[p] || '');
+        return `<div class="mrc-player-row">
+          <span class="mrc-player-name${tbd?' tbd':''}">${tbd ? (match.slots ? match.slots[match.players.indexOf(p)] || 'À définir' : 'À définir') : esc(p)}</span>
+          ${tbd ? '<span style="width:90px;display:inline-block"></span>' : `
+            <select class="mrc-rank-select" id="rank-${match.key}-${encodeForId(p)}" ${isPlayed?'disabled':''}>
+              <option value="">—</option>
+              <option value="1" ${currentRank==='1'?'selected':''}>🥇 1er</option>
+              <option value="2" ${currentRank==='2'?'selected':''}>🥈 2e</option>
+              <option value="3" ${currentRank==='3'?'selected':''}>🥉 3e</option>
+              <option value="4" ${currentRank==='4'?'selected':''}>🍌 4e</option>
+            </select>`}
+        </div>`;
+      }).join('');
+      const btnDisabled = !allDefined && !isPlayed;
+      html += `<div class="match-result-card">
+        <div class="mrc-head mrc-head-${match.color}">
+          <span class="mrc-name">T${match.tableau} · ${esc(match.name)}</span>
+          <span class="${isPlayed?'played-badge':'unplayed-badge'}">${isPlayed?'✓ Joué':'— En attente'}</span>
+        </div>
+        <div class="mrc-body">
+          ${playerRows}
+          <div style="display:flex;gap:6px;margin-top:8px;">
+            <button class="save-match-btn" onclick="saveMatchResult('${match.key}')" ${btnDisabled?'disabled title="Les 4 joueurs doivent être définis avant de valider"':''} ${isPlayed?'style="background:rgba(255,255,255,0.03);border-color:rgba(255,255,255,0.1);color:rgba(255,255,255,0.3)"':''}>
+              ${isPlayed ? '🔄 Modifier le résultat' : (btnDisabled ? '⏳ Joueurs manquants' : '✅ Valider ce match')}
+            </button>
+            ${isPlayed ? `<button class="save-match-btn" style="background:rgba(232,0,29,0.08);border-color:rgba(232,0,29,0.3);color:#ff8090;width:auto;padding:7px 12px;" onclick="unplayMatch('${match.key}')">✕</button>` : ''}
+          </div>
+        </div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+  container.innerHTML = html;
+}
+
+function saveMatchResult(matchKey) {
+  const data = getData();
+  const results = data.results || {};
+  const MATCH_DEFS = buildMatchDefs(results);
+  const match = MATCH_DEFS.find(m => m.key === matchKey);
+  if (!match) { notify('❌ Match introuvable.', true); return; }
+  const realPlayers = match.players.filter(p => p && p !== '-');
+  if (realPlayers.length < 4) { notify('❌ Les 4 joueurs doivent être définis avant de valider ce match.', true); return; }
+  const ranks = {};
+  const chosen = [];
+  for (const p of realPlayers) {
+    const sel = document.getElementById(`rank-${match.key}-${encodeForId(p)}`);
+    const v = sel ? sel.value : '';
+    if (v) {
+      if (chosen.includes(v)) { notify('❌ Deux joueurs ne peuvent pas avoir le même rang !', true); return; }
+      chosen.push(v); ranks[p] = v;
+    }
+  }
+  if (!data.results) data.results = {};
+  data.results[matchKey] = { played:true, ranks };
+  saveData(data);
+  renderMatchResults(data);
+  renderBettorsList(data);
+  loadWinnerFields(data);
+  notify('✅ Résultat enregistré !');
+}
+
+function unplayMatch(matchKey) {
+  if (!confirm('Annuler le résultat de ce match ?')) return;
+  const data = getData();
+  if (!data.results) data.results = {};
+  data.results[matchKey] = { played:false, ranks:{} };
+  saveData(data);
+  renderMatchResults(data);
+  renderBettorsList(data);
+  notify('Résultat annulé.');
+}
+
+function renderBettorsList(data) {
+  const wrap = document.getElementById('bettors-list-wrap');
+  const bettors = data.bettors || [];
+  if (bettors.length === 0) { wrap.innerHTML = '<p style="color:rgba(255,255,255,0.25);font-style:italic;font-size:0.85rem;">Aucun parieur enregistré.</p>'; return; }
+  const results = data.results || {};
+  const rows = bettors.map(b => {
+    const score = computeScore(b, results);
+    const phaseBadges = (b.phases||[]).map(p => { const labels={p0:'Avant',p1:'T1',p2:'T2'}; return `<span class="phase-tag pt-${p}">${labels[p]||p}</span>`; }).join('');
+    const winners = ['p0','p1','p2'].map(ph => { const wb=b[`winnerBets_${ph}`]||{}; const parts=['t1','t2','t3'].filter(t=>wb[t]).map(t=>`T${t.slice(1)}:${esc(wb[t])}`); return parts.length ? `<span style="font-size:0.7rem;color:rgba(255,255,255,0.3);margin-right:6px;">[${ph}] ${parts.join(' · ')}</span>` : ''; }).join('');
+    return `<tr>
+      <td class="bettor-name-cell">${esc(b.name)}</td>
+      <td>${phaseBadges}</td>
+      <td>${winners||'<span style="color:rgba(255,255,255,0.2);font-size:0.72rem">—</span>'}</td>
+      <td style="text-align:right;font-size:0.8rem;color:rgba(255,255,255,0.4)">${Object.keys(b.bets||{}).length} matchs pariés</td>
+      <td style="text-align:right;font-family:'Russo One',sans-serif;color:#8ec1ff">${score.total} pts</td>
+      <td><button class="del-btn" onclick="deleteBettor('${escJs(b.name)}')">✕</button></td>
+    </tr>`;
+  }).join('');
+  wrap.innerHTML = `<table class="bettor-table"><thead><tr><th>Nom</th><th>Phases</th><th>Vainqueurs prédits</th><th style="text-align:right">Paris matchs</th><th style="text-align:right">Score actuel</th><th></th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+function deleteBettor(name) {
+  if (!confirm(`Supprimer ${name} ?`)) return;
+  const data = getData();
+  data.bettors = data.bettors.filter(b => b.name !== name);
+  saveData(data);
+  renderBettorsList(data);
+  notify(`🗑 ${name} supprimé(e).`);
+}
+
+function getActualWinner(tabNumber, results) {
+  const key = `t${tabNumber}_tour3_m0`;
+  const res = results[key];
+  if (!res || !res.played || !res.ranks) return null;
+  return Object.entries(res.ranks).find(([, rank]) => String(rank) === '1')?.[0] || null;
+}
+
+function computeScore(bettor, results) {
+  let matchPts = 0, winnerPts = 0;
+  const bets = bettor.bets || {};
+  for (const matchKey of Object.keys(bets)) {
+    const res = results[matchKey];
+    if (!res || !res.played) continue;
+    for (const [player, predictedRank] of Object.entries(bets[matchKey])) {
+      if (res.ranks && res.ranks[player] && String(res.ranks[player])===String(predictedRank)) matchPts++;
+    }
+  }
+  [1,2,3].forEach(tabNum => {
+    const actual = getActualWinner(tabNum, results);
+    if (!actual) return;
+    const p0 = (bettor.winnerBets_p0||{})[`t${tabNum}`];
+    if (p0 && p0 === actual) winnerPts += 20;
+  });
+  return { total:matchPts+winnerPts, matchPts, winnerPts };
+}
+
+function clearMailImport() { const ta=document.getElementById('mail-import-text'); if(ta) ta.value=''; }
+function createEmptyBettor(name) { return { name, phases:[], bets:{}, winnerBets_p0:{}, winnerBets_p1:{}, winnerBets_p2:{} }; }
+function normalizeName(str) { return String(str||'').trim().toLowerCase(); }
+function parsePhaseLabelToCode(label) {
+  const raw = String(label||'').trim().toLowerCase();
+  if (raw==='avant le tournoi') return 'p0';
+  if (raw==='après tour 1'||raw==='apres tour 1') return 'p1';
+  if (raw==='après tour 2'||raw==='apres tour 2') return 'p2';
+  return null;
+}
+function getTourFromPhase(phase) { return {p0:1,p1:2,p2:3}[phase]||1; }
+
+function parseEmailBetText(rawText) {
+  const lines = String(rawText||'').replace(/\r/g,'').split('\n').map(l=>l.trim());
+  const nonEmpty = lines.filter(Boolean);
+  const bettorLine = nonEmpty.find(l=>l.toUpperCase().startsWith('PARIEUR;'));
+  if (!bettorLine) throw new Error('Ligne PARIEUR introuvable.');
+  const bettorName = bettorLine.split(';').slice(1).join(';').trim();
+  if (!bettorName) throw new Error('Nom du parieur vide.');
+
+  // Detect format: multi-phase (=== PHASE : ...) vs legacy (PHASE;...)
+  const isMultiPhase = nonEmpty.some(l => /^===\s*PHASE\s*:/i.test(l));
+
+  if (isMultiPhase) {
+    // Multi-phase format: collect all phases present in the email
+    const phases = []; // [{phase, winnerBets, rows}]
+    let currentPhase = null, currentWinners = {}, currentRows = [];
+    let inWinners = false, inMatches = false;
+
+    const flush = () => {
+      if (currentPhase) phases.push({ phase: currentPhase, winnerBets: currentWinners, rows: currentRows });
+    };
+
+    for (const line of lines) {
+      const phaseMatch = line.match(/^===\s*PHASE\s*:\s*(.+?)\s*===/i);
+      if (phaseMatch) {
+        flush();
+        const label = phaseMatch[1].trim();
+        currentPhase = parsePhaseLabelToCode(label);
+        if (!currentPhase) throw new Error('Phase non reconnue : ' + label);
+        currentWinners = {}; currentRows = []; inWinners = false; inMatches = false;
+        continue;
+      }
+      if (!currentPhase) continue;
+      if (/^--\s*Gagnants finaux/i.test(line))     { inWinners=true;  inMatches=false; continue; }
+      if (/^--\s*Paris sur les matchs/i.test(line)) { inWinners=false; inMatches=true;  continue; }
+      if (/^===/.test(line))                         { inWinners=false; inMatches=false; continue; }
+      if (inWinners) {
+        if (/^Tableau;Vainqueur prédit$/i.test(line)) continue;
+        const parts = line.split(';');
+        if (parts.length>=2 && /^Tableau\s+[123]/i.test(parts[0])) {
+          const tc=parts[0].trim(), wn=parts.slice(1).join(';').trim();
+          if (/^Tableau\s+1/i.test(tc)) currentWinners.t1=wn;
+          if (/^Tableau\s+2/i.test(tc)) currentWinners.t2=wn;
+          if (/^Tableau\s+3/i.test(tc)) currentWinners.t3=wn;
+        }
+      }
+      if (inMatches) {
+        if (/^Tableau;Match;Joueur;Rang prédit$/i.test(line)) continue;
+        const parts = line.split(';');
+        if (parts.length>=4) currentRows.push({ tableauLabel:parts[0].trim(), matchName:parts[1].trim(), player:parts[2].trim(), rank:parts[3].trim() });
+      }
+    }
+    flush();
+    if (phases.length === 0) throw new Error('Aucune phase trouvée dans le mail.');
+    return { bettorName, multiPhase: true, phases };
+
+  } else {
+    // Legacy single-phase format
+    const phaseLine = nonEmpty.find(l=>l.toUpperCase().startsWith('PHASE;'));
+    if (!phaseLine) throw new Error('Ligne PHASE introuvable.');
+    const phaseLabel = phaseLine.split(';').slice(1).join(';').trim();
+    const phase = parsePhaseLabelToCode(phaseLabel);
+    if (!phase) throw new Error('Phase non reconnue : '+phaseLabel);
+    const winnerBets = {};
+    const rows = [];
+    let inWinners=false, inMatches=false;
+    for (const line of nonEmpty) {
+      if (line.startsWith('=== GAGNANTS FINAUX'))     { inWinners=true;  inMatches=false; continue; }
+      if (line.startsWith('=== PARIS SUR LES MATCHS')){ inWinners=false; inMatches=true;  continue; }
+      if (inWinners) {
+        if (/^Tableau;Vainqueur prédit$/i.test(line)) continue;
+        const parts = line.split(';');
+        if (parts.length>=2 && /^Tableau\s+[123]/i.test(parts[0])) {
+          const tc=parts[0].trim(), wn=parts.slice(1).join(';').trim();
+          if (/^Tableau\s+1/i.test(tc)) winnerBets.t1=wn;
+          if (/^Tableau\s+2/i.test(tc)) winnerBets.t2=wn;
+          if (/^Tableau\s+3/i.test(tc)) winnerBets.t3=wn;
+        }
+      }
+      if (inMatches) {
+        if (/^Tableau;Match;Joueur;Rang prédit$/i.test(line)) continue;
+        const parts = line.split(';');
+        if (parts.length>=4) rows.push({ tableauLabel:parts[0].trim(), matchName:parts[1].trim(), player:parts[2].trim(), rank:parts[3].trim() });
+      }
+    }
+    return { bettorName, multiPhase: false, phases: [{ phase, winnerBets, rows }] };
+  }
+}
+
+function findMatchKeyFromImportedRow(phase, tableauLabel, matchName, playerName, MATCH_DEFS) {
+  const tour = getTourFromPhase(phase);
+  const tabNumMatch = String(tableauLabel).match(/Tableau\s+(\d+)/i);
+  const tabNum = tabNumMatch ? Number(tabNumMatch[1]) : null;
+  let candidates = MATCH_DEFS.filter(m => m.tour===tour && (!tabNum||m.tableau===tabNum) && normalizeName(m.name)===normalizeName(matchName));
+  if (playerName) { const wp=candidates.filter(m=>(m.players||[]).some(p=>normalizeName(p)===normalizeName(playerName))); if(wp.length>=1) return wp[0].key; }
+  return candidates.length>=1 ? candidates[0].key : null;
+}
+
+function getEligibleWinnerPlayers(tabIdx, phase, results) {
+  const br = buildEnrichedBrackets(results)[tabIdx];
+  if (phase==='p1') { const e=new Set(); [0,1].forEach(mi=>(br.tour2Matches[mi].players||[]).forEach(p=>{if(p&&p!=='-')e.add(p);})); return [...e]; }
+  if (phase==='p2') { const e=new Set(); (br.tour3Matches[0].players||[]).forEach(p=>{if(p&&p!=='-')e.add(p);}); return [...e]; }
+  return br.groups.flatMap(g=>g.players);
+}
+
+function importBetFromEmail() {
+  const raw = (document.getElementById('mail-import-text')?.value||'').trim();
+  if (!raw) { notify('❌ Collez le contenu du mail.', true); return; }
+  let parsed;
+  try { parsed = parseEmailBetText(raw); } catch(e) { notify('❌ '+e.message, true); return; }
+  const data = getData();
+  const results = data.results || {};
+  const locks = data.winnerLocks || {};
+  const MATCH_DEFS = buildMatchDefs(results);
+  const { bettorName, phases } = parsed;
+
+  let bettor = data.bettors.find(b => normalizeName(b.name)===normalizeName(bettorName));
+  if (!bettor) { bettor = createEmptyBettor(bettorName); data.bettors.push(bettor); }
+
+  const messages = [];
+  let totalImported = 0, totalSkipped = 0, totalUnresolved = 0, totalWinners = 0;
+
+  for (const { phase, winnerBets, rows } of phases) {
+    // ── Matchs ──
+    const groupedByMatch = {};
+    rows.forEach(r => {
+      const key = findMatchKeyFromImportedRow(phase, r.tableauLabel, r.matchName, r.player, MATCH_DEFS);
+      if (!key) { totalUnresolved++; return; }
+      if (!groupedByMatch[key]) groupedByMatch[key] = {};
+      groupedByMatch[key][r.player] = r.rank;
+    });
+
+    Object.entries(groupedByMatch).forEach(([key, bet]) => {
+      if (bettor.bets[key] && Object.keys(bettor.bets[key]).length > 0) {
+        const m = MATCH_DEFS.find(x=>x.key===key);
+        messages.push(`⏭ ${m ? m.label+' / '+m.name : key} ignoré (déjà parié).`);
+        totalSkipped++;
+        return;
+      }
+      if (!bettor.bets[key]) bettor.bets[key] = {};
+      Object.assign(bettor.bets[key], bet);
+      totalImported++;
+    });
+
+    // ── Gagnants finaux ──
+    bettor[`winnerBets_${phase}`] = bettor[`winnerBets_${phase}`] || {};
+    ['t1','t2','t3'].forEach((tab, ti) => {
+      const newPick = winnerBets[tab];
+      if (!newPick || newPick === 'Non renseigné') return;
+
+      // Déjà un pari sur ce gagnant (toutes phases confondues) → bloquer
+      const alreadyBet = ['p0','p1','p2'].some(ph => { const v=(bettor[`winnerBets_${ph}`]||{})[tab]; return v && v.trim(); });
+      if (alreadyBet) {
+        messages.push(`⏭ Gagnant T${ti+1} ignoré (déjà un pari enregistré pour ${bettorName}).`);
+        return;
+      }
+
+      if (locks[tab]) {
+        messages.push(`🔒 Gagnant T${ti+1} ignoré (verrouillé par l'admin).`);
+        return;
+      }
+
+      const eligible = getEligibleWinnerPlayers(ti, phase, results);
+      if ((phase==='p1'||phase==='p2') && eligible.length>0 && !eligible.includes(newPick)) {
+        messages.push(`⚠️ ${newPick} n'est plus éligible comme vainqueur T${ti+1}.`);
+        return;
+      }
+
+      bettor[`winnerBets_${phase}`][tab] = newPick;
+      totalWinners++;
+    });
+
+    if (!bettor.phases.includes(phase)) bettor.phases.push(phase);
+  }
+
+  saveData(data);
+  renderBettorsList(data);
+  updateRawPreview(data);
+  clearMailImport();
+
+  // Résumé
+  const parts = [];
+  if (totalImported > 0) parts.push(`${totalImported} match(s) importé(s)`);
+  if (totalWinners > 0) parts.push(`${totalWinners} gagnant(s) final/finaux enregistré(s)`);
+  if (totalSkipped > 0) parts.push(`${totalSkipped} match(s) ignoré(s) (doublon)`);
+  if (totalUnresolved > 0) parts.push(`${totalUnresolved} ligne(s) non résolue(s)`);
+  const hasAnything = totalImported > 0 || totalWinners > 0;
+  const summary = hasAnything
+    ? `✅ ${bettorName} : ${parts.join(', ')}`
+    : `⚠️ ${bettorName} : rien de nouveau à importer (${parts.join(', ') || 'aucune donnée reconnue'})`;
+  notify(summary, !hasAnything);
+  if (messages.length > 0) console.info('[Import paris]\n' + messages.join('\n'));
+}
+
+function exportData() {
+  const data = getData();
+  const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href=url; a.download=`mk_paris_${new Date().toISOString().slice(0,10)}.json`; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importData(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.bettors||!data.results) throw new Error('Format invalide');
+      if (!data.winnerLocks) data.winnerLocks = { t1:false, t2:false, t3:false };
+      localStorage.setItem(LS_KEY, JSON.stringify(data));
+      initAdmin();
+      notify('✅ Données importées !');
+    } catch { notify('❌ Fichier JSON invalide.', true); }
+  };
+  reader.readAsText(file);
+  input.value = '';
+}
+
+function confirmClearData() {
+  if (!confirm('⚠️ TOUT supprimer ? Cette action est irréversible.')) return;
+  localStorage.removeItem(LS_KEY);
+  initAdmin();
+  notify('Données réinitialisées.');
+}
+
+function esc(str) { return String(str||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#039;"); }
+function escJs(str) { return String(str||'').replaceAll('\\','\\\\').replaceAll("'","\\'"); }
+function encodeForId(str) { return btoa(unescape(encodeURIComponent(String(str)))).replaceAll('=','').replaceAll('+','-').replaceAll('/','_'); }
+</script>
+</body>
+</html>
