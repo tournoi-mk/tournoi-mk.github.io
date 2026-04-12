@@ -68,13 +68,13 @@
     .lb-table tr:hover td { background:rgba(255,255,255,0.03); }
     .lb-rank-num { font-family:'Russo One',sans-serif; font-size:1rem; color:rgba(255,255,255,0.3); width:36px; }
     .lb-name { font-weight:700; color:rgba(255,255,255,0.9); }
-    .lb-pts { text-align:right; font-family:'Russo One',sans-serif; font-size:1.05rem; color:#8ec1ff; }
+    .lb-pts { text-align:right; font-family:'Russo One',sans-serif; font-size:1.2rem; color:#8ec1ff; }
     .lb-breakdown { text-align:right; font-size:0.75rem; color:rgba(255,255,255,0.28); letter-spacing:0.03em; }
     .lb-phase-badges { display:flex; gap:5px; flex-wrap:wrap; }
     .phase-badge { font-size:0.64rem; padding:2px 7px; border-radius:20px; font-family:'Russo One',sans-serif; letter-spacing:0.05em; border:1px solid; }
     .pb-p0 { background:transparent; border-color:transparent; color:rgba(255,255,255,0.28); font-family:'Exo 2',sans-serif; font-weight:400; letter-spacing:0.03em; }
-    .pb-p1 { background:rgba(232,0,29,0.08); border-color:rgba(232,0,29,0.3); color:#ff8090; }
-    .pb-p2 { background:rgba(255,215,0,0.08); border-color:rgba(255,215,0,0.3); color:var(--yellow); }
+    .pb-p1 { background:transparent; border-color:transparent; color:rgba(255,255,255,0.28); font-family:'Exo 2',sans-serif; font-weight:400; letter-spacing:0.03em; }
+    .pb-p2 { background:transparent; border-color:transparent; color:rgba(255,255,255,0.28); font-family:'Exo 2',sans-serif; font-weight:400; letter-spacing:0.03em; }
     .lb-empty { text-align:center; padding:40px 20px; color:rgba(255,255,255,0.25); font-style:italic; font-size:0.9rem; }
     .cotes-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:4px; }
     @media(max-width:720px) { .cotes-grid { grid-template-columns:1fr; } }
@@ -190,7 +190,7 @@ function renderAll(data) {
   const scored = bettors.map(b => ({ ...b, score: computeScore(b, results) }));
   scored.sort((a, b) => b.score.total - a.score.total || a.name.localeCompare(b.name, 'fr'));
   document.getElementById('subtitle-line').textContent =
-    `${scored.length} parieur${scored.length > 1 ? 's' : ''} · Matchs joués : ${countPlayedMatches(results)}`;
+    `${scored.length} parieur${scored.length > 1 ? 's' : ''} · ${countPlayedMatches(results) <= 1 ? 'Match joué' : 'Matchs joués'} : ${countPlayedMatches(results)}`;
   renderStats(scored, results);
   renderPodium(scored);
   renderTable(scored);
@@ -208,7 +208,7 @@ function renderStats(scored, results) {
   wrap.style.display = 'flex';
   wrap.innerHTML = `
     <div class="stat-chip"><span class="stat-val">${scored.length}</span><span class="stat-lbl">Parieurs</span></div>
-    <div class="stat-chip"><span class="stat-val">${played}</span><span class="stat-lbl">Matchs joués</span></div>
+    <div class="stat-chip"><span class="stat-val">${played}</span><span class="stat-lbl">${played <= 1 ? 'Match joué' : 'Matchs joués'}</span></div>
     <div class="stat-chip"><span class="stat-val">${maxPts}</span><span class="stat-lbl">Score max</span></div>`;
 }
 
@@ -297,7 +297,7 @@ function renderTable(scored) {
   });
   tbody.innerHTML = scored.map((b, i) => {
     const phaseBadges = (b.score.phases || []).map(p => {
-      const labels = { p0:'avant', p1:'T1', p2:'T2' };
+      const labels = { p0:'avant', p1:'après T1', p2:'après T2' };
       return `<span class="phase-badge pb-${p}">${labels[p] || p}</span>`;
     }).join('');
     const rankDisplay = ranks[i] !== null
