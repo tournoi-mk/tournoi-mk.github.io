@@ -72,7 +72,7 @@
     .lb-breakdown { text-align:right; font-size:0.75rem; color:rgba(255,255,255,0.28); letter-spacing:0.03em; }
     .lb-phase-badges { display:flex; gap:5px; flex-wrap:wrap; }
     .phase-badge { font-size:0.64rem; padding:2px 7px; border-radius:20px; font-family:'Russo One',sans-serif; letter-spacing:0.05em; border:1px solid; }
-    .pb-p0 { background:rgba(79,143,240,0.1); border-color:rgba(79,143,240,0.35); color:#8ec1ff; }
+    .pb-p0 { background:transparent; border-color:transparent; color:rgba(255,255,255,0.28); font-family:'Exo 2',sans-serif; font-weight:400; letter-spacing:0.03em; }
     .pb-p1 { background:rgba(232,0,29,0.08); border-color:rgba(232,0,29,0.3); color:#ff8090; }
     .pb-p2 { background:rgba(255,215,0,0.08); border-color:rgba(255,215,0,0.3); color:var(--yellow); }
     .lb-empty { text-align:center; padding:40px 20px; color:rgba(255,255,255,0.25); font-style:italic; font-size:0.9rem; }
@@ -297,7 +297,7 @@ function renderTable(scored) {
   });
   tbody.innerHTML = scored.map((b, i) => {
     const phaseBadges = (b.score.phases || []).map(p => {
-      const labels = { p0:'Avant', p1:'T1', p2:'T2' };
+      const labels = { p0:'avant', p1:'T1', p2:'T2' };
       return `<span class="phase-badge pb-${p}">${labels[p] || p}</span>`;
     }).join('');
     const rankDisplay = ranks[i] !== null
@@ -307,7 +307,7 @@ function renderTable(scored) {
       <td class="lb-rank-num">${rankDisplay}</td>
       <td class="lb-name">${esc(b.name)}</td>
       <td><div class="lb-phase-badges">${phaseBadges || '<span style="color:rgba(255,255,255,0.2);font-size:0.75rem">—</span>'}</div></td>
-      <td class="lb-breakdown">${b.score.matchPts} pts matchs · ${b.score.winnerPts} pts vainqueurs</td>
+      <td class="lb-breakdown">${b.score.matchPts} ${b.score.matchPts <= 1 ? 'pt' : 'pts'} matchs · ${b.score.winnerPts} ${b.score.winnerPts <= 1 ? 'pt' : 'pts'} vainqueurs</td>
       <td class="lb-pts">${b.score.total} <span style="font-size:0.65rem;opacity:0.5">${b.score.total <= 1 ? 'pt' : 'pts'}</span></td>
     </tr>`;
   }).join('');
