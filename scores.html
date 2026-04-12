@@ -287,13 +287,24 @@ function renderTable(scored) {
     tbody.innerHTML = `<tr><td colspan="5" class="lb-empty">Aucun parieur enregistré pour le moment.</td></tr>`;
     return;
   }
+  // Calcul des rangs avec ex-aequo
+  let rank = 1;
+  const ranks = scored.map((b, i) => {
+    if (i === 0) { rank = 1; return 1; }
+    if (b.score.total === scored[i - 1].score.total) return null; // ex-aequo : tiret
+    rank = i + 1;
+    return rank;
+  });
   tbody.innerHTML = scored.map((b, i) => {
     const phaseBadges = (b.score.phases || []).map(p => {
       const labels = { p0:'Avant', p1:'T1', p2:'T2' };
       return `<span class="phase-badge pb-${p}">${labels[p] || p}</span>`;
     }).join('');
+    const rankDisplay = ranks[i] !== null
+      ? ranks[i]
+      : '<span style="color:rgba(255,255,255,0.18);font-size:0.85rem">—</span>';
     return `<tr>
-      <td class="lb-rank-num">${i + 1}</td>
+      <td class="lb-rank-num">${rankDisplay}</td>
       <td class="lb-name">${esc(b.name)}</td>
       <td><div class="lb-phase-badges">${phaseBadges || '<span style="color:rgba(255,255,255,0.2);font-size:0.75rem">—</span>'}</div></td>
       <td class="lb-breakdown">${b.score.matchPts} pts matchs · ${b.score.winnerPts} pts vainqueurs</td>
