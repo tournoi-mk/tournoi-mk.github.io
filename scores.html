@@ -188,7 +188,7 @@ function renderAll(data) {
   const bettors = data.bettors || [];
   const results = data.results || {};
   const scored = bettors.map(b => ({ ...b, score: computeScore(b, results) }));
-  scored.sort((a, b) => b.score.total - a.score.total);
+  scored.sort((a, b) => b.score.total - a.score.total || a.name.localeCompare(b.name, 'fr'));
   document.getElementById('subtitle-line').textContent =
     `${scored.length} parieur${scored.length > 1 ? 's' : ''} · Matchs joués : ${countPlayedMatches(results)}`;
   renderStats(scored, results);
@@ -308,7 +308,7 @@ function renderTable(scored) {
       <td class="lb-name">${esc(b.name)}</td>
       <td><div class="lb-phase-badges">${phaseBadges || '<span style="color:rgba(255,255,255,0.2);font-size:0.75rem">—</span>'}</div></td>
       <td class="lb-breakdown">${b.score.matchPts} pts matchs · ${b.score.winnerPts} pts vainqueurs</td>
-      <td class="lb-pts">${b.score.total}</td>
+      <td class="lb-pts">${b.score.total} <span style="font-size:0.65rem;opacity:0.5">${b.score.total <= 1 ? 'pt' : 'pts'}</span></td>
     </tr>`;
   }).join('');
 }
