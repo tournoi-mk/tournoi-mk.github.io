@@ -6,29 +6,12 @@
   <title>Scores des Paris — Mario Kart Tournoi</title>
   <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Exo+2:wght@400;600;700;900&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --red: #E8001D; --blue: #0052A5; --yellow: #FFD700; --dark: #07071a;
-      --red-glow: rgba(232,0,29,0.5); --blue-glow: rgba(0,82,165,0.5); --yellow-glow: rgba(255,215,0,0.5);
-    }
+    :root { --red:#E8001D; --blue:#0052A5; --yellow:#FFD700; --dark:#07071a; --red-glow:rgba(232,0,29,0.5); --blue-glow:rgba(0,82,165,0.5); --yellow-glow:rgba(255,215,0,0.5); }
     * { margin:0; padding:0; box-sizing:border-box; }
     body { background:var(--dark); font-family:'Exo 2',sans-serif; color:#fff; min-height:100vh; }
-    .bg {
-      position:fixed; inset:0; z-index:0;
-      background:
-        radial-gradient(ellipse 70% 50% at 30% 10%,rgba(232,0,29,0.10),transparent 60%),
-        radial-gradient(ellipse 60% 40% at 80% 80%,rgba(255,215,0,0.08),transparent 60%),
-        linear-gradient(180deg,#060610 0%,#0A0A1E 100%);
-    }
-    .top-bar {
-      position:sticky; top:0; z-index:100;
-      display:grid; grid-template-columns:1fr auto 1fr; align-items:center;
-      padding:0 28px; min-height:64px;
-      background:rgba(7,7,26,0.92); backdrop-filter:blur(12px);
-      border-bottom:1px solid rgba(232,0,29,0.30); box-shadow:0 4px 32px rgba(0,0,0,0.5); gap:16px;
-    }
-    .brand-wrap { justify-self:start; }
-    .title-wrap  { justify-self:center; }
-    .back-wrap   { justify-self:end; }
+    .bg { position:fixed; inset:0; z-index:0; background: radial-gradient(ellipse 70% 50% at 30% 10%,rgba(232,0,29,0.10),transparent 60%), radial-gradient(ellipse 60% 40% at 80% 80%,rgba(255,215,0,0.08),transparent 60%), linear-gradient(180deg,#060610 0%,#0A0A1E 100%); }
+    .top-bar { position:sticky; top:0; z-index:100; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; padding:0 28px; min-height:64px; background:rgba(7,7,26,0.92); backdrop-filter:blur(12px); border-bottom:1px solid rgba(232,0,29,0.30); box-shadow:0 4px 32px rgba(0,0,0,0.5); gap:16px; }
+    .brand-wrap { justify-self:start; } .title-wrap { justify-self:center; } .back-wrap { justify-self:end; }
     .brand { font-family:'Russo One',sans-serif; font-size:0.9rem; letter-spacing:0.1em; color:var(--yellow); text-decoration:none; text-shadow:0 0 12px rgba(255,215,0,0.6); white-space:nowrap; }
     .brand span { color:rgba(255,255,255,0.5); }
     .top-title { text-align:center; font-family:'Russo One',sans-serif; font-size:1.3rem; letter-spacing:0.15em; text-transform:uppercase; white-space:nowrap; }
@@ -52,13 +35,9 @@
     .p3 { border-color:#CD7F32; box-shadow:0 0 14px rgba(205,127,50,0.18); }
     .podium-rank { font-size:2rem; margin-bottom:6px; display:block; }
     .podium-name { font-family:'Russo One',sans-serif; font-size:0.95rem; letter-spacing:0.05em; margin-bottom:8px; }
-    .p1 .podium-name { color:var(--yellow); font-size:1.1rem; }
-    .p2 .podium-name { color:#C0C0C0; }
-    .p3 .podium-name { color:#CD7F32; }
+    .p1 .podium-name { color:var(--yellow); font-size:1.1rem; } .p2 .podium-name { color:#C0C0C0; } .p3 .podium-name { color:#CD7F32; }
     .podium-pts { font-family:'Russo One',sans-serif; font-size:1.6rem; }
-    .p1 .podium-pts { font-size:2rem; color:var(--yellow); }
-    .p2 .podium-pts { color:#C0C0C0; }
-    .p3 .podium-pts { color:#CD7F32; }
+    .p1 .podium-pts { font-size:2rem; color:var(--yellow); } .p2 .podium-pts { color:#C0C0C0; } .p3 .podium-pts { color:#CD7F32; }
     .pts-label { font-size:0.72rem; color:rgba(255,255,255,0.35); letter-spacing:0.1em; }
     .lb-table { width:100%; border-collapse:collapse; margin-bottom:8px; }
     .lb-table th { font-family:'Russo One',sans-serif; font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.35); padding:9px 14px; text-align:left; border-bottom:1px solid rgba(255,255,255,0.08); }
@@ -72,16 +51,14 @@
     .lb-breakdown { text-align:right; font-size:0.75rem; color:rgba(255,255,255,0.28); letter-spacing:0.03em; }
     .lb-phase-badges { display:flex; gap:5px; flex-wrap:wrap; }
     .phase-badge { font-size:0.64rem; padding:2px 7px; border-radius:20px; font-family:'Russo One',sans-serif; letter-spacing:0.05em; border:1px solid; }
-    .pb-p0 { background:transparent; border-color:transparent; color:rgba(255,255,255,0.28); font-family:'Exo 2',sans-serif; font-weight:400; letter-spacing:0.03em; }
-    .pb-p1 { background:transparent; border-color:transparent; color:rgba(255,255,255,0.28); font-family:'Exo 2',sans-serif; font-weight:400; letter-spacing:0.03em; }
-    .pb-p2 { background:transparent; border-color:transparent; color:rgba(255,255,255,0.28); font-family:'Exo 2',sans-serif; font-weight:400; letter-spacing:0.03em; }
+    .pb-p0,.pb-p1,.pb-p2 { background:transparent; border-color:transparent; color:rgba(255,255,255,0.28); font-family:'Exo 2',sans-serif; font-weight:400; letter-spacing:0.03em; }
     .lb-empty { text-align:center; padding:40px 20px; color:rgba(255,255,255,0.25); font-style:italic; font-size:0.9rem; }
     .cotes-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:4px; }
     @media(max-width:720px) { .cotes-grid { grid-template-columns:1fr; } }
     .cotes-panel { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.09); border-radius:12px; overflow:hidden; }
     .cotes-panel-head { padding:12px 16px; font-family:'Russo One',sans-serif; font-size:0.82rem; letter-spacing:0.09em; display:flex; align-items:center; gap:8px; }
-    .cp-blue   { background:rgba(0,82,165,0.25);   color:#6eb4ff;      border-bottom:1px solid rgba(0,82,165,0.3); }
-    .cp-red    { background:rgba(232,0,29,0.20);   color:#ff8090;      border-bottom:1px solid rgba(232,0,29,0.3); }
+    .cp-blue   { background:rgba(0,82,165,0.25);   color:#6eb4ff;       border-bottom:1px solid rgba(0,82,165,0.3); }
+    .cp-red    { background:rgba(232,0,29,0.20);   color:#ff8090;       border-bottom:1px solid rgba(232,0,29,0.3); }
     .cp-yellow { background:rgba(255,215,0,0.14);  color:var(--yellow); border-bottom:1px solid rgba(255,215,0,0.3); }
     .cotes-list { padding:12px 0; }
     .cotes-row { display:flex; align-items:center; justify-content:space-between; padding:7px 16px; transition:background 0.15s; }
@@ -111,72 +88,54 @@
 </head>
 <body>
 <div class="bg"></div>
-
 <div class="top-bar">
-  <div class="brand-wrap">
-    <a href="index.html" class="brand">🏆 <span>TOURNOI INTERNE</span> MARIO KART</a>
-  </div>
-  <div class="title-wrap">
-    <div class="top-title">SCORES DES PARIS</div>
-  </div>
-  <div class="back-wrap">
-    <a href="index.html" class="back-btn">← Accueil</a>
-  </div>
+  <div class="brand-wrap"><a href="index.html" class="brand">🏆 <span>TOURNOI INTERNE</span> MARIO KART</a></div>
+  <div class="title-wrap"><div class="top-title">SCORES DES PARIS</div></div>
+  <div class="back-wrap"><a href="index.html" class="back-btn">← Accueil</a></div>
 </div>
 
 <div class="page">
   <h1>🏆 CLASSEMENT DES PARIEURS</h1>
   <p class="subtitle" id="subtitle-line">Chargement des données…</p>
-
   <div class="refresh-bar">
     <span class="last-update" id="last-update-label"></span>
     <button class="refresh-btn" onclick="loadData()">↻ Actualiser</button>
   </div>
-
   <div class="stats-row" id="stats-row" style="display:none"></div>
   <div id="podium-wrap"></div>
-
-  <div class="section-head" style="color:rgba(255,255,255,0.7);">
-    🎯 Classement complet
-    <div class="sh-line"></div>
-  </div>
+  <div class="section-head" style="color:rgba(255,255,255,0.7);">🎯 Classement complet<div class="sh-line"></div></div>
   <table class="lb-table" id="lb-table">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Parieur</th>
-        <th>Phases</th>
-        <th class="right">Détail</th>
-        <th class="right">Total pts</th>
-      </tr>
-    </thead>
+    <thead><tr><th>#</th><th>Parieur</th><th>Phases</th><th class="right">Détail</th><th class="right">Total pts</th></tr></thead>
     <tbody id="lb-body"></tbody>
   </table>
-
-  <div class="section-head" style="color:rgba(255,255,255,0.7); margin-top:56px;">
-    📊 Côtes — Pronostics de vainqueurs
-    <div class="sh-line"></div>
-  </div>
-  <p style="font-size:0.8rem;color:rgba(255,255,255,0.3);margin-bottom:18px;">
-    Nombre de parieurs ayant désigné chaque joueur comme vainqueur de tableau.
-  </p>
+  <div class="section-head" style="color:rgba(255,255,255,0.7);margin-top:56px;">📊 Côtes — Pronostics de vainqueurs<div class="sh-line"></div></div>
+  <p style="font-size:0.8rem;color:rgba(255,255,255,0.3);margin-bottom:18px;">Nombre de parieurs ayant désigné chaque joueur comme vainqueur de tableau.</p>
   <div class="cotes-grid" id="cotes-grid"></div>
 </div>
 
 <script>
-function loadData() {
-  const raw = localStorage.getItem('mk_tournament_data');
-  if (!raw) { showEmpty(); return; }
+/* ════ JSONBIN CONFIG — lecture publique, pas besoin d'API key ════ */
+const BIN_ID = '69dcd3cb36566621a8aa660e';
+
+async function loadData() {
+  document.getElementById('last-update-label').textContent = 'Actualisation…';
   try {
-    const data = JSON.parse(raw);
+    const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`);
+    if (!r.ok) throw new Error('fetch ' + r.status);
+    const json = await r.json();
+    const data = json.record || {};
     renderAll(data);
     const ts = data.lastUpdate ? new Date(data.lastUpdate).toLocaleString('fr-FR') : '—';
     document.getElementById('last-update-label').textContent = 'Mis à jour le ' + ts;
-  } catch(e) { showEmpty(); }
+  } catch(e) {
+    showEmpty();
+    document.getElementById('last-update-label').textContent = '⚠️ Erreur de chargement';
+    console.error(e);
+  }
 }
 
 function showEmpty() {
-  document.getElementById('subtitle-line').textContent = 'Aucun paris saisi pour le moment.';
+  document.getElementById('subtitle-line').textContent = 'Aucun pari saisi pour le moment.';
   document.getElementById('last-update-label').textContent = '';
   document.getElementById('podium-wrap').innerHTML = '';
   document.getElementById('lb-body').innerHTML = `<tr><td colspan="5" class="lb-empty">Aucun parieur enregistré pour le moment.</td></tr>`;
@@ -189,8 +148,8 @@ function renderAll(data) {
   const results = data.results || {};
   const scored = bettors.map(b => ({ ...b, score: computeScore(b, results) }));
   scored.sort((a, b) => b.score.total - a.score.total || a.name.localeCompare(b.name, 'fr'));
-  document.getElementById('subtitle-line').textContent =
-    `${scored.length} parieur${scored.length > 1 ? 's' : ''} · ${countPlayedMatches(results) <= 1 ? 'Match joué' : 'Matchs joués'} : ${countPlayedMatches(results)}`;
+  const played = countPlayedMatches(results);
+  document.getElementById('subtitle-line').textContent = `${scored.length} parieur${scored.length > 1 ? 's' : ''} · ${played <= 1 ? 'Match joué' : 'Matchs joués'} : ${played}`;
   renderStats(scored, results);
   renderPodium(scored);
   renderTable(scored);
@@ -212,9 +171,6 @@ function renderStats(scored, results) {
     <div class="stat-chip"><span class="stat-val">${maxPts}</span><span class="stat-lbl">Score max</span></div>`;
 }
 
-/* ════════════════════════════════════════════════════════════
-   VAINQUEUR RÉEL = joueur classé 1er du match 1 du tour 3
-════════════════════════════════════════════════════════════ */
 function getActualWinner(tabNumber, results) {
   const key = `t${tabNumber}_tour3_m0`;
   const res = results[key];
@@ -222,40 +178,25 @@ function getActualWinner(tabNumber, results) {
   return Object.entries(res.ranks).find(([, rank]) => String(rank) === '1')?.[0] || null;
 }
 
-/* ════════════════════════════════════════════════════════════
-   CALCUL DU SCORE
-   +1 pt par joueur bien classé dans un match
-   +20 pts si pari vainqueur (phase 0) = 1er du match 1 tour 3
-════════════════════════════════════════════════════════════ */
 function computeScore(bettor, results) {
-  let matchPts = 0;
-  let winnerPts = 0;
-
+  let matchPts = 0, winnerPts = 0;
   const bets = bettor.bets || {};
   for (const matchKey of Object.keys(bets)) {
     const res = results[matchKey];
     if (!res || !res.played) continue;
-    const bet = bets[matchKey];
-    for (const [player, predictedRank] of Object.entries(bet)) {
-      if (res.ranks && res.ranks[player] && String(res.ranks[player]) === String(predictedRank)) {
-        matchPts++;
-      }
+    for (const [player, predictedRank] of Object.entries(bets[matchKey])) {
+      if (res.ranks && res.ranks[player] && String(res.ranks[player]) === String(predictedRank)) matchPts++;
     }
   }
-
-  [1, 2, 3].forEach(tabNum => {
+  [1,2,3].forEach(tabNum => {
     const actual = getActualWinner(tabNum, results);
     if (!actual) return;
     const p0 = (bettor.winnerBets_p0 || {})[`t${tabNum}`];
     if (p0 && p0 === actual) winnerPts += 20;
   });
-
   return { total: matchPts + winnerPts, matchPts, winnerPts, phases: bettor.phases || [] };
 }
 
-/* ════════════════════════════════════════════════════════════
-   PODIUM
-════════════════════════════════════════════════════════════ */
 function renderPodium(scored) {
   const wrap = document.getElementById('podium-wrap');
   if (scored.length === 0) { wrap.innerHTML = ''; return; }
@@ -266,43 +207,24 @@ function renderPodium(scored) {
   order.forEach(i => {
     const b = scored[i];
     if (!b) return;
-    html += `
-      <div class="podium-card ${cls[i]}">
-        <span class="podium-rank">${medals[i]}</span>
-        <div class="podium-name">${esc(b.name)}</div>
-        <div class="podium-pts">${b.score.total}</div>
-        <div class="pts-label">POINTS</div>
-      </div>`;
+    html += `<div class="podium-card ${cls[i]}"><span class="podium-rank">${medals[i]}</span><div class="podium-name">${esc(b.name)}</div><div class="podium-pts">${b.score.total}</div><div class="pts-label">POINTS</div></div>`;
   });
   html += '</div>';
   wrap.innerHTML = html;
 }
 
-/* ════════════════════════════════════════════════════════════
-   TABLEAU CLASSEMENT
-════════════════════════════════════════════════════════════ */
 function renderTable(scored) {
   const tbody = document.getElementById('lb-body');
-  if (scored.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="5" class="lb-empty">Aucun parieur enregistré pour le moment.</td></tr>`;
-    return;
-  }
-  // Calcul des rangs avec ex-aequo
+  if (scored.length === 0) { tbody.innerHTML = `<tr><td colspan="5" class="lb-empty">Aucun parieur enregistré pour le moment.</td></tr>`; return; }
   let rank = 1;
   const ranks = scored.map((b, i) => {
     if (i === 0) { rank = 1; return 1; }
-    if (b.score.total === scored[i - 1].score.total) return null; // ex-aequo : tiret
-    rank = i + 1;
-    return rank;
+    if (b.score.total === scored[i - 1].score.total) return null;
+    rank = i + 1; return rank;
   });
   tbody.innerHTML = scored.map((b, i) => {
-    const phaseBadges = (b.score.phases || []).map(p => {
-      const labels = { p0:'avant', p1:'après T1', p2:'après T2' };
-      return `<span class="phase-badge pb-${p}">${labels[p] || p}</span>`;
-    }).join('');
-    const rankDisplay = ranks[i] !== null
-      ? ranks[i]
-      : '<span style="color:rgba(255,255,255,0.18);font-size:0.85rem">—</span>';
+    const phaseBadges = (b.score.phases || []).map(p => { const labels = { p0:'avant', p1:'après T1', p2:'après T2' }; return `<span class="phase-badge pb-${p}">${labels[p] || p}</span>`; }).join('');
+    const rankDisplay = ranks[i] !== null ? ranks[i] : '<span style="color:rgba(255,255,255,0.18);font-size:0.85rem">—</span>';
     return `<tr>
       <td class="lb-rank-num">${rankDisplay}</td>
       <td class="lb-name">${esc(b.name)}</td>
@@ -313,23 +235,15 @@ function renderTable(scored) {
   }).join('');
 }
 
-/* ════════════════════════════════════════════════════════════
-   CÔTES
-════════════════════════════════════════════════════════════ */
 function buildCotes(bettors) {
   const cotes = { t1:{}, t2:{}, t3:{} };
   bettors.forEach(b => {
     ['p0','p1','p2'].forEach(phase => {
       const wb = b[`winnerBets_${phase}`] || {};
-      ['t1','t2','t3'].forEach(tab => {
-        const pick = wb[tab];
-        if (pick) cotes[tab][pick] = (cotes[tab][pick] || 0) + 1;
-      });
+      ['t1','t2','t3'].forEach(tab => { const pick = wb[tab]; if (pick) cotes[tab][pick] = (cotes[tab][pick] || 0) + 1; });
     });
   });
-  const toArr = obj => Object.entries(obj)
-    .sort((a,b) => b[1]-a[1])
-    .map(([name,count]) => ({ name, count }));
+  const toArr = obj => Object.entries(obj).sort((a,b) => b[1]-a[1]).map(([name,count]) => ({ name, count }));
   return { t1: toArr(cotes.t1), t2: toArr(cotes.t2), t3: toArr(cotes.t3) };
 }
 
@@ -338,7 +252,7 @@ function renderCotes(cotes) {
   const tabs = [
     { key:'t1', label:'Tableau 1 · 1er général',  cls:'cp-blue',   fill:'fill-blue' },
     { key:'t2', label:'Tableau 2 · 17e général',  cls:'cp-red',    fill:'fill-red' },
-    { key:'t3', label:'Tableau 3 · 33e général',  cls:'cp-yellow', fill:'fill-yellow' },
+    { key:'t3', label:'Tableau 3 · 33e général',  cls:'cp-yellow', fill:'fill-yellow' }
   ];
   wrap.innerHTML = tabs.map(tab => {
     const list = cotes[tab.key] || [];
@@ -346,30 +260,12 @@ function renderCotes(cotes) {
     const totalVotes = list.reduce((s,x) => s + x.count, 0);
     const rows = list.length === 0
       ? `<div class="cotes-empty">Aucun pronostic enregistré</div>`
-      : list.map((item, i) => `
-          <div class="cotes-row">
-            <span class="cotes-player">
-              ${i === 0 ? '<span class="cotes-crown">👑</span>' : ''}${esc(item.name)}
-            </span>
-            <div class="cotes-bar-wrap">
-              <div class="cotes-bar-bg">
-                <div class="cotes-bar-fill ${tab.fill}" style="width:${Math.round(item.count/maxCount*100)}%"></div>
-              </div>
-            </div>
-            <span class="cotes-count">${item.count}×</span>
-          </div>`).join('');
-    return `
-      <div class="cotes-panel">
-        <div class="cotes-panel-head ${tab.cls}">🏆 ${tab.label}</div>
-        <div class="cotes-list">${rows}</div>
-        ${totalVotes > 0 ? `<div style="padding:6px 16px 12px;font-size:0.72rem;color:rgba(255,255,255,0.22);text-align:right;">${totalVotes} vote${totalVotes>1?'s':''} total</div>` : ''}
-      </div>`;
+      : list.map((item, i) => `<div class="cotes-row"><span class="cotes-player">${i === 0 ? '<span class="cotes-crown">👑</span>' : ''}${esc(item.name)}</span><div class="cotes-bar-wrap"><div class="cotes-bar-bg"><div class="cotes-bar-fill ${tab.fill}" style="width:${Math.round(item.count/maxCount*100)}%"></div></div></div><span class="cotes-count">${item.count}×</span></div>`).join('');
+    return `<div class="cotes-panel"><div class="cotes-panel-head ${tab.cls}">🏆 ${tab.label}</div><div class="cotes-list">${rows}</div>${totalVotes > 0 ? `<div style="padding:6px 16px 12px;font-size:0.72rem;color:rgba(255,255,255,0.22);text-align:right;">${totalVotes} vote${totalVotes>1?'s':''} total</div>` : ''}</div>`;
   }).join('');
 }
 
-function esc(str) {
-  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
-}
+function esc(str) { return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;'); }
 
 loadData();
 </script>
