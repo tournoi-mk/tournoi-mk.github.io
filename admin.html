@@ -98,15 +98,11 @@
     .import-preview-box { margin-top:14px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:14px; }
     .import-preview-title { font-family:'Russo One',sans-serif; font-size:0.75rem; letter-spacing:0.08em; color:rgba(255,255,255,0.45); margin-bottom:10px; text-transform:uppercase; }
     .pill { display:inline-block; padding:4px 8px; border-radius:999px; font-size:0.68rem; border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.7); margin-right:6px; margin-bottom:6px; }
-
-    /* ── TOGGLE SWITCH ── */
     .lock-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
     @media(max-width:700px) { .lock-grid { grid-template-columns:1fr; } }
     .lock-card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:18px 20px; display:flex; flex-direction:column; gap:14px; }
     .lock-card-title { font-family:'Russo One',sans-serif; font-size:0.82rem; letter-spacing:0.08em; }
-    .lct-blue   { color:#6eb4ff; }
-    .lct-red    { color:#ff8090; }
-    .lct-yellow { color:var(--yellow); }
+    .lct-blue   { color:#6eb4ff; } .lct-red { color:#ff8090; } .lct-yellow { color:var(--yellow); }
     .lock-row { display:flex; align-items:center; justify-content:space-between; gap:10px; }
     .lock-label { font-size:0.78rem; color:rgba(255,255,255,0.55); line-height:1.4; }
     .toggle-switch { position:relative; width:46px; height:24px; flex-shrink:0; cursor:pointer; }
@@ -118,6 +114,10 @@
     .lock-status { font-size:0.68rem; font-family:'Russo One',sans-serif; letter-spacing:0.06em; text-align:center; padding:4px 10px; border-radius:20px; }
     .lock-status.open   { background:rgba(0,201,122,0.12); border:1px solid rgba(0,201,122,0.3); color:#6fffbe; }
     .lock-status.closed { background:rgba(232,0,29,0.12); border:1px solid rgba(232,0,29,0.3); color:#ff8090; }
+    .saving-overlay { display:none; position:fixed; inset:0; z-index:400; background:rgba(7,7,26,0.7); align-items:center; justify-content:center; }
+    .saving-overlay.show { display:flex; }
+    .saving-box { background:#0c0d22; border:1px solid rgba(255,215,0,0.3); border-radius:14px; padding:28px 40px; text-align:center; }
+    .saving-box p { font-family:'Russo One',sans-serif; color:var(--yellow); letter-spacing:0.1em; margin-top:10px; font-size:0.9rem; }
   </style>
 </head>
 <body>
@@ -145,23 +145,18 @@
     <div class="page-title">⚙️ ADMINISTRATION</div>
     <p class="page-sub">Saisie des résultats et gestion des paris</p>
 
-    <!-- ── VERROUILLAGE PARIS GAGNANTS ── -->
     <div class="admin-section">
       <div class="admin-section-title ast-orange">🔒 Verrouillage des paris — Gagnants finaux</div>
-      <p class="note" style="margin-bottom:18px;">Activez le verrou pour interdire les nouveaux paris sur le gagnant final d'un tableau. Les paris déjà enregistrés ne sont pas supprimés.</p>
+      <p class="note" style="margin-bottom:18px;">Activez le verrou pour interdire les nouveaux paris sur le gagnant final d'un tableau.</p>
       <div class="lock-grid" id="lock-grid"></div>
       <div class="btn-row">
         <button class="btn btn-red" onclick="saveWinnerLocks()">🔒 Enregistrer les verrous</button>
       </div>
     </div>
 
-    <!-- ── IMPORT MAIL ── -->
     <div class="admin-section">
       <div class="admin-section-title ast-green">📥 Importer un pari depuis un e-mail</div>
-      <p class="import-help">
-        Collez ici le contenu brut reçu par e-mail. Le format multi-phases (plusieurs tableaux à des rythmes différents) est supporté automatiquement.<br>
-        Les paris sur des matchs déjà enregistrés sont ignorés ; les nouveaux matchs sont ajoutés. Un pari sur le vainqueur final ne peut être enregistré qu'une seule fois par personne.
-      </p>
+      <p class="import-help">Collez ici le contenu brut reçu par e-mail. Les paris sur des matchs déjà enregistrés sont ignorés ; les nouveaux matchs sont ajoutés. Un pari sur le vainqueur final ne peut être enregistré qu'une seule fois par personne.</p>
       <div class="field-group">
         <label>Contenu du mail</label>
         <textarea id="mail-import-text" style="min-height:260px;" placeholder="Collez ici le contenu du mail reçu…"></textarea>
@@ -178,23 +173,20 @@
       </div>
     </div>
 
-    <!-- ── VAINQUEURS RÉELS ── -->
     <div class="admin-section">
       <div class="admin-section-title ast-yellow">🏆 Vainqueurs réels des tableaux</div>
       <p class="note" style="margin-bottom:16px;">Déterminés automatiquement depuis le résultat du match 1 du tour 3 (joueur classé 1er).</p>
       <div id="winners-display" style="display:flex;gap:16px;flex-wrap:wrap;"></div>
     </div>
 
-    <!-- ── RÉSULTATS DES MATCHS ── -->
     <div class="admin-section">
       <div class="admin-section-title ast-red">🏁 Résultats des matchs</div>
-      <p class="note" style="margin-bottom:18px;">Pour chaque match joué, indiquez le classement réel (1er à 4e) et cliquez "Valider". Les 4 joueurs doivent être nommés avant de pouvoir valider.</p>
+      <p class="note" style="margin-bottom:18px;">Pour chaque match joué, indiquez le classement réel (1er à 4e) et cliquez "Valider". Les tableaux des résultats se mettront à jour automatiquement pour tous les visiteurs.</p>
       <div id="match-results-container">
-        <p style="color:rgba(255,255,255,0.25);font-style:italic;font-size:0.85rem;">Chargement des matchs…</p>
+        <p style="color:rgba(255,255,255,0.25);font-style:italic;font-size:0.85rem;">Chargement…</p>
       </div>
     </div>
 
-    <!-- ── PARIEURS ── -->
     <div class="admin-section">
       <div class="admin-section-title ast-yellow">👥 Parieurs enregistrés</div>
       <div id="bettors-list-wrap">
@@ -202,10 +194,9 @@
       </div>
     </div>
 
-    <!-- ── SAUVEGARDE ── -->
     <div class="admin-section">
       <div class="admin-section-title ast-blue">💾 Sauvegarde & Export</div>
-      <p class="note" style="margin-bottom:14px;">Les données sont stockées dans le localStorage. Exportez-les en JSON pour les sauvegarder ou les partager entre appareils.</p>
+      <p class="note" style="margin-bottom:14px;">Les données sont stockées sur JSONBin et partagées entre tous les appareils. Exportez en JSON pour une sauvegarde locale.</p>
       <div class="btn-row">
         <button class="btn btn-blue" onclick="exportData()">📤 Exporter JSON</button>
         <button class="btn btn-ghost" onclick="document.getElementById('import-file').click()">📥 Importer JSON</button>
@@ -220,11 +211,27 @@
 </div>
 
 <div class="notif" id="notif"></div>
+<div class="saving-overlay" id="saving-overlay">
+  <div class="saving-box">
+    <div style="font-size:2rem;">⏳</div>
+    <p>SAUVEGARDE EN COURS…</p>
+  </div>
+</div>
 
 <script>
 const ADMIN_PASSWORD = "mariokart2025";
-const LS_KEY = 'mk_tournament_data';
 
+/* ════════════════════════════════════════════════════════════
+   JSONBIN CONFIG — remplacez par vos vraies valeurs
+════════════════════════════════════════════════════════════ */
+const BIN_ID  = '69dcd3cb36566621a8aa660e '; 
+const API_KEY = '$2a$10$V6EckMADgORi8IkODkCqreagblWAmRq4VJ6Epn/FyYdr6CJZqM8Ry';
+
+let notifTimer;
+
+/* ════════════════════════════════════════════════════════════
+   BRACKETS_BASE
+════════════════════════════════════════════════════════════ */
 const BRACKETS_BASE = [
   {
     tableNumber:1, tableTitle:"Tableau 1",
@@ -291,79 +298,43 @@ const BRACKETS_BASE = [
   }
 ];
 
-function buildEnrichedBrackets(results) {
-  const brackets = JSON.parse(JSON.stringify(BRACKETS_BASE));
-  brackets.forEach(br => {
-    const tab = br.tableNumber;
-    function getPlayerByRank(gi, rank) {
-      const key = `t${tab}_tour1_g${gi}`;
-      const res = results[key];
-      if (!res || !res.played || !res.ranks) return null;
-      return br.groups[gi].players.find(p => String(res.ranks[p]) === String(rank)) || null;
-    }
-    const t2Mapping = [[[0,1],[1,2],[2,1],[3,2]],[[0,2],[1,1],[2,2],[3,1]],[[0,3],[1,4],[2,3],[3,4]],[[0,4],[1,3],[2,4],[3,3]]];
-    t2Mapping.forEach((slotMap, mi) => {
-      br.tour2Matches[mi].players = br.tour2Matches[mi].players || ["-","-","-","-"];
-      slotMap.forEach(([gi, rank], si) => { br.tour2Matches[mi].players[si] = getPlayerByRank(gi, rank) || "-"; });
-    });
-    function getT2PlayerByRank(matchIdx, rank) {
-      const key = `t${tab}_tour2_m${matchIdx}`;
-      const res = results[key];
-      if (!res || !res.played || !res.ranks) return null;
-      return br.tour2Matches[matchIdx].players.find(p => p !== '-' && String(res.ranks[p]) === String(rank)) || null;
-    }
-    const t3Mapping = [[[0,1],[0,2],[1,1],[1,2]],[[0,3],[0,4],[1,3],[1,4]],[[2,1],[2,2],[3,1],[3,2]],[[2,3],[2,4],[3,3],[3,4]]];
-    t3Mapping.forEach((slotMap, mi) => {
-      br.tour3Matches[mi].players = br.tour3Matches[mi].players || ["-","-","-","-"];
-      slotMap.forEach(([t2mi, rank], si) => { br.tour3Matches[mi].players[si] = getT2PlayerByRank(t2mi, rank) || "-"; });
-    });
-  });
-  return brackets;
+/* ════ JSONBIN CRUD ════ */
+function getEmptyData() {
+  return { bettors:[], results:{}, winnerLocks:{ t1:false, t2:false, t3:false }, lastUpdate:null };
 }
 
-function buildMatchDefs(results) {
-  const enriched = buildEnrichedBrackets(results);
-  const defs = [];
-  enriched.forEach(br => {
-    const tab = br.tableNumber;
-    const color = tab===1?'blue':tab===2?'red':'yellow';
-    br.groups.forEach((g, gi) => defs.push({ key:`t${tab}_tour1_g${gi}`, tour:1, tableau:tab, label:`Tableau ${tab}`, name:g.groupName, tag:'', color, players:[...g.players] }));
-    br.tour2Matches.forEach((m, mi) => defs.push({ key:`t${tab}_tour2_m${mi}`, tour:2, tableau:tab, label:`Tableau ${tab}`, name:m.matchName, tag:m.matchTag, color, players:[...(m.players||["-","-","-","-"])], slots:m.slots }));
-    br.tour3Matches.forEach((m, mi) => defs.push({ key:`t${tab}_tour3_m${mi}`, tour:3, tableau:tab, label:`Tableau ${tab}`, name:m.matchName, tag:m.matchTag, color, players:[...(m.players||["-","-","-","-"])], slots:m.slots }));
-  });
-  return defs;
-}
-
-let notifTimer;
-
-function doLogin() {
-  const v = document.getElementById('pwd-input').value;
-  if (v === ADMIN_PASSWORD) {
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('main-content').style.display = 'block';
-    initAdmin();
-  } else {
-    const inp = document.getElementById('pwd-input');
-    inp.classList.add('error');
-    document.getElementById('login-error').style.display = 'block';
-    setTimeout(() => inp.classList.remove('error'), 800);
+async function getData() {
+  try {
+    const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+      headers: { 'X-Master-Key': API_KEY }
+    });
+    if (!r.ok) throw new Error('fetch failed');
+    const json = await r.json();
+    const d = json.record || getEmptyData();
+    if (!d.winnerLocks) d.winnerLocks = { t1:false, t2:false, t3:false };
+    return d;
+  } catch(e) {
+    notify('⚠️ Impossible de charger les données : ' + e.message, true);
+    return getEmptyData();
   }
 }
 
-function getEmptyData() { return { bettors:[], results:{}, winnerLocks:{ t1:false, t2:false, t3:false }, lastUpdate:null }; }
-
-function getData() {
-  try {
-    const d = JSON.parse(localStorage.getItem(LS_KEY) || 'null') || getEmptyData();
-    if (!d.winnerLocks) d.winnerLocks = { t1:false, t2:false, t3:false };
-    return d;
-  } catch { return getEmptyData(); }
-}
-
-function saveData(data) {
+async function saveData(data) {
   data.lastUpdate = new Date().toISOString();
-  localStorage.setItem(LS_KEY, JSON.stringify(data));
-  updateRawPreview(data);
+  document.getElementById('saving-overlay').classList.add('show');
+  try {
+    const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+      method: 'PUT',
+      headers: { 'Content-Type':'application/json', 'X-Master-Key': API_KEY },
+      body: JSON.stringify(data)
+    });
+    if (!r.ok) throw new Error('save failed ' + r.status);
+    updateRawPreview(data);
+  } catch(e) {
+    notify('❌ Erreur de sauvegarde : ' + e.message, true);
+  } finally {
+    document.getElementById('saving-overlay').classList.remove('show');
+  }
 }
 
 function updateRawPreview(data) {
@@ -381,8 +352,79 @@ function notify(msg, isError=false) {
   notifTimer = setTimeout(() => el.className='notif', 3500);
 }
 
-function initAdmin() {
-  const data = getData();
+/* ════ LOGIN ════ */
+function doLogin() {
+  const v = document.getElementById('pwd-input').value;
+  if (v === ADMIN_PASSWORD) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('main-content').style.display = 'block';
+    initAdmin();
+  } else {
+    const inp = document.getElementById('pwd-input');
+    inp.classList.add('error');
+    document.getElementById('login-error').style.display = 'block';
+    setTimeout(() => inp.classList.remove('error'), 800);
+  }
+}
+
+/* ════ BRACKETS ════ */
+function buildEnrichedBrackets(results) {
+  const brackets = JSON.parse(JSON.stringify(BRACKETS_BASE));
+  brackets.forEach(br => {
+    const tab = br.tableNumber;
+    function getPlayerByRank(gi, rank) {
+      const key = `t${tab}_tour1_g${gi}`;
+      const res = results[key];
+      if (!res || !res.played || !res.ranks) return null;
+      return br.groups[gi].players.find(p => String(res.ranks[p])===String(rank)) || null;
+    }
+    const t2Mapping = [
+      [[0,1],[1,2],[2,1],[3,2]],[[0,2],[1,1],[2,2],[3,1]],
+      [[0,3],[1,4],[2,3],[3,4]],[[0,4],[1,3],[2,4],[3,3]]
+    ];
+    t2Mapping.forEach((slotMap,mi) => {
+      br.tour2Matches[mi].players = ["-","-","-","-"];
+      slotMap.forEach(([gi,rank],si) => { br.tour2Matches[mi].players[si] = getPlayerByRank(gi,rank)||"-"; });
+    });
+    function getT2PlayerByRank(matchIdx, rank) {
+      const key = `t${tab}_tour2_m${matchIdx}`;
+      const res = results[key];
+      if (!res||!res.played||!res.ranks) return null;
+      return br.tour2Matches[matchIdx].players.find(p=>p!=='-'&&String(res.ranks[p])===String(rank))||null;
+    }
+    const t3Mapping = [
+      [[0,1],[0,2],[1,1],[1,2]],[[0,3],[0,4],[1,3],[1,4]],
+      [[2,1],[2,2],[3,1],[3,2]],[[2,3],[2,4],[3,3],[3,4]]
+    ];
+    t3Mapping.forEach((slotMap,mi) => {
+      br.tour3Matches[mi].players = ["-","-","-","-"];
+      slotMap.forEach(([t2mi,rank],si) => { br.tour3Matches[mi].players[si] = getT2PlayerByRank(t2mi,rank)||"-"; });
+    });
+  });
+  return brackets;
+}
+
+function buildMatchDefs(results) {
+  const enriched = buildEnrichedBrackets(results);
+  const defs = [];
+  const colors = ['blue','red','yellow'];
+  enriched.forEach((br,bi) => {
+    br.groups.forEach((g,gi) => {
+      defs.push({ key:`t${br.tableNumber}_tour1_g${gi}`, tour:1, tableau:br.tableNumber, label:br.tableTitle, name:g.groupName, tag:'Tour 1', players:[...g.players], slots:null, color:colors[bi] });
+    });
+    br.tour2Matches.forEach((m,mi) => {
+      defs.push({ key:`t${br.tableNumber}_tour2_m${mi}`, tour:2, tableau:br.tableNumber, label:br.tableTitle, name:m.matchName, tag:m.matchTag, players:[...(m.players||["-","-","-","-"])], slots:m.slots, color:colors[bi] });
+    });
+    br.tour3Matches.forEach((m,mi) => {
+      defs.push({ key:`t${br.tableNumber}_tour3_m${mi}`, tour:3, tableau:br.tableNumber, label:br.tableTitle, name:m.matchName, tag:m.matchTag, players:[...(m.players||["-","-","-","-"])], slots:m.slots, color:colors[bi] });
+    });
+  });
+  return defs;
+}
+
+/* ════ INIT ════ */
+async function initAdmin() {
+  const data = await getData();
   renderLockGrid(data);
   loadWinnerFields(data);
   renderMatchResults(data);
@@ -390,9 +432,7 @@ function initAdmin() {
   updateRawPreview(data);
 }
 
-/* ════════════════════════════════════════════════════════════
-   VERROUILLAGE GAGNANTS FINAUX
-════════════════════════════════════════════════════════════ */
+/* ════ VERROUS ════ */
 function renderLockGrid(data) {
   const locks = data.winnerLocks || { t1:false, t2:false, t3:false };
   const tabs = [
@@ -403,22 +443,19 @@ function renderLockGrid(data) {
   const wrap = document.getElementById('lock-grid');
   wrap.innerHTML = tabs.map(tab => {
     const locked = !!locks[tab.key];
-    return `
-      <div class="lock-card">
-        <div class="lock-card-title ${tab.colorCls}">🏆 ${tab.label}</div>
-        <div style="font-size:0.72rem;color:rgba(255,255,255,0.35);">${tab.desc}</div>
-        <div class="lock-row">
-          <div class="lock-label">${locked ? '🔒 Paris gagnant <strong>verrouillé</strong>' : '🟢 Paris gagnant <strong>ouvert</strong>'}</div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="lock-${tab.key}" ${locked ? 'checked' : ''} onchange="previewLock('${tab.key}', this.checked)">
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
-          </label>
-        </div>
-        <div class="lock-status ${locked ? 'closed' : 'open'}" id="lock-status-${tab.key}">
-          ${locked ? '🔒 VERROUILLÉ' : '✅ OUVERT'}
-        </div>
-      </div>`;
+    return `<div class="lock-card">
+      <div class="lock-card-title ${tab.colorCls}">🏆 ${tab.label}</div>
+      <div style="font-size:0.72rem;color:rgba(255,255,255,0.35);">${tab.desc}</div>
+      <div class="lock-row">
+        <div class="lock-label">${locked ? '🔒 Paris gagnant <strong>verrouillé</strong>' : '🟢 Paris gagnant <strong>ouvert</strong>'}</div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="lock-${tab.key}" ${locked ? 'checked' : ''} onchange="previewLock('${tab.key}', this.checked)">
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </label>
+      </div>
+      <div class="lock-status ${locked ? 'closed' : 'open'}" id="lock-status-${tab.key}">${locked ? '🔒 VERROUILLÉ' : '✅ OUVERT'}</div>
+    </div>`;
   }).join('');
 }
 
@@ -426,23 +463,15 @@ function previewLock(tabKey, isLocked) {
   const statusEl = document.getElementById(`lock-status-${tabKey}`);
   const cardEl = statusEl?.closest('.lock-card');
   const labelEl = cardEl?.querySelector('.lock-label');
-  if (statusEl) {
-    statusEl.className = `lock-status ${isLocked ? 'closed' : 'open'}`;
-    statusEl.textContent = isLocked ? '🔒 VERROUILLÉ' : '✅ OUVERT';
-  }
-  if (labelEl) {
-    labelEl.innerHTML = isLocked ? '🔒 Paris gagnant <strong>verrouillé</strong>' : '🟢 Paris gagnant <strong>ouvert</strong>';
-  }
+  if (statusEl) { statusEl.className = `lock-status ${isLocked ? 'closed' : 'open'}`; statusEl.textContent = isLocked ? '🔒 VERROUILLÉ' : '✅ OUVERT'; }
+  if (labelEl) { labelEl.innerHTML = isLocked ? '🔒 Paris gagnant <strong>verrouillé</strong>' : '🟢 Paris gagnant <strong>ouvert</strong>'; }
 }
 
-function saveWinnerLocks() {
-  const data = getData();
+async function saveWinnerLocks() {
+  const data = await getData();
   if (!data.winnerLocks) data.winnerLocks = {};
-  ['t1','t2','t3'].forEach(t => {
-    const el = document.getElementById(`lock-${t}`);
-    data.winnerLocks[t] = el ? el.checked : false;
-  });
-  saveData(data);
+  ['t1','t2','t3'].forEach(t => { const el = document.getElementById(`lock-${t}`); data.winnerLocks[t] = el ? el.checked : false; });
+  await saveData(data);
   notify('✅ Verrous enregistrés !');
 }
 
@@ -460,6 +489,7 @@ function loadWinnerFields(data) {
   }).join('');
 }
 
+/* ════ RÉSULTATS MATCHS ════ */
 function renderMatchResults(data) {
   const container = document.getElementById('match-results-container');
   if (!container) return;
@@ -514,8 +544,8 @@ function renderMatchResults(data) {
   container.innerHTML = html;
 }
 
-function saveMatchResult(matchKey) {
-  const data = getData();
+async function saveMatchResult(matchKey) {
+  const data = await getData();
   const results = data.results || {};
   const MATCH_DEFS = buildMatchDefs(results);
   const match = MATCH_DEFS.find(m => m.key === matchKey);
@@ -534,24 +564,25 @@ function saveMatchResult(matchKey) {
   }
   if (!data.results) data.results = {};
   data.results[matchKey] = { played:true, ranks };
-  saveData(data);
+  await saveData(data);
   renderMatchResults(data);
   renderBettorsList(data);
   loadWinnerFields(data);
-  notify('✅ Résultat enregistré !');
+  notify('✅ Résultat enregistré et partagé avec tous les visiteurs !');
 }
 
-function unplayMatch(matchKey) {
+async function unplayMatch(matchKey) {
   if (!confirm('Annuler le résultat de ce match ?')) return;
-  const data = getData();
+  const data = await getData();
   if (!data.results) data.results = {};
   data.results[matchKey] = { played:false, ranks:{} };
-  saveData(data);
+  await saveData(data);
   renderMatchResults(data);
   renderBettorsList(data);
   notify('Résultat annulé.');
 }
 
+/* ════ PARIEURS ════ */
 function renderBettorsList(data) {
   const wrap = document.getElementById('bettors-list-wrap');
   const bettors = data.bettors || [];
@@ -573,11 +604,11 @@ function renderBettorsList(data) {
   wrap.innerHTML = `<table class="bettor-table"><thead><tr><th>Nom</th><th>Phases</th><th>Vainqueurs prédits</th><th style="text-align:right">Paris matchs</th><th style="text-align:right">Score actuel</th><th></th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 
-function deleteBettor(name) {
+async function deleteBettor(name) {
   if (!confirm(`Supprimer ${name} ?`)) return;
-  const data = getData();
+  const data = await getData();
   data.bettors = data.bettors.filter(b => b.name !== name);
-  saveData(data);
+  await saveData(data);
   renderBettorsList(data);
   notify(`🗑 ${name} supprimé(e).`);
 }
@@ -608,6 +639,7 @@ function computeScore(bettor, results) {
   return { total:matchPts+winnerPts, matchPts, winnerPts };
 }
 
+/* ════ IMPORT MAIL ════ */
 function clearMailImport() { const ta=document.getElementById('mail-import-text'); if(ta) ta.value=''; }
 function createEmptyBettor(name) { return { name, phases:[], bets:{}, winnerBets_p0:{}, winnerBets_p1:{}, winnerBets_p2:{} }; }
 function normalizeName(str) { return String(str||'').trim().toLowerCase(); }
@@ -627,30 +659,15 @@ function parseEmailBetText(rawText) {
   if (!bettorLine) throw new Error('Ligne PARIEUR introuvable.');
   const bettorName = bettorLine.split(';').slice(1).join(';').trim();
   if (!bettorName) throw new Error('Nom du parieur vide.');
-
-  // Detect format: multi-phase (=== PHASE : ...) vs legacy (PHASE;...)
   const isMultiPhase = nonEmpty.some(l => /^===\s*PHASE\s*:/i.test(l));
-
   if (isMultiPhase) {
-    // Multi-phase format: collect all phases present in the email
-    const phases = []; // [{phase, winnerBets, rows}]
+    const phases = [];
     let currentPhase = null, currentWinners = {}, currentRows = [];
     let inWinners = false, inMatches = false;
-
-    const flush = () => {
-      if (currentPhase) phases.push({ phase: currentPhase, winnerBets: currentWinners, rows: currentRows });
-    };
-
+    const flush = () => { if (currentPhase) phases.push({ phase: currentPhase, winnerBets: currentWinners, rows: currentRows }); };
     for (const line of lines) {
       const phaseMatch = line.match(/^===\s*PHASE\s*:\s*(.+?)\s*===/i);
-      if (phaseMatch) {
-        flush();
-        const label = phaseMatch[1].trim();
-        currentPhase = parsePhaseLabelToCode(label);
-        if (!currentPhase) throw new Error('Phase non reconnue : ' + label);
-        currentWinners = {}; currentRows = []; inWinners = false; inMatches = false;
-        continue;
-      }
+      if (phaseMatch) { flush(); const label = phaseMatch[1].trim(); currentPhase = parsePhaseLabelToCode(label); if (!currentPhase) throw new Error('Phase non reconnue : ' + label); currentWinners = {}; currentRows = []; inWinners = false; inMatches = false; continue; }
       if (!currentPhase) continue;
       if (/^--\s*Gagnants finaux/i.test(line))     { inWinners=true;  inMatches=false; continue; }
       if (/^--\s*Paris sur les matchs/i.test(line)) { inWinners=false; inMatches=true;  continue; }
@@ -674,9 +691,7 @@ function parseEmailBetText(rawText) {
     flush();
     if (phases.length === 0) throw new Error('Aucune phase trouvée dans le mail.');
     return { bettorName, multiPhase: true, phases };
-
   } else {
-    // Legacy single-phase format
     const phaseLine = nonEmpty.find(l=>l.toUpperCase().startsWith('PHASE;'));
     if (!phaseLine) throw new Error('Ligne PHASE introuvable.');
     const phaseLabel = phaseLine.split(';').slice(1).join(';').trim();
@@ -724,25 +739,21 @@ function getEligibleWinnerPlayers(tabIdx, phase, results) {
   return br.groups.flatMap(g=>g.players);
 }
 
-function importBetFromEmail() {
+async function importBetFromEmail() {
   const raw = (document.getElementById('mail-import-text')?.value||'').trim();
   if (!raw) { notify('❌ Collez le contenu du mail.', true); return; }
   let parsed;
   try { parsed = parseEmailBetText(raw); } catch(e) { notify('❌ '+e.message, true); return; }
-  const data = getData();
+  const data = await getData();
   const results = data.results || {};
   const locks = data.winnerLocks || {};
   const MATCH_DEFS = buildMatchDefs(results);
   const { bettorName, phases } = parsed;
-
   let bettor = data.bettors.find(b => normalizeName(b.name)===normalizeName(bettorName));
   if (!bettor) { bettor = createEmptyBettor(bettorName); data.bettors.push(bettor); }
-
   const messages = [];
   let totalImported = 0, totalSkipped = 0, totalUnresolved = 0, totalWinners = 0;
-
   for (const { phase, winnerBets, rows } of phases) {
-    // ── Matchs ──
     const groupedByMatch = {};
     rows.forEach(r => {
       const key = findMatchKeyFromImportedRow(phase, r.tableauLabel, r.matchName, r.player, MATCH_DEFS);
@@ -750,71 +761,47 @@ function importBetFromEmail() {
       if (!groupedByMatch[key]) groupedByMatch[key] = {};
       groupedByMatch[key][r.player] = r.rank;
     });
-
     Object.entries(groupedByMatch).forEach(([key, bet]) => {
       if (bettor.bets[key] && Object.keys(bettor.bets[key]).length > 0) {
         const m = MATCH_DEFS.find(x=>x.key===key);
         messages.push(`⏭ ${m ? m.label+' / '+m.name : key} ignoré (déjà parié).`);
-        totalSkipped++;
-        return;
+        totalSkipped++; return;
       }
       if (!bettor.bets[key]) bettor.bets[key] = {};
       Object.assign(bettor.bets[key], bet);
       totalImported++;
     });
-
-    // ── Gagnants finaux ──
     bettor[`winnerBets_${phase}`] = bettor[`winnerBets_${phase}`] || {};
     ['t1','t2','t3'].forEach((tab, ti) => {
       const newPick = winnerBets[tab];
       if (!newPick || newPick === 'Non renseigné') return;
-
-      // Déjà un pari sur ce gagnant (toutes phases confondues) → bloquer
       const alreadyBet = ['p0','p1','p2'].some(ph => { const v=(bettor[`winnerBets_${ph}`]||{})[tab]; return v && v.trim(); });
-      if (alreadyBet) {
-        messages.push(`⏭ Gagnant T${ti+1} ignoré (déjà un pari enregistré pour ${bettorName}).`);
-        return;
-      }
-
-      if (locks[tab]) {
-        messages.push(`🔒 Gagnant T${ti+1} ignoré (verrouillé par l'admin).`);
-        return;
-      }
-
+      if (alreadyBet) { messages.push(`⏭ Gagnant T${ti+1} ignoré (déjà un pari enregistré pour ${bettorName}).`); return; }
+      if (locks[tab]) { messages.push(`🔒 Gagnant T${ti+1} ignoré (verrouillé par l'admin).`); return; }
       const eligible = getEligibleWinnerPlayers(ti, phase, results);
-      if ((phase==='p1'||phase==='p2') && eligible.length>0 && !eligible.includes(newPick)) {
-        messages.push(`⚠️ ${newPick} n'est plus éligible comme vainqueur T${ti+1}.`);
-        return;
-      }
-
+      if ((phase==='p1'||phase==='p2') && eligible.length>0 && !eligible.includes(newPick)) { messages.push(`⚠️ ${newPick} n'est plus éligible comme vainqueur T${ti+1}.`); return; }
       bettor[`winnerBets_${phase}`][tab] = newPick;
       totalWinners++;
     });
-
     if (!bettor.phases.includes(phase)) bettor.phases.push(phase);
   }
-
-  saveData(data);
+  await saveData(data);
   renderBettorsList(data);
   updateRawPreview(data);
   clearMailImport();
-
-  // Résumé
   const parts = [];
   if (totalImported > 0) parts.push(`${totalImported} match(s) importé(s)`);
-  if (totalWinners > 0) parts.push(`${totalWinners} gagnant(s) final/finaux enregistré(s)`);
-  if (totalSkipped > 0) parts.push(`${totalSkipped} match(s) ignoré(s) (doublon)`);
-  if (totalUnresolved > 0) parts.push(`${totalUnresolved} ligne(s) non résolue(s)`);
+  if (totalWinners > 0) parts.push(`${totalWinners} gagnant(s) enregistré(s)`);
+  if (totalSkipped > 0) parts.push(`${totalSkipped} ignoré(s) (doublon)`);
+  if (totalUnresolved > 0) parts.push(`${totalUnresolved} non résolu(s)`);
   const hasAnything = totalImported > 0 || totalWinners > 0;
-  const summary = hasAnything
-    ? `✅ ${bettorName} : ${parts.join(', ')}`
-    : `⚠️ ${bettorName} : rien de nouveau à importer (${parts.join(', ') || 'aucune donnée reconnue'})`;
-  notify(summary, !hasAnything);
+  notify(hasAnything ? `✅ ${bettorName} : ${parts.join(', ')}` : `⚠️ ${bettorName} : rien de nouveau (${parts.join(', ')||'aucune donnée'})`, !hasAnything);
   if (messages.length > 0) console.info('[Import paris]\n' + messages.join('\n'));
 }
 
-function exportData() {
-  const data = getData();
+/* ════ EXPORT / IMPORT / RESET ════ */
+async function exportData() {
+  const data = await getData();
   const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -826,12 +813,12 @@ function importData(input) {
   const file = input.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = e => {
+  reader.onload = async e => {
     try {
       const data = JSON.parse(e.target.result);
       if (!data.bettors||!data.results) throw new Error('Format invalide');
       if (!data.winnerLocks) data.winnerLocks = { t1:false, t2:false, t3:false };
-      localStorage.setItem(LS_KEY, JSON.stringify(data));
+      await saveData(data);
       initAdmin();
       notify('✅ Données importées !');
     } catch { notify('❌ Fichier JSON invalide.', true); }
@@ -840,13 +827,14 @@ function importData(input) {
   input.value = '';
 }
 
-function confirmClearData() {
+async function confirmClearData() {
   if (!confirm('⚠️ TOUT supprimer ? Cette action est irréversible.')) return;
-  localStorage.removeItem(LS_KEY);
+  await saveData(getEmptyData());
   initAdmin();
   notify('Données réinitialisées.');
 }
 
+/* ════ UTILS ════ */
 function esc(str) { return String(str||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#039;"); }
 function escJs(str) { return String(str||'').replaceAll('\\','\\\\').replaceAll("'","\\'"); }
 function encodeForId(str) { return btoa(unescape(encodeURIComponent(String(str)))).replaceAll('=','').replaceAll('+','-').replaceAll('/','_'); }
