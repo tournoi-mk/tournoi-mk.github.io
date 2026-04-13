@@ -819,9 +819,14 @@ function importData(input) {
       if (!data.bettors||!data.results) throw new Error('Format invalide');
       if (!data.winnerLocks) data.winnerLocks = { t1:false, t2:false, t3:false };
       await saveData(data);
-      initAdmin();
-      notify('✅ Données importées !');
-    } catch { notify('❌ Fichier JSON invalide.', true); }
+      // On réutilise directement les données importées sans refaire un fetch
+      renderLockGrid(data);
+      loadWinnerFields(data);
+      renderMatchResults(data);
+      renderBettorsList(data);
+      updateRawPreview(data);
+      notify('✅ Données importées et sauvegardées sur JSONBin !');
+    } catch(err) { notify('❌ ' + err.message, true); }
   };
   reader.readAsText(file);
   input.value = '';
