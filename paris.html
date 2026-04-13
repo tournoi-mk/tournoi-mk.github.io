@@ -329,6 +329,8 @@
 
 <script>
 const EMAIL_DEST = "valerie.duriez@amaurymedia.fr";
+/* ════ JSONBIN CONFIG ════ */
+const BIN_ID = '69dcd3cb36566621a8aa660e';
 let pendingIncompleteSend = null;
 let lastMailtoUrl = '';
 
@@ -465,13 +467,18 @@ let ADMIN_RESULTS = {};
 
 let WINNER_LOCKS = { t1:false, t2:false, t3:false };
 
-function loadAdminResults() {
+async function loadAdminResults() {
   try {
-    const stored = JSON.parse(localStorage.getItem('mk_tournament_data')||'{}');
-    ADMIN_RESULTS = stored?.results || {};
-    WINNER_LOCKS  = stored?.winnerLocks || { t1:false, t2:false, t3:false };
+    const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`);
+    if (!r.ok) throw new Error('fetch ' + r.status);
+    const json = await r.json();
+    const stored = json.record || {};
+    ADMIN_RESULTS = stored.results || {};
+    WINNER_LOCKS  = stored.winnerLocks || { t1:false, t2:false, t3:false };
+  } catch {
+    ADMIN_RESULTS = {};
+    WINNER_LOCKS = { t1:false, t2:false, t3:false };
   }
-  catch { ADMIN_RESULTS = {}; WINNER_LOCKS = { t1:false, t2:false, t3:false }; }
 }
 
 function isMatchPlayed(matchKey) {
@@ -973,9 +980,9 @@ function hasAnyBettableMatch(phaseIndex) {
    CÔTES — calcul depuis localStorage et injection dans tooltips
 ════════════════════════════════════════════════════════════ */
 function buildCotesFromStorage() {
+  // Uses ADMIN_BETTORS loaded from JSONBin during initPage
   try {
-    const stored = JSON.parse(localStorage.getItem('mk_tournament_data') || 'null');
-    const bettors = stored?.bettors || [];
+    const bettors = window._adminBettors || [];
     const cotes = { t1:{}, t2:{}, t3:{} };
     bettors.forEach(b => {
       ['p0','p1','p2'].forEach(phase => {
@@ -1022,8 +1029,14 @@ function renderCotesTooltips() {
   });
 }
 
-function initPage() {
-  loadAdminResults();
+async function initPage() {
+  await loadAdminResults();
+  // Also fetch bettors for côtes tooltips
+  try {
+    const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`);
+    if (r.ok) { const j = await r.json(); window._adminBettors = j.record?.bettors || []; }
+  } catch { window._adminBettors = []; }
+
   const enriched = buildEnrichedBrackets(ADMIN_RESULTS);
   mapBracketsForBets(enriched);
   fillAllWinnerSelects();
