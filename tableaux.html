@@ -6,97 +6,44 @@
   <title>Tableaux de Résultats — Mario Kart</title>
   <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Exo+2:wght@400;600;700;900&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --red: #E8001D; --blue: #0052A5; --yellow: #FFD700;
-      --dark: #07071a;
-      --red-glow: rgba(232,0,29,0.5); --blue-glow: rgba(0,82,165,0.5); --yellow-glow: rgba(255,215,0,0.5);
-    }
+    :root { --red:#E8001D; --blue:#0052A5; --yellow:#FFD700; --dark:#07071a; --red-glow:rgba(232,0,29,0.5); --blue-glow:rgba(0,82,165,0.5); --yellow-glow:rgba(255,215,0,0.5); }
     * { margin:0; padding:0; box-sizing:border-box; }
     body { background:var(--dark); font-family:'Exo 2',sans-serif; color:#fff; min-height:100vh; }
-    .bg {
-      position:fixed; inset:0; z-index:0;
-      background:
-        radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0,82,165,0.2), transparent 70%),
-        radial-gradient(ellipse 50% 40% at 100% 100%, rgba(232,0,29,0.12), transparent 60%),
-        linear-gradient(180deg,#060610 0%,#0A0A1E 100%);
-    }
-    .bg::before {
-      content:''; position:absolute; inset:0;
-      background-image:
-        repeating-linear-gradient(90deg,transparent 0,transparent 79px,rgba(255,255,255,0.018) 79px,rgba(255,255,255,0.018) 80px),
-        repeating-linear-gradient(180deg,transparent 0,transparent 79px,rgba(255,255,255,0.018) 79px,rgba(255,255,255,0.018) 80px);
-    }
-    .top-bar {
-      position:sticky; top:0; z-index:100;
-      display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:16px;
-      min-height:64px; padding:0 28px;
-      background:rgba(7,7,26,0.92); backdrop-filter:blur(12px);
-      border-bottom:1px solid rgba(232,0,29,0.3); box-shadow:0 4px 32px rgba(0,0,0,0.5);
-    }
-    .brand-wrap { justify-self:start; }
-    .top-title-wrap { justify-self:center; width:100%; display:flex; justify-content:center; }
-    .back-wrap { justify-self:end; }
-    .brand {
-      font-family:'Russo One',sans-serif; font-size:0.9rem; letter-spacing:0.1em;
-      color:var(--yellow); text-shadow:0 0 12px rgba(255,215,0,0.6);
-      text-decoration:none; white-space:nowrap;
-    }
+    .bg { position:fixed; inset:0; z-index:0; background: radial-gradient(ellipse 70% 50% at 50% 0%,rgba(0,82,165,0.2),transparent 70%), radial-gradient(ellipse 50% 40% at 100% 100%,rgba(232,0,29,0.12),transparent 60%), linear-gradient(180deg,#060610 0%,#0A0A1E 100%); }
+    .bg::before { content:''; position:absolute; inset:0; background-image: repeating-linear-gradient(90deg,transparent 0,transparent 79px,rgba(255,255,255,0.018) 79px,rgba(255,255,255,0.018) 80px), repeating-linear-gradient(180deg,transparent 0,transparent 79px,rgba(255,255,255,0.018) 79px,rgba(255,255,255,0.018) 80px); }
+    .top-bar { position:sticky; top:0; z-index:100; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:16px; min-height:64px; padding:0 28px; background:rgba(7,7,26,0.92); backdrop-filter:blur(12px); border-bottom:1px solid rgba(232,0,29,0.3); box-shadow:0 4px 32px rgba(0,0,0,0.5); }
+    .brand-wrap { justify-self:start; } .top-title-wrap { justify-self:center; width:100%; display:flex; justify-content:center; } .back-wrap { justify-self:end; }
+    .brand { font-family:'Russo One',sans-serif; font-size:0.9rem; letter-spacing:0.1em; color:var(--yellow); text-shadow:0 0 12px rgba(255,215,0,0.6); text-decoration:none; white-space:nowrap; }
     .brand span { color:rgba(255,255,255,0.5); }
-    .top-title {
-      text-align:center; font-family:'Russo One',sans-serif;
-      font-size:1.3rem; letter-spacing:0.15em; text-transform:uppercase; width:100%;
-    }
-    .back-btn {
-      font-size:0.8rem; color:rgba(255,255,255,0.4); text-decoration:none;
-      letter-spacing:0.1em; white-space:nowrap; transition:color 0.2s;
-    }
+    .top-title { text-align:center; font-family:'Russo One',sans-serif; font-size:1.3rem; letter-spacing:0.15em; text-transform:uppercase; width:100%; }
+    .back-btn { font-size:0.8rem; color:rgba(255,255,255,0.4); text-decoration:none; letter-spacing:0.1em; white-space:nowrap; transition:color 0.2s; }
     .back-btn:hover { color:var(--red); }
+    .refresh-bar { position:relative; z-index:10; display:flex; align-items:center; justify-content:center; gap:12px; padding:10px 20px; background:rgba(0,82,165,0.08); border-bottom:1px solid rgba(0,82,165,0.2); font-size:0.76rem; color:rgba(255,255,255,0.35); }
+    .refresh-btn { padding:5px 14px; border-radius:6px; background:rgba(0,82,165,0.15); border:1px solid rgba(0,82,165,0.4); color:#6eb4ff; font-family:'Russo One',sans-serif; font-size:0.68rem; letter-spacing:0.08em; cursor:pointer; transition:background 0.2s; }
+    .refresh-btn:hover { background:rgba(0,82,165,0.28); }
     .page { position:relative; z-index:1; padding:40px 20px 80px; }
     .bracket-section { max-width:1400px; margin:0 auto 72px; }
-    .section-header {
-      display:flex; align-items:center; gap:16px; margin-bottom:28px;
-      padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.08);
-    }
+    .section-header { display:flex; align-items:center; gap:16px; margin-bottom:28px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.08); }
     .section-number { font-family:'Russo One',sans-serif; font-size:3.5rem; line-height:1; }
     .num-blue   { color:var(--blue);   text-shadow:0 0 24px var(--blue-glow); }
     .num-red    { color:var(--red);    text-shadow:0 0 24px var(--red-glow); }
     .num-yellow { color:var(--yellow); text-shadow:0 0 24px var(--yellow-glow); }
     .section-info h2 { font-family:'Russo One',sans-serif; font-size:1.7rem; letter-spacing:0.06em; }
     .section-info p { font-size:0.83rem; color:rgba(255,255,255,0.4); letter-spacing:0.1em; text-transform:uppercase; margin-top:3px; }
-    .section-badge {
-      margin-left:auto; padding:10px 26px; min-width:210px; text-align:center;
-      border-radius:24px; font-family:'Russo One',sans-serif; font-size:0.86rem;
-      letter-spacing:0.1em; white-space:nowrap;
-    }
+    .section-badge { margin-left:auto; padding:10px 26px; min-width:210px; text-align:center; border-radius:24px; font-family:'Russo One',sans-serif; font-size:0.86rem; letter-spacing:0.1em; white-space:nowrap; }
     .badge-blue   { background:rgba(0,82,165,0.3);   border:1px solid var(--blue);   color:#6eb4ff; }
     .badge-red    { background:rgba(232,0,29,0.3);   border:1px solid var(--red);    color:#ff8090; }
     .badge-yellow { background:rgba(255,215,0,0.18); border:1px solid var(--yellow); color:var(--yellow); }
-    .legend {
-      display:flex; gap:24px; flex-wrap:wrap; margin-bottom:24px;
-      padding:14px 20px; background:rgba(255,255,255,0.03);
-      border:1px solid rgba(255,255,255,0.07); border-radius:8px;
-    }
+    .legend { display:flex; gap:24px; flex-wrap:wrap; margin-bottom:24px; padding:14px 20px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:8px; }
     .legend-item { display:flex; align-items:center; gap:8px; font-size:0.78rem; color:rgba(255,255,255,0.5); }
     .legend-dot { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
-    .bracket-layout {
-      display:grid;
-      grid-template-columns:minmax(260px,1fr) 52px minmax(260px,1fr) 52px minmax(260px,1fr);
-      gap:0; align-items:start; overflow-x:auto; padding-bottom:8px;
-    }
+    .bracket-layout { display:grid; grid-template-columns:minmax(260px,1fr) 52px minmax(260px,1fr) 52px minmax(260px,1fr); gap:0; align-items:start; overflow-x:auto; padding-bottom:8px; }
     .tour-col { min-width:260px; }
-    .tour-label {
-      font-family:'Russo One',sans-serif; font-size:0.98rem; letter-spacing:0.14em;
-      text-transform:uppercase; text-align:center; padding:11px 14px;
-      border-radius:7px 7px 0 0; margin-bottom:14px; min-height:50px;
-      display:flex; align-items:center; justify-content:center;
-    }
-    .lbl-blue   { background:rgba(0,82,165,0.3);   color:#6eb4ff;      border:1px solid rgba(0,82,165,0.55); }
-    .lbl-red    { background:rgba(232,0,29,0.28);  color:#ff8090;      border:1px solid rgba(232,0,29,0.55); }
+    .tour-label { font-family:'Russo One',sans-serif; font-size:0.98rem; letter-spacing:0.14em; text-transform:uppercase; text-align:center; padding:11px 14px; border-radius:7px 7px 0 0; margin-bottom:14px; min-height:50px; display:flex; align-items:center; justify-content:center; }
+    .lbl-blue   { background:rgba(0,82,165,0.3);   color:#6eb4ff;       border:1px solid rgba(0,82,165,0.55); }
+    .lbl-red    { background:rgba(232,0,29,0.28);  color:#ff8090;       border:1px solid rgba(232,0,29,0.55); }
     .lbl-yellow { background:rgba(255,215,0,0.18); color:var(--yellow); border:1px solid rgba(255,215,0,0.45); }
-    .group-card, .match-card {
-      background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.09);
-      border-radius:10px; overflow:hidden; margin-bottom:14px;
-    }
+    .group-card, .match-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.09); border-radius:10px; overflow:hidden; margin-bottom:14px; }
     .group-card:hover, .match-card:hover { border-color:rgba(255,255,255,0.18); }
     .card-header { display:flex; align-items:center; gap:10px; padding:11px 14px; }
     .hdr-blue   { background:rgba(0,82,165,0.28);  border-bottom:1px solid rgba(0,82,165,0.35); }
@@ -105,21 +52,14 @@
     .card-title { font-family:'Russo One',sans-serif; font-size:0.97rem; letter-spacing:0.1em; }
     .card-tag { font-size:0.68rem; color:rgba(255,255,255,0.50); letter-spacing:0.05em; margin-left:auto; text-align:right; white-space:nowrap; }
     .tour3-tag { font-size:0.84rem; color:rgba(255,255,255,0.82); text-align:right; margin-left:auto; white-space:nowrap; font-family:'Russo One',sans-serif; letter-spacing:0.06em; }
-    .card-row {
-      display:flex; align-items:center; gap:10px; padding:10px 14px;
-      min-height:46px; border-bottom:1px solid rgba(255,255,255,0.05);
-    }
+    .card-row { display:flex; align-items:center; gap:10px; padding:10px 14px; min-height:46px; border-bottom:1px solid rgba(255,255,255,0.05); }
     .card-row:last-child { border-bottom:none; }
     .card-row:hover { background:rgba(255,255,255,0.045); }
     .row-emoji { font-size:1.05rem; flex-shrink:0; }
     .row-origin { font-size:0.64rem; color:rgba(255,255,255,0.28); width:90px; flex-shrink:0; letter-spacing:0.04em; }
     .row-name { font-size:0.93rem; font-weight:600; letter-spacing:0.02em; color:rgba(255,255,255,0.85); flex:1; }
     .row-name.tbd { color:rgba(255,255,255,0.22); font-style:italic; font-weight:400; }
-    /* rank badge affiché dans tour 1 si résultat connu */
-    .row-rank {
-      font-family:'Russo One',sans-serif; font-size:0.72rem;
-      padding:2px 8px; border-radius:10px; white-space:nowrap;
-    }
+    .row-rank { font-family:'Russo One',sans-serif; font-size:0.72rem; padding:2px 8px; border-radius:10px; white-space:nowrap; }
     .rank-1 { background:rgba(255,215,0,0.18); color:var(--yellow); border:1px solid rgba(255,215,0,0.4); }
     .rank-2 { background:rgba(192,192,192,0.12); color:#c0c0c0; border:1px solid rgba(192,192,192,0.3); }
     .rank-3 { background:rgba(205,127,50,0.12); color:#cd7f32; border:1px solid rgba(205,127,50,0.3); }
@@ -127,6 +67,7 @@
     .connector-col { width:52px; display:flex; justify-content:center; align-items:flex-start; padding-top:8px; }
     .single-connector { display:block; margin-top:8px; }
     .section-sep { height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.12),transparent); margin:0 0 72px; }
+    .loading-msg { text-align:center; padding:80px 20px; color:rgba(255,255,255,0.3); font-family:'Russo One',sans-serif; letter-spacing:0.1em; }
     @media (max-width:900px) {
       .top-bar { grid-template-columns:1fr; gap:8px; padding:14px 18px; }
       .brand-wrap,.top-title-wrap,.back-wrap { justify-self:center; }
@@ -141,200 +82,154 @@
 <body>
   <div class="bg"></div>
   <div class="top-bar">
-    <div class="brand-wrap">
-      <a href="index.html" class="brand">🏆 <span>TOURNOI INTERNE</span> MARIO KART</a>
-    </div>
-    <div class="top-title-wrap">
-      <div class="top-title">Tableaux de résultats</div>
-    </div>
-    <div class="back-wrap">
-      <a href="index.html" class="back-btn">← Accueil</a>
-    </div>
+    <div class="brand-wrap"><a href="index.html" class="brand">🏆 <span>TOURNOI INTERNE</span> MARIO KART</a></div>
+    <div class="top-title-wrap"><div class="top-title">Tableaux de résultats</div></div>
+    <div class="back-wrap"><a href="index.html" class="back-btn">← Accueil</a></div>
+  </div>
+
+  <div class="refresh-bar">
+    <span id="last-update-label">Chargement…</span>
+    <button class="refresh-btn" onclick="loadAndRender()">↻ Actualiser</button>
   </div>
 
   <div class="page">
-    <div id="brackets-container"></div>
+    <div id="brackets-container">
+      <div class="loading-msg">🏎️ Chargement des tableaux…</div>
+    </div>
   </div>
 
   <script>
-    /* ════════════════════════════════════════════════════════════
-       BRACKETS — données de base (joueurs Tour 1 fixés)
-       Les tableaux tour2/tour3 ont des players initialement à "-"
-       Ils sont remplis dynamiquement via les résultats du localStorage.
-    ════════════════════════════════════════════════════════════ */
+    /* ════ JSONBIN CONFIG — même BIN_ID que admin.html (lecture publique) ════ */
+    const BIN_ID = '69dcd3cb36566621a8aa660e';
+
     const BRACKETS = [
       {
-        tableNumber: 1, tableTitle: "Tableau 1", placesLabel: "Places 1 à 16",
-        groups: [
-          { groupName:"Poule A", matchDateTime:"mercredi 8 avril",          players:["Mathieu B.","Julie","Noémie F.","Marin"] },
-          { groupName:"Poule B", matchDateTime:"date et heure à définir",   players:["Sebastien","Clémentine","Jumi","Marlène"] },
-          { groupName:"Poule C", matchDateTime:"date et heure à définir",   players:["Louis","Hugo P.","Dolly","Martin O."] },
-          { groupName:"Poule D", matchDateTime:"mardi 14 avril",            players:["Bruno F.","Arthur M.","Flore","Antoine"] }
+        tableNumber:1, tableTitle:"Tableau 1", placesLabel:"Places 1 à 16",
+        groups:[
+          {groupName:"Poule A",matchDateTime:"mercredi 8 avril",   players:["Mathieu B.","Julie","Noémie F.","Marin"]},
+          {groupName:"Poule B",matchDateTime:"date et heure à définir", players:["Sebastien","Clémentine","Jumi","Marlène"]},
+          {groupName:"Poule C",matchDateTime:"date et heure à définir", players:["Louis","Hugo P.","Dolly","Martin O."]},
+          {groupName:"Poule D",matchDateTime:"mardi 14 avril",    players:["Bruno F.","Arthur M.","Flore","Antoine"]}
         ],
-        tour2Matches: [
-          { matchName:"Match 1", matchTag:"1ers A+C · 2es B+D", slots:["1er Poule A","2e Poule B","1er Poule C","2e Poule D"], players:["-","-","-","-"] },
-          { matchName:"Match 2", matchTag:"2es A+C · 1ers B+D", slots:["2e Poule A","1er Poule B","2e Poule C","1er Poule D"], players:["-","-","-","-"] },
-          { matchName:"Match 3", matchTag:"3es A+C · 4es B+D",  slots:["3e Poule A","4e Poule B","3e Poule C","4e Poule D"],   players:["-","-","-","-"] },
-          { matchName:"Match 4", matchTag:"4es A+C · 3es B+D",  slots:["4e Poule A","3e Poule B","4e Poule C","3e Poule D"],   players:["-","-","-","-"] }
+        tour2Matches:[
+          {matchName:"Match 1",matchTag:"1ers A+C · 2es B+D",slots:["1er Poule A","2e Poule B","1er Poule C","2e Poule D"],players:["-","-","-","-"]},
+          {matchName:"Match 2",matchTag:"2es A+C · 1ers B+D",slots:["2e Poule A","1er Poule B","2e Poule C","1er Poule D"],players:["-","-","-","-"]},
+          {matchName:"Match 3",matchTag:"3es A+C · 4es B+D", slots:["3e Poule A","4e Poule B","3e Poule C","4e Poule D"],  players:["-","-","-","-"]},
+          {matchName:"Match 4",matchTag:"4es A+C · 3es B+D", slots:["4e Poule A","3e Poule B","4e Poule C","3e Poule D"],  players:["-","-","-","-"]}
         ],
-        tour3Matches: [
-          { matchName:"Match 1", matchTag:"Places 1–4",   slots:["1er Match 1 T2","2e Match 1 T2","1er Match 2 T2","2e Match 2 T2"], players:["-","-","-","-"] },
-          { matchName:"Match 2", matchTag:"Places 5–8",   slots:["3e Match 1 T2","4e Match 1 T2","3e Match 2 T2","4e Match 2 T2"], players:["-","-","-","-"] },
-          { matchName:"Match 3", matchTag:"Places 9–12",  slots:["1er Match 3 T2","2e Match 3 T2","1er Match 4 T2","2e Match 4 T2"], players:["-","-","-","-"] },
-          { matchName:"Match 4", matchTag:"Places 13–16", slots:["3e Match 3 T2","4e Match 3 T2","3e Match 4 T2","4e Match 4 T2"], players:["-","-","-","-"] }
+        tour3Matches:[
+          {matchName:"Match 1",matchTag:"Places 1–4",   slots:["1er Match 1 T2","2e Match 1 T2","1er Match 2 T2","2e Match 2 T2"],players:["-","-","-","-"]},
+          {matchName:"Match 2",matchTag:"Places 5–8",   slots:["3e Match 1 T2","4e Match 1 T2","3e Match 2 T2","4e Match 2 T2"],players:["-","-","-","-"]},
+          {matchName:"Match 3",matchTag:"Places 9–12",  slots:["1er Match 3 T2","2e Match 3 T2","1er Match 4 T2","2e Match 4 T2"],players:["-","-","-","-"]},
+          {matchName:"Match 4",matchTag:"Places 13–16", slots:["3e Match 3 T2","4e Match 3 T2","3e Match 4 T2","4e Match 4 T2"],players:["-","-","-","-"]}
         ]
       },
       {
-        tableNumber: 2, tableTitle: "Tableau 2", placesLabel: "Places 17 à 32",
-        groups: [
-          { groupName:"Poule E", matchDateTime:"lundi 13 avril",          players:["Hugo B.","Alexandre","Madeleine","Thierry"] },
-          { groupName:"Poule F", matchDateTime:"date et heure à définir", players:["Théo","Alexis","Justine","Mathieu F."] },
-          { groupName:"Poule G", matchDateTime:"date et heure à définir", players:["Arthur G.","Marine","Valérie","Jean-Philippe"] },
-          { groupName:"Poule H", matchDateTime:"date et heure à définir", players:["Lisa","Valentine","Bruno A.","Clélia M."] }
+        tableNumber:2, tableTitle:"Tableau 2", placesLabel:"Places 17 à 32",
+        groups:[
+          {groupName:"Poule E",matchDateTime:"lundi 13 avril",    players:["Hugo B.","Alexandre","Madeleine","Thierry"]},
+          {groupName:"Poule F",matchDateTime:"date et heure à définir", players:["Théo","Alexis","Justine","Mathieu F."]},
+          {groupName:"Poule G",matchDateTime:"date et heure à définir", players:["Arthur G.","Marine","Valérie","Jean-Philippe"]},
+          {groupName:"Poule H",matchDateTime:"date et heure à définir", players:["Lisa","Valentine","Bruno A.","Clélia M."]}
         ],
-        tour2Matches: [
-          { matchName:"Match 1", matchTag:"1ers E+G · 2es F+H", slots:["1er Poule E","2e Poule F","1er Poule G","2e Poule H"], players:["-","-","-","-"] },
-          { matchName:"Match 2", matchTag:"2es E+G · 1ers F+H", slots:["2e Poule E","1er Poule F","2e Poule G","1er Poule H"], players:["-","-","-","-"] },
-          { matchName:"Match 3", matchTag:"3es E+G · 4es F+H",  slots:["3e Poule E","4e Poule F","3e Poule G","4e Poule H"],   players:["-","-","-","-"] },
-          { matchName:"Match 4", matchTag:"4es E+G · 3es F+H",  slots:["4e Poule E","3e Poule F","4e Poule G","3e Poule H"],   players:["-","-","-","-"] }
+        tour2Matches:[
+          {matchName:"Match 1",matchTag:"1ers E+G · 2es F+H",slots:["1er Poule E","2e Poule F","1er Poule G","2e Poule H"],players:["-","-","-","-"]},
+          {matchName:"Match 2",matchTag:"2es E+G · 1ers F+H",slots:["2e Poule E","1er Poule F","2e Poule G","1er Poule H"],players:["-","-","-","-"]},
+          {matchName:"Match 3",matchTag:"3es E+G · 4es F+H", slots:["3e Poule E","4e Poule F","3e Poule G","4e Poule H"],  players:["-","-","-","-"]},
+          {matchName:"Match 4",matchTag:"4es E+G · 3es F+H", slots:["4e Poule E","3e Poule F","4e Poule G","3e Poule H"],  players:["-","-","-","-"]}
         ],
-        tour3Matches: [
-          { matchName:"Match 1", matchTag:"Places 17–20", slots:["1er Match 1 T2","2e Match 1 T2","1er Match 2 T2","2e Match 2 T2"], players:["-","-","-","-"] },
-          { matchName:"Match 2", matchTag:"Places 21–24", slots:["3e Match 1 T2","4e Match 1 T2","3e Match 2 T2","4e Match 2 T2"], players:["-","-","-","-"] },
-          { matchName:"Match 3", matchTag:"Places 25–28", slots:["1er Match 3 T2","2e Match 3 T2","1er Match 4 T2","2e Match 4 T2"], players:["-","-","-","-"] },
-          { matchName:"Match 4", matchTag:"Places 29–32", slots:["3e Match 3 T2","4e Match 3 T2","3e Match 4 T2","4e Match 4 T2"], players:["-","-","-","-"] }
+        tour3Matches:[
+          {matchName:"Match 1",matchTag:"Places 17–20",slots:["1er Match 1 T2","2e Match 1 T2","1er Match 2 T2","2e Match 2 T2"],players:["-","-","-","-"]},
+          {matchName:"Match 2",matchTag:"Places 21–24",slots:["3e Match 1 T2","4e Match 1 T2","3e Match 2 T2","4e Match 2 T2"],players:["-","-","-","-"]},
+          {matchName:"Match 3",matchTag:"Places 25–28",slots:["1er Match 3 T2","2e Match 3 T2","1er Match 4 T2","2e Match 4 T2"],players:["-","-","-","-"]},
+          {matchName:"Match 4",matchTag:"Places 29–32",slots:["3e Match 3 T2","4e Match 3 T2","3e Match 4 T2","4e Match 4 T2"],players:["-","-","-","-"]}
         ]
       },
       {
-        tableNumber: 3, tableTitle: "Tableau 3", placesLabel: "Places 33 à 48",
-        groups: [
-          { groupName:"Poule I", matchDateTime:"mardi 28 avril",          players:["Pierre-Benoit","Aude","Thomas","Cécile"] },
-          { groupName:"Poule J", matchDateTime:"date et heure à définir", players:["Lydie","Lionel","Matthieu A.","Virginie C."] },
-          { groupName:"Poule K", matchDateTime:"date et heure à définir", players:["Mélanie","Noé","Aurélie","Morgane"] },
-          { groupName:"Poule L", matchDateTime:"date et heure à définir", players:["Noémie H.","Martin T.","Clélia L.","Chloé"] }
+        tableNumber:3, tableTitle:"Tableau 3", placesLabel:"Places 33 à 48",
+        groups:[
+          {groupName:"Poule I",matchDateTime:"date et heure à définir", players:["Pierre-Benoit","Aude","Thomas","Cécile"]},
+          {groupName:"Poule J",matchDateTime:"date et heure à définir", players:["Lydie","Lionel","Matthieu A.","Virginie C."]},
+          {groupName:"Poule K",matchDateTime:"date et heure à définir", players:["Mélanie","Noé","Aurélie","Morgane"]},
+          {groupName:"Poule L",matchDateTime:"date et heure à définir", players:["Noémie H.","Martin T.","Clélia L.","Chloé"]}
         ],
-        tour2Matches: [
-          { matchName:"Match 1", matchTag:"1ers I+K · 2es J+L", slots:["1er Poule I","2e Poule J","1er Poule K","2e Poule L"], players:["-","-","-","-"] },
-          { matchName:"Match 2", matchTag:"2es I+K · 1ers J+L", slots:["2e Poule I","1er Poule J","2e Poule K","1er Poule L"], players:["-","-","-","-"] },
-          { matchName:"Match 3", matchTag:"3es I+K · 4es J+L",  slots:["3e Poule I","4e Poule J","3e Poule K","4e Poule L"],   players:["-","-","-","-"] },
-          { matchName:"Match 4", matchTag:"4es I+K · 3es J+L",  slots:["4e Poule I","3e Poule J","4e Poule K","3e Poule L"],   players:["-","-","-","-"] }
+        tour2Matches:[
+          {matchName:"Match 1",matchTag:"1ers I+K · 2es J+L",slots:["1er Poule I","2e Poule J","1er Poule K","2e Poule L"],players:["-","-","-","-"]},
+          {matchName:"Match 2",matchTag:"2es I+K · 1ers J+L",slots:["2e Poule I","1er Poule J","2e Poule K","1er Poule L"],players:["-","-","-","-"]},
+          {matchName:"Match 3",matchTag:"3es I+K · 4es J+L", slots:["3e Poule I","4e Poule J","3e Poule K","4e Poule L"],  players:["-","-","-","-"]},
+          {matchName:"Match 4",matchTag:"4es I+K · 3es J+L", slots:["4e Poule I","3e Poule J","4e Poule K","3e Poule L"],  players:["-","-","-","-"]}
         ],
-        tour3Matches: [
-          { matchName:"Match 1", matchTag:"Places 33–36", slots:["1er Match 1 T2","2e Match 1 T2","1er Match 2 T2","2e Match 2 T2"], players:["-","-","-","-"] },
-          { matchName:"Match 2", matchTag:"Places 37–40", slots:["3e Match 1 T2","4e Match 1 T2","3e Match 2 T2","4e Match 2 T2"], players:["-","-","-","-"] },
-          { matchName:"Match 3", matchTag:"Places 41–44", slots:["1er Match 3 T2","2e Match 3 T2","1er Match 4 T2","2e Match 4 T2"], players:["-","-","-","-"] },
-          { matchName:"Match 4", matchTag:"Places 45–48", slots:["3e Match 3 T2","4e Match 3 T2","3e Match 4 T2","4e Match 4 T2"], players:["-","-","-","-"] }
+        tour3Matches:[
+          {matchName:"Match 1",matchTag:"Places 33–36",slots:["1er Match 1 T2","2e Match 1 T2","1er Match 2 T2","2e Match 2 T2"],players:["-","-","-","-"]},
+          {matchName:"Match 2",matchTag:"Places 37–40",slots:["3e Match 1 T2","4e Match 1 T2","3e Match 2 T2","4e Match 2 T2"],players:["-","-","-","-"]},
+          {matchName:"Match 3",matchTag:"Places 41–44",slots:["1er Match 3 T2","2e Match 3 T2","1er Match 4 T2","2e Match 4 T2"],players:["-","-","-","-"]},
+          {matchName:"Match 4",matchTag:"Places 45–48",slots:["3e Match 3 T2","4e Match 3 T2","3e Match 4 T2","4e Match 4 T2"],players:["-","-","-","-"]}
         ]
       }
     ];
 
-    /* ════════════════════════════════════════════════════════════
-       PROPAGATION DES RÉSULTATS
-       Lit le localStorage (mk_tournament_data) et remplit les
-       players des tours 2 et 3 selon les classements saisis.
-
-       Règle de mapping Tour1 → Tour2 :
-         tour2[tab].match[0] = [1erA, 2eB, 1erC, 2eD]
-         tour2[tab].match[1] = [2eA, 1erB, 2eC, 1erD]
-         tour2[tab].match[2] = [3eA, 4eB, 3eC, 4eD]
-         tour2[tab].match[3] = [4eA, 3eB, 4eC, 3eD]
-
-       Règle de mapping Tour2 → Tour3 :
-         tour3[tab].match[0] = [1erM1, 2eM1, 1erM2, 2eM2]   (places 1-4/17-20/33-36)
-         tour3[tab].match[1] = [3eM1,  4eM1, 3eM2,  4eM2]   (places 5-8/21-24/37-40)
-         tour3[tab].match[2] = [1erM3, 2eM3, 1erM4, 2eM4]   (places 9-12/25-28/41-44)
-         tour3[tab].match[3] = [3eM3,  4eM3, 3eM4,  4eM4]   (places 13-16/29-32/45-48)
-    ════════════════════════════════════════════════════════════ */
-    function propagateResults() {
-      let stored;
-      try {
-        stored = JSON.parse(localStorage.getItem('mk_tournament_data') || 'null');
-      } catch { stored = null; }
-      if (!stored || !stored.results) return;
-
-      const results = stored.results;
-
+    /* ════ PROPAGATION ════ */
+    function propagateResults(results) {
       BRACKETS.forEach((br, bi) => {
         const tab = bi + 1;
-
-        /* ── Tour 1 → Tour 2 ── */
-        // Récupère le joueur classé `rank` dans la poule gi
         function getPlayerByRank(groupIdx, rank) {
           const key = `t${tab}_tour1_g${groupIdx}`;
           const res = results[key];
           if (!res || !res.played || !res.ranks) return null;
-          const players = br.groups[groupIdx].players;
-          const found = players.find(p => String(res.ranks[p]) === String(rank));
-          return found || null;
+          return br.groups[groupIdx].players.find(p => String(res.ranks[p]) === String(rank)) || null;
         }
-
-        // Mapping tour2 slots → (groupeIdx, rank)
-        // slots: [1erA,2eB,1erC,2eD] ; [2eA,1erB,2eC,1erD] ; [3eA,4eB,3eC,4eD] ; [4eA,3eB,4eC,3eD]
-        const t2Mapping = [
-          [[0,1],[1,2],[2,1],[3,2]],
-          [[0,2],[1,1],[2,2],[3,1]],
-          [[0,3],[1,4],[2,3],[3,4]],
-          [[0,4],[1,3],[2,4],[3,3]]
-        ];
-
+        const t2Mapping = [[[0,1],[1,2],[2,1],[3,2]],[[0,2],[1,1],[2,2],[3,1]],[[0,3],[1,4],[2,3],[3,4]],[[0,4],[1,3],[2,4],[3,3]]];
         t2Mapping.forEach((slotMap, mi) => {
-          slotMap.forEach(([gi, rank], si) => {
-            const p = getPlayerByRank(gi, rank);
-            br.tour2Matches[mi].players[si] = p || "-";
-          });
+          slotMap.forEach(([gi, rank], si) => { br.tour2Matches[mi].players[si] = getPlayerByRank(gi, rank) || "-"; });
         });
-
-        /* ── Tour 2 → Tour 3 ── */
         function getT2PlayerByRank(matchIdx, rank) {
           const key = `t${tab}_tour2_m${matchIdx}`;
           const res = results[key];
           if (!res || !res.played || !res.ranks) return null;
-          const players = br.tour2Matches[matchIdx].players;
-          const found = players.find(p => p !== '-' && String(res.ranks[p]) === String(rank));
-          return found || null;
+          return br.tour2Matches[matchIdx].players.find(p => p !== '-' && String(res.ranks[p]) === String(rank)) || null;
         }
-
-        // tour3[0] = [1erM1,2eM1,1erM2,2eM2]
-        // tour3[1] = [3eM1, 4eM1,3eM2, 4eM2]
-        // tour3[2] = [1erM3,2eM3,1erM4,2eM4]
-        // tour3[3] = [3eM3, 4eM3,3eM4, 4eM4]
-        const t3Mapping = [
-          [[0,1],[0,2],[1,1],[1,2]],
-          [[0,3],[0,4],[1,3],[1,4]],
-          [[2,1],[2,2],[3,1],[3,2]],
-          [[2,3],[2,4],[3,3],[3,4]]
-        ];
-
+        const t3Mapping = [[[0,1],[0,2],[1,1],[1,2]],[[0,3],[0,4],[1,3],[1,4]],[[2,1],[2,2],[3,1],[3,2]],[[2,3],[2,4],[3,3],[3,4]]];
         t3Mapping.forEach((slotMap, mi) => {
-          slotMap.forEach(([t2mi, rank], si) => {
-            const p = getT2PlayerByRank(t2mi, rank);
-            br.tour3Matches[mi].players[si] = p || "-";
-          });
+          slotMap.forEach(([t2mi, rank], si) => { br.tour3Matches[mi].players[si] = getT2PlayerByRank(t2mi, rank) || "-"; });
         });
       });
     }
 
-    /* ════════════════════════════════════════════════════════════
-       RENDU HTML
-    ════════════════════════════════════════════════════════════ */
+    /* ════ JSONBIN LOAD ════ */
+    async function loadAndRender() {
+      document.getElementById('last-update-label').textContent = 'Actualisation…';
+      try {
+        const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`);
+        if (!r.ok) throw new Error('fetch ' + r.status);
+        const json = await r.json();
+        const data = json.record || {};
+        const results = data.results || {};
+        const ts = data.lastUpdate ? new Date(data.lastUpdate).toLocaleString('fr-FR') : '—';
+        document.getElementById('last-update-label').textContent = 'Mis à jour le ' + ts;
+        // Reset players before propagating (avoid stale data on refresh)
+        BRACKETS.forEach(br => {
+          br.tour2Matches.forEach(m => m.players = ["-","-","-","-"]);
+          br.tour3Matches.forEach(m => m.players = ["-","-","-","-"]);
+        });
+        propagateResults(results);
+        renderAll(results);
+      } catch(e) {
+        document.getElementById('last-update-label').textContent = '⚠️ Erreur de chargement';
+        console.error(e);
+      }
+    }
+
+    /* ════ RENDER ════ */
     const KART_EMOJI  = ["🏎️","🚗","🌟","💫","🔥","⚡","🎯","🎮","🌈","🍄","🐢","🌀","🚀","💥","🎲"];
     const TOUR3_EMOJI = ["🦊","🐉","🦁","🐸","🦋","🌊","🔮","🎸","🎃","🍕","🦄","🐙","🌙","☄️","🦅","🎺"];
     const rng = arr => arr[Math.floor(Math.random() * arr.length)];
+    function getUniqueEmojis(src, count) { return [...src].sort(() => Math.random() - 0.5).slice(0, count); }
+    const RANK_EMOJI = {"1":"🥇","2":"🥈","3":"🥉","4":"🍌"};
+    const RANK_LABEL = {"1":"1er","2":"2e","3":"3e","4":"4e"};
 
-    function getUniqueEmojis(src, count) {
-      return [...src].sort(() => Math.random() - 0.5).slice(0, count);
-    }
-
-    const RANK_EMOJI  = { "1":"🥇","2":"🥈","3":"🥉","4":"🍌" };
-    const RANK_LABEL  = { "1":"1er","2":"2e","3":"3e","4":"4e" };
-
-    // Pour le tour 3, offset de classement selon le match (0-indexé) et le tableau
-    // Tableau 1 : M1→1-4, M2→5-8, M3→9-12, M4→13-16
-    // Tableau 2 : M1→17-20, M2→21-24, M3→25-28, M4→29-32
-    // Tableau 3 : M1→33-36, M2→37-40, M3→41-44, M4→45-48
     function getTour3Offset(tableNumber, matchIndex) {
-      const base = (tableNumber - 1) * 16; // 0, 16, 32
-      return base + matchIndex * 4;        // +0, +4, +8, +12
+      const base = (tableNumber - 1) * 16;
+      return base + matchIndex * 4;
     }
 
     function getRankBadgeHtml(key, playerName, results, tour, tableNumber, matchIndex) {
@@ -342,16 +237,13 @@
       const res = results[key];
       if (!res || !res.played || !res.ranks || !res.ranks[playerName]) return '<span class="row-score">—</span>';
       const r = String(res.ranks[playerName]);
-
       if (tour === 3) {
         const offset = getTour3Offset(tableNumber, matchIndex);
         const finalPlace = offset + Number(r);
-        // Médaille seulement pour les 3 premières places du classement général
         const medal = finalPlace === 1 ? '🥇' : finalPlace === 2 ? '🥈' : finalPlace === 3 ? '🥉' : '';
         const suffix = finalPlace === 1 ? 'er' : 'e';
         return `<span class="row-rank rank-${r}">${medal} ${finalPlace}${suffix}</span>`;
       }
-
       return `<span class="row-rank rank-${r}">${RANK_EMOJI[r] || ''} ${RANK_LABEL[r] || r}</span>`;
     }
 
@@ -359,28 +251,17 @@
     const NUM_CLS   = ["num-blue","num-red","num-yellow"];
     const BADGE_CLS = ["badge-blue","badge-red","badge-yellow"];
 
-    function renderAll() {
-      propagateResults();
-
-      let stored;
-      try { stored = JSON.parse(localStorage.getItem('mk_tournament_data') || 'null'); } catch { stored = null; }
-      const results = stored?.results || {};
-
+    function renderAll(results) {
       const container = document.getElementById("brackets-container");
       container.innerHTML = "";
-
       BRACKETS.forEach((bracket, bi) => {
         const cs = SCHEMES[bi];
         const section = document.createElement("section");
         section.className = "bracket-section";
-
         section.innerHTML = `
           <div class="section-header">
             <div class="section-number ${NUM_CLS[bi]}">${bracket.tableNumber}</div>
-            <div class="section-info">
-              <h2>${bracket.tableTitle}</h2>
-              <p>${bracket.placesLabel}</p>
-            </div>
+            <div class="section-info"><h2>${bracket.tableTitle}</h2><p>${bracket.placesLabel}</p></div>
             <div class="section-badge ${BADGE_CLS[bi]}">${bracket.placesLabel.toUpperCase()}</div>
           </div>
           <div class="legend">
@@ -388,124 +269,59 @@
             <div class="legend-item"><div class="legend-dot" style="background:var(--${cs[1]})"></div>Tour 2</div>
             <div class="legend-item"><div class="legend-dot" style="background:var(--${cs[2]})"></div>Tour 3 — Classement final</div>
           </div>`;
-
         const layout = document.createElement("div");
         layout.className = "bracket-layout";
 
-        /* ── COL 1 : Tour 1 ── */
-        const col1 = document.createElement("div");
-        col1.className = "tour-col";
+        /* COL 1 Tour 1 */
+        const col1 = document.createElement("div"); col1.className = "tour-col";
         col1.innerHTML = `<div class="tour-label lbl-${cs[0]}">🏁 Tour 1 — Poules</div>`;
-
         bracket.groups.forEach((group, gi) => {
           const groupEmojis = getUniqueEmojis(KART_EMOJI, group.players.length);
           const key = `t${bracket.tableNumber}_tour1_g${gi}`;
-          const card = document.createElement("div");
-          card.className = "group-card";
-          card.innerHTML = `
-            <div class="card-header hdr-${cs[0]}">
-              <span class="card-title">${group.groupName}</span>
-              <span class="card-tag">${group.matchDateTime}</span>
-            </div>
-            ${group.players.map((player, i) => `
-              <div class="card-row">
-                <span class="row-emoji">${groupEmojis[i]}</span>
-                <span class="row-name">${player}</span>
-                ${getRankBadgeHtml(key, player, results)}
-              </div>`).join("")}`;
+          const card = document.createElement("div"); card.className = "group-card";
+          card.innerHTML = `<div class="card-header hdr-${cs[0]}"><span class="card-title">${group.groupName}</span><span class="card-tag">${group.matchDateTime}</span></div>
+            ${group.players.map((player, i) => `<div class="card-row"><span class="row-emoji">${groupEmojis[i]}</span><span class="row-name">${player}</span>${getRankBadgeHtml(key, player, results)}</div>`).join("")}`;
           col1.appendChild(card);
         });
 
-        /* ── COL 2 : Tour 2 ── */
-        const conn1 = document.createElement("div");
-        conn1.className = "connector-col";
-        conn1.innerHTML = makeSingleConnector(cs[0]);
-
-        const col2 = document.createElement("div");
-        col2.className = "tour-col";
+        /* COL 2 Tour 2 */
+        const conn1 = document.createElement("div"); conn1.className = "connector-col"; conn1.innerHTML = makeSingleConnector(cs[0]);
+        const col2 = document.createElement("div"); col2.className = "tour-col";
         col2.innerHTML = `<div class="tour-label lbl-${cs[1]}">🔀 Tour 2</div>`;
-
         bracket.tour2Matches.forEach((match, mi) => {
           const key = `t${bracket.tableNumber}_tour2_m${mi}`;
-          const card = document.createElement("div");
-          card.className = "match-card";
-          card.innerHTML = `
-            <div class="card-header hdr-${cs[1]}">
-              <span class="card-title">${match.matchName}</span>
-              <span class="card-tag">${match.matchTag}</span>
-            </div>
-            ${match.slots.map((slot, i) => {
-              const pName = match.players[i];
-              const isTbd = !pName || pName === "-";
-              return `<div class="card-row">
-                <span class="row-origin">${slot}</span>
-                <span class="row-emoji">${rng(KART_EMOJI)}</span>
-                <span class="row-name${isTbd ? ' tbd' : ''}">${isTbd ? 'À définir' : pName}</span>
-                ${!isTbd ? getRankBadgeHtml(key, pName, results) : '<span></span>'}
-              </div>`;
-            }).join("")}`;
+          const card = document.createElement("div"); card.className = "match-card";
+          card.innerHTML = `<div class="card-header hdr-${cs[1]}"><span class="card-title">${match.matchName}</span><span class="card-tag">${match.matchTag}</span></div>
+            ${match.slots.map((slot, i) => { const pName = match.players[i]; const isTbd = !pName || pName === "-"; return `<div class="card-row"><span class="row-origin">${slot}</span><span class="row-emoji">${rng(KART_EMOJI)}</span><span class="row-name${isTbd?' tbd':''}">${isTbd ? 'À définir' : pName}</span>${!isTbd ? getRankBadgeHtml(key, pName, results) : '<span></span>'}</div>`; }).join("")}`;
           col2.appendChild(card);
         });
 
-        /* ── COL 3 : Tour 3 ── */
-        const conn2 = document.createElement("div");
-        conn2.className = "connector-col";
-        conn2.innerHTML = makeSingleConnector(cs[1]);
-
-        const col3 = document.createElement("div");
-        col3.className = "tour-col";
+        /* COL 3 Tour 3 */
+        const conn2 = document.createElement("div"); conn2.className = "connector-col"; conn2.innerHTML = makeSingleConnector(cs[1]);
+        const col3 = document.createElement("div"); col3.className = "tour-col";
         col3.innerHTML = `<div class="tour-label lbl-${cs[2]}">🏆 Tour 3 — Classement final</div>`;
-
         bracket.tour3Matches.forEach((match, mi) => {
           const key = `t${bracket.tableNumber}_tour3_m${mi}`;
-          const card = document.createElement("div");
-          card.className = "match-card";
-          card.innerHTML = `
-            <div class="card-header hdr-${cs[2]}">
-              <span class="card-title">${match.matchName}</span>
-              <span class="tour3-tag">${match.matchTag}</span>
-            </div>
-            ${match.slots.map((slot, i) => {
-              const pName = match.players[i];
-              const isTbd = !pName || pName === "-";
-              return `<div class="card-row">
-                <span class="row-origin">${slot}</span>
-                <span class="row-emoji">${rng(TOUR3_EMOJI)}</span>
-                <span class="row-name${isTbd ? ' tbd' : ''}">${isTbd ? 'À définir' : pName}</span>
-                ${!isTbd ? getRankBadgeHtml(key, pName, results, 3, bracket.tableNumber, mi) : '<span></span>'}
-              </div>`;
-            }).join("")}`;
+          const card = document.createElement("div"); card.className = "match-card";
+          card.innerHTML = `<div class="card-header hdr-${cs[2]}"><span class="card-title">${match.matchName}</span><span class="tour3-tag">${match.matchTag}</span></div>
+            ${match.slots.map((slot, i) => { const pName = match.players[i]; const isTbd = !pName || pName === "-"; return `<div class="card-row"><span class="row-origin">${slot}</span><span class="row-emoji">${rng(TOUR3_EMOJI)}</span><span class="row-name${isTbd?' tbd':''}">${isTbd ? 'À définir' : pName}</span>${!isTbd ? getRankBadgeHtml(key, pName, results, 3, bracket.tableNumber, mi) : '<span></span>'}</div>`; }).join("")}`;
           col3.appendChild(card);
         });
 
-        layout.appendChild(col1);
-        layout.appendChild(conn1);
-        layout.appendChild(col2);
-        layout.appendChild(conn2);
-        layout.appendChild(col3);
+        layout.appendChild(col1); layout.appendChild(conn1); layout.appendChild(col2); layout.appendChild(conn2); layout.appendChild(col3);
         section.appendChild(layout);
         container.appendChild(section);
-
-        if (bi < BRACKETS.length - 1) {
-          const sep = document.createElement("div");
-          sep.className = "section-sep";
-          container.appendChild(sep);
-        }
+        if (bi < BRACKETS.length - 1) { const sep = document.createElement("div"); sep.className = "section-sep"; container.appendChild(sep); }
       });
     }
 
     function makeSingleConnector(colorName) {
       const map = { blue:"#0052A5", red:"#E8001D", yellow:"#FFD700" };
       const c = map[colorName] || "#ffffff";
-      return `
-        <svg class="single-connector" width="52" height="50" viewBox="0 0 52 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <line x1="6" y1="25" x2="46" y2="25" stroke="${c}" stroke-width="2" stroke-opacity="0.65" stroke-dasharray="5 4"/>
-          <circle cx="6" cy="25" r="3.5" fill="${c}" fill-opacity="0.8"/>
-          <circle cx="46" cy="25" r="3.5" fill="${c}" fill-opacity="0.8"/>
-        </svg>`;
+      return `<svg class="single-connector" width="52" height="50" viewBox="0 0 52 50" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="6" y1="25" x2="46" y2="25" stroke="${c}" stroke-width="2" stroke-opacity="0.65" stroke-dasharray="5 4"/><circle cx="6" cy="25" r="3.5" fill="${c}" fill-opacity="0.8"/><circle cx="46" cy="25" r="3.5" fill="${c}" fill-opacity="0.8"/></svg>`;
     }
 
-    renderAll();
+    loadAndRender();
   </script>
 </body>
 </html>
